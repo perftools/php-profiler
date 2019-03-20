@@ -1,0 +1,32 @@
+{
+	"name": "perftools/php-profiler",
+	"description": "PHP Profiling based on XHGUI",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Lauri Piisang",
+			"email": "lauri.piisang@eesti.ee"
+		},
+		{
+			"name": "Elan Ruusamäe",
+			"email": "glen@pld-linux.org"
+		}
+	],
+	"config": {
+		"sort-packages": true
+	},
+	"autoload": {
+		"psr-4": {
+			"Xhgui\\Profiler\\": "src/"
+		}
+	},
+	"require": {
+		"php": "^5.3.0 || ^7.0",
+		"perftools/xhgui-collector": "^1.1.0"
+	},
+	"suggest": {
+		"ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
+		"ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)",
+		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary"
+	}
+}
