@@ -1,0 +1,6 @@
+.*.sw[op]
+*~
+/.idea/
+/vendor/
+/composer.lock
+composer.phar
