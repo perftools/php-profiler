@@ -29,7 +29,7 @@ class XHProf extends AbstractProfiler
     /**
      * {@inheritdoc}
      */
-    protected function getProfileFlagMap()
+    public function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => XHPROF_FLAGS_CPU,

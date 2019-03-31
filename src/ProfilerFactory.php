@@ -2,11 +2,13 @@
 
 namespace Xhgui\Profiler;
 
+use Xhgui\Profiler\Profilers\ProfilerInterface;
+
 final class ProfilerFactory
 {
     /**
      * @param string|null $profilerType
-     * @return Profilers\XHProf|Profilers\UProfiler|Profilers\Tideways|null
+     * @return ProfilerInterface|null
      */
     public static function make($profilerType)
     {
