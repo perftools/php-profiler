@@ -7,10 +7,10 @@ abstract class AbstractProfiler implements ProfilerInterface
     /**
      * Combines flags using bitwise OR
      *
-     * @param $flags
+     * @param array $flags
      * @return int
      */
-    protected function combineFlags($flags)
+    protected function combineFlags(array $flags)
     {
         $combinedFlag = 0;
 
