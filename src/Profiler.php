@@ -10,7 +10,7 @@ use MongoCursorTimeoutException;
 use MongoDate;
 use MongoException;
 use RuntimeException;
-use Xhgui\Profiler\Profilers\AbstractProfiler;
+use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui_Config;
 use Xhgui_Saver;
 use Xhgui_Saver_Interface;
@@ -38,7 +38,7 @@ class Profiler
     protected $saveHandler;
 
     /**
-     * @var AbstractProfiler
+     * @var ProfilerInterface
      */
     protected $profiler;
 
@@ -91,7 +91,7 @@ class Profiler
         }
 
         $profiler = ProfilerFactory::make($this->getProfilerType());
-        if (!($profiler instanceof AbstractProfiler)) {
+        if (!($profiler instanceof ProfilerInterface)) {
             return;
         }
 

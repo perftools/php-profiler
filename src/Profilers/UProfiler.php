@@ -25,7 +25,7 @@ class UProfiler extends AbstractProfiler
     /**
      * {@inheritdoc}
      */
-    protected function getProfileFlagMap()
+    public function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => UPROFILER_FLAGS_CPU,

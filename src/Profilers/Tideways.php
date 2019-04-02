@@ -29,7 +29,7 @@ class Tideways extends AbstractProfiler
     /**
      * {@inheritdoc}
      */
-    protected function getProfileFlagMap()
+    public function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => TIDEWAYS_FLAGS_CPU,
