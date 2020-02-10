@@ -26,7 +26,7 @@ class Profiler
      * @see Xhgui_Config
      * @see https://raw.githubusercontent.com/perftools/xhgui/6dac03aaa37df4b42d949bf4f8455573bea44e03/config/config.default.php
      */
-    protected $config;
+    private $config;
 
     const PROFILER_XHPROF = 'xhprof';
     const PROFILER_TIDEWAYS = 'tideways';
@@ -35,26 +35,26 @@ class Profiler
     /**
      * @var Xhgui_Saver_Interface
      */
-    protected $saveHandler;
+    private $saveHandler;
 
     /**
      * @var ProfilerInterface
      */
-    protected $profiler;
+    private $profiler;
 
     /**
      * Result of config `profiler.enable` function execution.
      *
      * @var bool
      */
-    protected $shouldRun;
+    private $shouldRun;
 
     /**
      * Simple state variable to hold the value of 'Is the profiler running or not?'
      *
      * @var bool
      */
-    protected $running;
+    private $running;
 
     /**
      * Profiler constructor.
@@ -116,6 +116,9 @@ class Profiler
         register_shutdown_function(array($this, 'shutDown'));
     }
 
+    /**
+     * @internal
+     */
     public function shutDown()
     {
         // ignore_user_abort(true) allows your PHP script to continue executing, even if the user has terminated their request.
@@ -142,7 +145,7 @@ class Profiler
      *
      * @return string|null
      */
-    protected function getProfilerType()
+    private function getProfilerType()
     {
         $profiler = null;
         $extensions = array(self::PROFILER_XHPROF, self::PROFILER_TIDEWAYS, self::PROFILER_UPROFILER);
@@ -156,7 +159,7 @@ class Profiler
     /**
      * @return bool
      */
-    protected function validateExtensionsInstalled()
+    private function validateExtensionsInstalled()
     {
         return $this->getProfilerType() && (extension_loaded('mongo') || extension_loaded('mongodb'));
     }
@@ -167,7 +170,7 @@ class Profiler
      * @param array $data
      * @return array
      */
-    protected function assembleProfilingData($data)
+    private function assembleProfilingData($data)
     {
         $uri = array_key_exists('REQUEST_URI', $_SERVER)
             ? $_SERVER['REQUEST_URI']
@@ -230,7 +233,7 @@ class Profiler
      * @return array
      * @see Xhgui_Config
      */
-    protected function getDefaultConfig()
+    private function getDefaultConfig()
     {
         $file = $this->getDefaultConfigFile();
         if ($file) {
@@ -276,7 +279,7 @@ class Profiler
     /**
      * @return bool
      */
-    protected function canSave()
+    private function canSave()
     {
         $saveHandler = $this->config['save.handler'];
         if ($saveHandler === 'file' && $this->canSaveToFile()) {
@@ -289,7 +292,7 @@ class Profiler
     /**
      * @return bool
      */
-    protected function canSaveToFile()
+    private function canSaveToFile()
     {
         return is_writable(dirname($this->config['save.handler.filename']));
     }
@@ -297,7 +300,7 @@ class Profiler
     /**
      * @return bool
      */
-    protected function canSaveToMongo()
+    private function canSaveToMongo()
     {
         $config = $this->config;
         try {
