@@ -41,6 +41,7 @@ cache:
 install:
   - composer install --no-interaction --prefer-dist
   - composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
+  - ./install-extensions.sh
 
 script:
   - vendor/bin/phpunit --version
