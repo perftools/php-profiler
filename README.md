@@ -70,6 +70,7 @@ try {
 		'profiler.flags' => array(
 			\Xhgui\Profiler\ProfilingFlags::CPU,
 			\Xhgui\Profiler\ProfilingFlags::MEMORY,
+			\Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
 		),
 		'profiler.options' => array(),
 	);
