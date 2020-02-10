@@ -15,6 +15,7 @@ This profiling library will auto-detect what you have installed and use that.
 
 The preference order is currently as follows:
 1. uprofiler
+1. tideways_xhprof
 1. tideways
 1. xhprof
 
