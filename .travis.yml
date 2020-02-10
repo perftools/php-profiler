@@ -27,10 +27,10 @@ cache:
 
 install:
   - composer install --no-interaction --prefer-dist
-  - composer require --dev symfony/phpunit-bridge
+  - composer require --dev phpunit/phpunit
 
 script:
-  - vendor/bin/simple-phpunit --version
-  - vendor/bin/simple-phpunit --verbose
+  - vendor/bin/phpunit --version
+  - vendor/bin/phpunit --verbose
 
 # vim:ts=2:sw=2:et
