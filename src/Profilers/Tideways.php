@@ -34,6 +34,7 @@ class Tideways extends AbstractProfiler
         return array(
             ProfilingFlags::CPU => TIDEWAYS_FLAGS_CPU,
             ProfilingFlags::MEMORY => TIDEWAYS_FLAGS_MEMORY,
+            ProfilingFlags::NO_BUILTINS => TIDEWAYS_FLAGS_NO_BUILTINS,
         );
     }
 }

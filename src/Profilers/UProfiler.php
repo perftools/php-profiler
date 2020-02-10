@@ -30,6 +30,7 @@ class UProfiler extends AbstractProfiler
         return array(
             ProfilingFlags::CPU => UPROFILER_FLAGS_CPU,
             ProfilingFlags::MEMORY => UPROFILER_FLAGS_MEMORY,
+            ProfilingFlags::NO_BUILTINS => UPROFILER_FLAGS_NO_BUILTINS,
         );
     }
 }
