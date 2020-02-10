@@ -66,6 +66,13 @@ Most likely you'll have something like
 <?php
 // inside some bootstrapper or other "early central point in execution"
 try {
+	$profilerConfig = array(
+		'profiler.flags' => array(
+			\Xhgui\Profiler\ProfilingFlags::CPU,
+			\Xhgui\Profiler\ProfilingFlags::MEMORY,
+		),
+		'profiler.options' => array(),
+	);
 	/**
 	 * The constructor will throw an exception if the environment
 	 * isn't fit for profiling (extensions missing, other problems)
