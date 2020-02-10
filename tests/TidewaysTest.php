@@ -9,9 +9,11 @@ use Xhgui\Profiler\Profilers\Tideways;
  */
 class TidewaysTest extends TestCase
 {
-    public function testLoad()
+    public function testDefaults()
     {
         $profiler = new Tideways();
         $profiler->enableWith();
+        $data = $profiler->disable();
+        $this->assertNotEmpty($data);
     }
 }

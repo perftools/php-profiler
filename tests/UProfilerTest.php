@@ -9,9 +9,11 @@ use Xhgui\Profiler\Profilers\UProfiler;
  */
 class UProfilerTest extends TestCase
 {
-    public function testLoad()
+    public function testDefaults()
     {
         $profiler = new UProfiler();
         $profiler->enableWith();
+        $data = $profiler->disable();
+        $this->assertNotEmpty($data);
     }
 }

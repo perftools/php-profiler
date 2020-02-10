@@ -9,9 +9,11 @@ use Xhgui\Profiler\Profilers\XHProf;
  */
 class XHProfTest extends TestCase
 {
-    public function testLoad()
+    public function testDefaults()
     {
         $profiler = new XHProf();
         $profiler->enableWith();
+        $data = $profiler->disable();
+        $this->assertNotEmpty($data);
     }
 }
