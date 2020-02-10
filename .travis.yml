@@ -2,6 +2,9 @@ language: php
 sudo: false
 dist: trusty
 
+env:
+  - PHPUNIT_VERSION=7.5
+
 jobs:
   fast_finish: true
   allow_failures:
@@ -27,7 +30,7 @@ cache:
 
 install:
   - composer install --no-interaction --prefer-dist
-  - composer require --dev phpunit/phpunit
+  - composer require --dev phpunit/phpunit:$PHPUNIT_VERSION
 
 script:
   - vendor/bin/phpunit --version
