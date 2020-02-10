@@ -38,6 +38,7 @@ class XHProf extends AbstractProfiler
             ProfilingFlags::CPU => XHPROF_FLAGS_CPU,
             ProfilingFlags::MEMORY => XHPROF_FLAGS_MEMORY,
             ProfilingFlags::NO_BUILTINS => $noBuiltins,
+            ProfilingFlags::NO_SPANS => 0,
         );
     }
 }

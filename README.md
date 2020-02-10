@@ -71,6 +71,7 @@ try {
 			\Xhgui\Profiler\ProfilingFlags::CPU,
 			\Xhgui\Profiler\ProfilingFlags::MEMORY,
 			\Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
+			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
 		),
 		'profiler.options' => array(),
 	);
@@ -102,6 +103,8 @@ Configuration unique to this package:
 |----------------------|-------|--------------------------------------------------|---------------|
 | profiler.flags       | array | Array of [ProfilingFlags][2]                     | empty array   |
 | profiler.options     | array | Array of options to pass to profiler enable call | empty array   |
+
+Flags that are not supported by specific profiler, will be ignored.
 
 What you'll likely need to configure when instructing an app to use this profiling:
 

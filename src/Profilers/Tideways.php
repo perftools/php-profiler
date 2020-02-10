@@ -11,10 +11,6 @@ class Tideways extends AbstractProfiler
      */
     public function enableWith($flags = array(), $options = array())
     {
-        if (!in_array(TIDEWAYS_FLAGS_NO_SPANS, $flags, true)) {
-            $flags[] = TIDEWAYS_FLAGS_NO_SPANS;
-        }
-
         tideways_enable($this->combineFlags($flags), $options);
     }
 
@@ -35,6 +31,7 @@ class Tideways extends AbstractProfiler
             ProfilingFlags::CPU => TIDEWAYS_FLAGS_CPU,
             ProfilingFlags::MEMORY => TIDEWAYS_FLAGS_MEMORY,
             ProfilingFlags::NO_BUILTINS => TIDEWAYS_FLAGS_NO_BUILTINS,
+            ProfilingFlags::NO_SPANS => TIDEWAYS_FLAGS_NO_SPANS,
         );
     }
 }
