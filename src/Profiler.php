@@ -30,6 +30,7 @@ class Profiler
 
     const PROFILER_XHPROF = 'xhprof';
     const PROFILER_TIDEWAYS = 'tideways';
+    const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';
     const PROFILER_UPROFILER = 'uprofiler';
 
     /**
@@ -138,8 +139,9 @@ class Profiler
     /**
      * Determines which profiler you're running.
      * If you're running multiple (which you shouldn't!),
-     * It will return them in this preference order :
+     * It will return them in this preference order:
      * 1) uprofiler
+     * 2) tideways_xhprof
      * 2) tideways
      * 3) xhprof
      *
@@ -148,7 +150,13 @@ class Profiler
     private function getProfilerType()
     {
         $profiler = null;
-        $extensions = array(self::PROFILER_XHPROF, self::PROFILER_TIDEWAYS, self::PROFILER_UPROFILER);
+        // NOTE: the list here is reversed
+        $extensions = array(
+            self::PROFILER_XHPROF,
+            self::PROFILER_TIDEWAYS,
+            self::PROFILER_UPROFILER,
+            self::PROFILER_TIDEWAYS_XHPROF,
+        );
         foreach ($extensions as $extension) {
             $profiler = extension_loaded($extension) ? $extension : $profiler;
         }
