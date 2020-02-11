@@ -19,8 +19,8 @@
 	</testsuites>
 
 	<php>
-		<server name="SYMFONY_PHPUNIT_VERSION" value="4.8" />
 	<!--
+		<server name="SYMFONY_PHPUNIT_VERSION" value="4.8" />
 		<ini name="date.timezone" value="UTC" />
 		<server name="KERNEL_DIR" value="/path/to/your/app/" />
 		<env name="KERNEL_CLASS" value="App\Kernel"/>

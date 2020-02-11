@@ -140,9 +140,9 @@ class Profiler
      * Determines which profiler you're running.
      * If you're running multiple (which you shouldn't!),
      * It will return them in this preference order:
-     * 1) uprofiler
      * 2) tideways_xhprof
      * 2) tideways
+     * 1) uprofiler
      * 3) xhprof
      *
      * @return string|null
@@ -153,8 +153,8 @@ class Profiler
         // NOTE: the list here is reversed
         $extensions = array(
             self::PROFILER_XHPROF,
-            self::PROFILER_TIDEWAYS,
             self::PROFILER_UPROFILER,
+            self::PROFILER_TIDEWAYS,
             self::PROFILER_TIDEWAYS_XHPROF,
         );
         foreach ($extensions as $extension) {
