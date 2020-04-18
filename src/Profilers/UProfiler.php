@@ -13,7 +13,7 @@ class UProfiler extends AbstractProfiler
         return extension_loaded(self::EXTENSION_NAME);
     }
 
-    public function enableWith($flags = array(), $options = array())
+    public function enable($flags = array(), $options = array())
     {
         uprofiler_enable($this->combineFlags($flags), $options);
     }

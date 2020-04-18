@@ -13,7 +13,7 @@ class XHProf extends AbstractProfiler
         return extension_loaded(self::EXTENSION_NAME);
     }
 
-    public function enableWith($flags = array(), $options = array())
+    public function enable($flags = array(), $options = array())
     {
         xhprof_enable($this->combineFlags($flags), $options);
     }

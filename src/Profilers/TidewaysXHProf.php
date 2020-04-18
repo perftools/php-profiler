@@ -18,7 +18,7 @@ class TidewaysXHProf extends AbstractProfiler
         return extension_loaded(self::EXTENSION_NAME);
     }
 
-    public function enableWith($flags = array(), $options = array())
+    public function enable($flags = array(), $options = array())
     {
         tideways_xhprof_enable($this->combineFlags($flags));
     }

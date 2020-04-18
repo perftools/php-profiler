@@ -10,12 +10,13 @@ interface ProfilerInterface
     public function isSupported();
 
     /**
-     * Enable the specific profiler
+     * Enable profiling with current adapter.
+     * The profiler may not support all flags and options, in this case those are ignored.
      *
      * @param array $flags
      * @param array $options
      */
-    public function enableWith($flags = array(), $options = array());
+    public function enable($flags = array(), $options = array());
 
     /**
      * Disable (stop) the profiler. Return the collected data

@@ -91,7 +91,7 @@ class Profiler
             return;
         }
 
-        $profiler->enableWith($this->config['profiler.flags'], $this->config['profiler.options']);
+        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
         $this->running = true;
     }
 
