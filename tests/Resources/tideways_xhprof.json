@@ -1,0 +1,14 @@
+{
+  "main()==>Xhgui\\Profiler\\Profilers\\TidewaysXHProf::disable": {
+    "ct": 1,
+    "wt": 117
+  },
+  "Xhgui\\Profiler\\Profilers\\TidewaysXHProf::disable==>tideways_xhprof_disable": {
+    "ct": 1,
+    "wt": 42
+  },
+  "main()": {
+    "ct": 1,
+    "wt": 127
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "main()==>Xhgui\\Profiler\\Profilers\\Tideways::disable": {
+    "ct": 1,
+    "wt": 51
+  },
+  "main()": {
+    "ct": 1,
+    "wt": 202
+  }
+}
