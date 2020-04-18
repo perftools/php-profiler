@@ -20,7 +20,7 @@ class TidewaysXHProf extends AbstractProfiler
 
     public function enableWith($flags = array(), $options = array())
     {
-        tideways_xhprof_enable($this->combineFlags($flags), $options);
+        tideways_xhprof_enable($this->combineFlags($flags));
     }
 
     /**
