@@ -98,6 +98,15 @@ try {
 			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
 		),
 		'profiler.options' => array(),
+		/**
+		 * Determine whether profiler should run.
+		 * This default implementation just disables the profiler.
+		 * Override this with your custom logic in your config
+		 * @return bool
+		 */
+		'profiler.enable' => function () {
+			return false;
+		},
 	);
 	/**
 	 * The constructor will throw an exception if the environment
