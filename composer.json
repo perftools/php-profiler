@@ -30,6 +30,7 @@
 		"ext-json": "*"
 	},
 	"require-dev": {
+		"alcaeus/mongo-php-adapter": "^1.1",
 		"perftools/xhgui-collector": "^1.8"
 	},
 	"conflict": {
