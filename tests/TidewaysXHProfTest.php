@@ -21,6 +21,15 @@ class TidewaysXHProfTest extends TestCase
         $this->assertCount(3, $data);
     }
 
+    public function testCpuFlags()
+    {
+        $flags = array(
+            ProfilingFlags::CPU,
+        );
+        $data = $this->runProfiler($flags);
+        $this->assertCount(3, $data);
+    }
+
     public function testNoFlags()
     {
         $flags = array(
