@@ -48,7 +48,7 @@ composer require alcaeus/mongo-php-adapter
 pecl install xhprof-beta
 ```
 
-### Tideways
+### Tideways (4.x)
 
 ```
 curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
@@ -60,7 +60,14 @@ make install
 echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
 ```
 
-On `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+### Tideways XHProf (5.+)
+
+To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
+
+[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
+[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
+
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
 
 ```
 brew install glensc/tap/php@7.1-tideways-xhprof
