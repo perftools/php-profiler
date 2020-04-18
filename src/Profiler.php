@@ -28,11 +28,6 @@ class Profiler
      */
     private $config;
 
-    const PROFILER_XHPROF = 'xhprof';
-    const PROFILER_TIDEWAYS = 'tideways';
-    const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';
-    const PROFILER_UPROFILER = 'uprofiler';
-
     /**
      * @var Xhgui_Saver_Interface
      */
