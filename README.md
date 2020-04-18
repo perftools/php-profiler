@@ -2,6 +2,8 @@
 
 A PHP profiling library based on [XHGUI Data Collector][1].
 
+This project replaces `header.php` approach from xhgui-collector with object based approach.
+
 Supported profilers:
  - Tideways XHProf v5.x - PHP >= 7.0
  - Tideways v4.x - PHP >= 7.0
