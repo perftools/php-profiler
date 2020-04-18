@@ -5,23 +5,23 @@ A PHP profiling library based on [XHGUI Data Collector][1].
 This project replaces `header.php` approach from xhgui-collector with object based approach.
 
 Supported profilers:
- - Tideways XHProf v5.x - PHP >= 7.0
- - Tideways v4.x - PHP >= 7.0
- - UProfiler - PHP >= 5.3, < PHP 7.0
- - XHProf - PHP >= 5.3, < PHP 7.0
+ - [Tideways XHProf] v5.x - PHP >= 7.0
+ - [Tideways] v4.x - PHP >= 7.0
+ - [UProfiler] - PHP >= 5.3, < PHP 7.0
+ - [XHProf] - PHP >= 5.3, < PHP 7.0
 
 [XHProf]: https://pecl.php.net/package/xhprof
-[Tideways]: https://github.com/tideways/php-xhprof-extension
+[Tideways]: https://tideways.io/profiler/downloads
 [Tideways XHProf]: https://github.com/tideways/php-xhprof-extension
 [UProfiler]: https://github.com/FriendsOfPHP/uprofiler
 
 This profiling library will auto-detect what you have installed and use that.
 
 The preference order is currently as follows:
-1. tideways_xhprof
-1. tideways
-1. uprofiler
-1. xhprof
+1. `tideways_xhprof`
+1. `tideways`
+1. `uprofiler`
+1. `xhprof`
 
 DON'T RELY ON THIS PREFERENCE ORDER IN PRODUCTION ENVIRONMENTS.
 
