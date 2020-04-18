@@ -17,4 +17,9 @@ abstract class AbstractSaver implements SaverInterface
     {
         return $this->saver->save($data);
     }
+
+    public function getHandler()
+    {
+        return $this->saver;
+    }
 }

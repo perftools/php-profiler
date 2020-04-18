@@ -3,17 +3,14 @@
 namespace Xhgui\Profiler;
 
 use Exception;
-use MongoClient;
-use MongoCollection;
 use MongoCursorException;
 use MongoCursorTimeoutException;
 use MongoDate;
 use MongoException;
 use RuntimeException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
+use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui_Config;
-use Xhgui_Saver;
-use Xhgui_Saver_Interface;
 use Xhgui_Saver_Mongo;
 use Xhgui_Util;
 
@@ -29,7 +26,7 @@ class Profiler
     private $config;
 
     /**
-     * @var Xhgui_Saver_Interface
+     * @var SaverInterface
      */
     private $saveHandler;
 
@@ -66,10 +63,9 @@ class Profiler
         if (!$this->getProfiler()) {
             throw new RuntimeException('Unable to create profiler: no suitable profiler found');
         }
-        if (!$this->canSave()) {
+        if (!$this->getSaver()) {
             throw new RuntimeException('Unable to create profiler: unable to save data');
         }
-        $this->saveHandler = Xhgui_Saver::factory($this->config);
     }
 
     /**
@@ -102,6 +98,15 @@ class Profiler
         }
 
         return $this->profiler ?: null;
+    }
+
+    private function getSaver()
+    {
+        if ($this->saveHandler === null) {
+            $this->saveHandler = SaverFactory::create($this->config['save.handler'], $this->config) ?: false;
+        }
+
+        return $this->saveHandler ?: null;
     }
 
     /**
@@ -163,7 +168,7 @@ class Profiler
             $requestTimeFloat[1] = 0;
         }
 
-        if ($this->saveHandler instanceof Xhgui_Saver_Mongo) {
+        if ($this->saveHandler->getHandler() instanceof Xhgui_Saver_Mongo) {
             $requestTs = new MongoDate($time);
             $requestTsMicro = new MongoDate($requestTimeFloat[0], $requestTimeFloat[1]);
         } else {
@@ -249,48 +254,6 @@ class Profiler
         }
 
         return null;
-    }
-
-    /**
-     * @return bool
-     */
-    private function canSave()
-    {
-        $saveHandler = $this->config['save.handler'];
-        if ($saveHandler === 'file' && $this->canSaveToFile()) {
-            return true;
-        }
-
-        return $saveHandler === 'mongodb' && $this->canSaveToMongo();
-    }
-
-    /**
-     * @return bool
-     */
-    private function canSaveToFile()
-    {
-        return is_writable(dirname($this->config['save.handler.filename']));
-    }
-
-    /**
-     * @return bool
-     */
-    private function canSaveToMongo()
-    {
-        $config = $this->config;
-        try {
-            $mongoConnection = new MongoClient($config['db.host'], $config['db.options']);
-            $mongoConnection->connect();
-            $collection = $mongoConnection->selectCollection($config['db.db'], 'results');
-            if (!$collection instanceof MongoCollection) {
-                throw new Exception('failed getting collection');
-            }
-            $collection->findOne(array(), array('_id' => 1), array('maxTimeMS' => 300));
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
