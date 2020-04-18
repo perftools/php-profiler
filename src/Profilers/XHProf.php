@@ -6,10 +6,14 @@ use Xhgui\Profiler\ProfilingFlags;
 
 class XHProf extends AbstractProfiler
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function enableWith($flags = array(), $options = array())
+    const EXTENSION_NAME = 'xhprof';
+
+    public function isSupported()
+    {
+        return extension_loaded(self::EXTENSION_NAME);
+    }
+
+    public function enable($flags = array(), $options = array())
     {
         xhprof_enable($this->combineFlags($flags), $options);
     }

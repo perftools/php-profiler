@@ -11,7 +11,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function runProfiler($flags = array(), $options = array())
     {
-        $this->profiler->enableWith($flags, $options);
+        $this->profiler->enable($flags, $options);
         $data = $this->profiler->disable();
         $this->assertNotEmpty($data);
 

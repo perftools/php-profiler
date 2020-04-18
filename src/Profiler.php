@@ -28,11 +28,6 @@ class Profiler
      */
     private $config;
 
-    const PROFILER_XHPROF = 'xhprof';
-    const PROFILER_TIDEWAYS = 'tideways';
-    const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';
-    const PROFILER_UPROFILER = 'uprofiler';
-
     /**
      * @var Xhgui_Saver_Interface
      */
@@ -68,8 +63,8 @@ class Profiler
         $this->config = array_replace($this->getDefaultConfig(), $config);
         $shouldRunFunction = $this->config['profiler.enable'];
         $this->shouldRun = is_callable($shouldRunFunction) ? $shouldRunFunction() : false;
-        if (!$this->validateExtensionsInstalled()) {
-            throw new RuntimeException('Unable to create profiler: cannot find extensions');
+        if (!$this->getProfiler()) {
+            throw new RuntimeException('Unable to create profiler: no suitable profiler found');
         }
         if (!$this->canSave()) {
             throw new RuntimeException('Unable to create profiler: unable to save data');
@@ -91,14 +86,22 @@ class Profiler
             $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
         }
 
-        $profiler = ProfilerFactory::make($this->getProfilerType());
-        if (!($profiler instanceof ProfilerInterface)) {
+        $profiler = $this->getProfiler();
+        if (!$profiler) {
             return;
         }
 
-        $profiler->enableWith($this->config['profiler.flags'], $this->config['profiler.options']);
-        $this->profiler = $profiler;
+        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
         $this->running = true;
+    }
+
+    private function getProfiler()
+    {
+        if ($this->profiler === null) {
+            $this->profiler = ProfilerFactory::create() ?: false;
+        }
+
+        return $this->profiler ?: null;
     }
 
     /**
@@ -134,42 +137,6 @@ class Profiler
         } catch (Exception $e) {
             return;
         }
-    }
-
-    /**
-     * Determines which profiler you're running.
-     * If you're running multiple (which you shouldn't!),
-     * It will return them in this preference order:
-     * 2) tideways_xhprof
-     * 2) tideways
-     * 1) uprofiler
-     * 3) xhprof
-     *
-     * @return string|null
-     */
-    private function getProfilerType()
-    {
-        $profiler = null;
-        // NOTE: the list here is reversed
-        $extensions = array(
-            self::PROFILER_XHPROF,
-            self::PROFILER_UPROFILER,
-            self::PROFILER_TIDEWAYS,
-            self::PROFILER_TIDEWAYS_XHPROF,
-        );
-        foreach ($extensions as $extension) {
-            $profiler = extension_loaded($extension) ? $extension : $profiler;
-        }
-
-        return $profiler;
-    }
-
-    /**
-     * @return bool
-     */
-    private function validateExtensionsInstalled()
-    {
-        return $this->getProfilerType() && (extension_loaded('mongo') || extension_loaded('mongodb'));
     }
 
     /**

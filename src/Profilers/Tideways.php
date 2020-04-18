@@ -11,10 +11,14 @@ use Xhgui\Profiler\ProfilingFlags;
  */
 class Tideways extends AbstractProfiler
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function enableWith($flags = array(), $options = array())
+    const EXTENSION_NAME = 'tideways';
+
+    public function isSupported()
+    {
+        return extension_loaded(self::EXTENSION_NAME);
+    }
+
+    public function enable($flags = array(), $options = array())
     {
         tideways_enable($this->combineFlags($flags), $options);
     }
