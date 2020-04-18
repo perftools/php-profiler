@@ -18,7 +18,7 @@ class TidewaysTest extends TestCase
     public function testDefaults()
     {
         $data = $this->runProfiler();
-        $this->assertCount(3, $data);
+        $this->assertCount(2, $data);
     }
 
     public function testNoFlags()
