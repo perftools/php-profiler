@@ -3,9 +3,14 @@
 namespace Xhgui\Profiler\Test;
 
 use Xhgui\Profiler\Profilers\ProfilerInterface;
+use Xhgui\Profiler\Saver\SaverInterface;
+use Xhgui\Profiler\SaverFactory;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /** @var SaverInterface */
+    protected $saver;
+
     /** @var ProfilerInterface */
     protected $profiler;
 
@@ -16,5 +21,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($data);
 
         return $data;
+    }
+
+    protected function createSaver($saveHandler, array $config = array())
+    {
+        $saver = SaverFactory::create($saveHandler, $config);
+        $this->assertNotNull($saver);
+
+        return $saver;
     }
 }
