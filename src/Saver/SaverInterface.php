@@ -6,4 +6,8 @@ use Xhgui_Saver_Interface;
 
 interface SaverInterface extends Xhgui_Saver_Interface
 {
+    /**
+     * @return bool
+     */
+    public function isSupported();
 }
