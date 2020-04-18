@@ -60,6 +60,18 @@ make install
 echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
 ```
 
+On `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+
+```
+brew install glensc/tap/php@7.1-tideways-xhprof
+brew install kabel/pecl/php@7.2-tideways-xhprof
+brew install kabel/pecl/php@7.3-tideways-xhprof
+brew install kabel/pecl/php-tideways-xhprof
+```
+
+[kabel/pecl]: https://github.com/kabel/homebrew-pecl
+[glensc/tap]: https://github.com/glensc/homebrew-tap
+
 ## Usage
 
 In order to profile your application, add it as a dependency, then
