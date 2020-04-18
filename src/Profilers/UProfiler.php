@@ -6,9 +6,13 @@ use Xhgui\Profiler\ProfilingFlags;
 
 class UProfiler extends AbstractProfiler
 {
-    /**
-     * {@inheritdoc}
-     */
+    const EXTENSION_NAME = 'uprofiler';
+
+    public function isSupported()
+    {
+        return extension_loaded(self::EXTENSION_NAME);
+    }
+
     public function enableWith($flags = array(), $options = array())
     {
         uprofiler_enable($this->combineFlags($flags), $options);

@@ -5,6 +5,11 @@ namespace Xhgui\Profiler\Profilers;
 interface ProfilerInterface
 {
     /**
+     * @return bool
+     */
+    public function isSupported();
+
+    /**
      * Enable the specific profiler
      *
      * @param array $flags
