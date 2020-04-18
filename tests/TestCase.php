@@ -14,6 +14,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /** @var ProfilerInterface */
     protected $profiler;
 
+    protected function getSample($sampleName)
+    {
+        $file = __DIR__ . '/Resources/' . $sampleName;
+        $this->assertFileExists($file);
+        $contents = file_get_contents($file);
+        $this->assertNotEmpty($contents);
+        $sample = json_decode($contents, true);
+        $this->assertNotEmpty($sample);
+
+        return $sample;
+    }
+
     protected function runProfiler($flags = array(), $options = array())
     {
         $this->profiler->enable($flags, $options);
