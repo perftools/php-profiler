@@ -28,6 +28,22 @@ class TidewaysXHProfTest extends TestCase
         );
         $data = $this->runProfiler($flags);
         $this->assertCount(3, $data);
+        $main = $data['main()'];
+        $this->assertArrayHasKey('cpu', $main);
+    }
+
+    public function testCpuMemoryFlags()
+    {
+        $flags = array(
+            ProfilingFlags::CPU,
+            ProfilingFlags::MEMORY,
+        );
+        $data = $this->runProfiler($flags);
+        $this->assertCount(3, $data);
+
+        $main = $data['main()'];
+        $this->assertArrayHasKey('cpu', $main);
+        $this->assertArrayHasKey('mu', $main);
     }
 
     public function testNoFlags()
