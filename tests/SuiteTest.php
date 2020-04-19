@@ -11,15 +11,19 @@ class SuiteTest extends TestCase
 {
     /** @var Profiler */
     private $xhguiProfiler;
+    /** @var string */
+    private $profileStorage;
 
     public function setUp()
     {
+        $runId = sprintf('%s-%f-%x', basename(__CLASS__), microtime(true), mt_rand(1, 0xffff));
+        $this->profileStorage = sys_get_temp_dir() . '/php-profiler-' . $runId . '.json';
         $config = array(
             'profiler.enable' => function () {
                 return true;
             },
             'save.handler' => 'file',
-            'save.handler.filename' => sys_get_temp_dir() . '/php-profiler-test-save.json',
+            'save.handler.filename' => $this->profileStorage,
         );
         $this->xhguiProfiler = new Profiler($config);
     }
@@ -30,5 +34,7 @@ class SuiteTest extends TestCase
         $profiler->enable();
         $profiler->stop();
         $this->assertFalse($profiler->isRunning());
+        $profile = $this->readJsonFile($this->profileStorage);
+        $this->assertExpectedProfilingData($profile);
     }
 }

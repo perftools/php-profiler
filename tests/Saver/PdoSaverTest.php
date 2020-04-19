@@ -26,8 +26,8 @@ class PdoSaverTest extends TestCase
 
     public function testSaveEmpty()
     {
-        $data = $this->getSample('session_meta.json');
-        $data['profile'] = $this->getSample('tideways_xhprof_cpu_memory.json');
+        $data = $this->getResource('session_meta.json');
+        $data['profile'] = $this->getResource('tideways_xhprof_cpu_memory.json');
 
         $this->saver->save($data);
     }
