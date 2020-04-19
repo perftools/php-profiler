@@ -7,6 +7,11 @@ set -xeu
 : ${TIDEWAYS_XHPROF_VERSION=5.0.2}
 : ${PHP_VERSION=${TRAVIS_PHP_VERSION}}
 
+die() {
+	echo >&2 "ERROR: $*"
+	exit 1
+}
+
 install_tideways_xhprof() {
 	local version=$TIDEWAYS_XHPROF_VERSION
 	local arch=$(uname -m)
@@ -22,7 +27,7 @@ install_tideways_xhprof() {
 	zts=$(php --version | grep -q ZTS && echo -zts || :)
 	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
-	test -f "$library"
+	test -f "$library" || die "Extension not available: $library"
 	echo "extension=$library" > "$config"
 	find $HOME/.phpenv -ls
 	php -m | tee /dev/tty | grep -F "$extension"
