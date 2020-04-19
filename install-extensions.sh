@@ -18,7 +18,7 @@ install_tideways_xhprof() {
 	curl -fL -o "$tar" "$url"
 	tar -xvf "$tar"
 
-	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION.so"
+	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION-zts.so"
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
 	test -f "$library"
 	echo "extension=$library" > "$config"
