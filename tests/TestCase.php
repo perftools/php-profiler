@@ -14,16 +14,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /** @var ProfilerInterface */
     protected $profiler;
 
-    protected function getSample($sampleName)
+    protected function getResource($resourceName)
     {
-        $file = __DIR__ . '/Resources/' . $sampleName;
-        $this->assertFileExists($file);
-        $contents = file_get_contents($file);
-        $this->assertNotEmpty($contents);
-        $sample = json_decode($contents, true);
-        $this->assertNotEmpty($sample);
-
-        return $sample;
+        return $this->readJsonFile(__DIR__ . '/Resources/' . $resourceName);
     }
 
     protected function runProfiler($flags = array(), $options = array())
@@ -41,5 +34,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($saver);
 
         return $saver;
+    }
+
+    protected function readJsonFile($filename)
+    {
+        $this->assertFileExists($filename);
+        $contents = file_get_contents($filename);
+        $this->assertNotEmpty($contents);
+        $result = json_decode($contents, true);
+        $this->assertNotEmpty($result);
+
+        return $result;
+    }
+
+    protected function assertExpectedProfilingData(array $data)
+    {
+        $this->assertArrayHasKey('profile', $data);
+        $this->assertArrayHasKey('meta', $data);
     }
 }
