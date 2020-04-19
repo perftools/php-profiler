@@ -9,20 +9,24 @@ set -xeu
 
 install_tideways_xhprof() {
 	local version=$TIDEWAYS_XHPROF_VERSION
-	local url="https://github.com/tideways/php-xhprof-extension/releases/download/v$version/tideways-xhprof-$version-x86_64.tar.gz"
-	local tar="tideways_xhprof.tgz"
-	local config extension
+	local arch=$(uname -m)
+	local url="https://github.com/tideways/php-xhprof-extension/releases/download/v$version/tideways-xhprof-$version-$arch.tar.gz"
+	local extension="tideways_xhprof"
+	local tar="$extension.tgz"
+	local config library
 
 	curl -fL -o "$tar" "$url"
 	tar -xvf "$tar"
 
-	extension="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION.so"
+	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION.so"
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/tideways_xhprof.ini"
-	echo "extension=$extension" > "$config"
+	test -f "$library"
+	echo "extension=$library" > "$config"
+	php -m | grep -F "$extension"
 }
 
-case "$PHP_VERSION" in
-7.*)
+case "$(uname -o):$PHP_VERSION" in
+Linux:7.*)
 	install_tideways_xhprof
 	;;
 esac
