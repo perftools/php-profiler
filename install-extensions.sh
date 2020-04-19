@@ -25,7 +25,7 @@ install_tideways_xhprof() {
 	php -m | grep -F "$extension"
 }
 
-case "$(uname -o):$PHP_VERSION" in
+case "$(uname -s):$PHP_VERSION" in
 Linux:7.*)
 	install_tideways_xhprof
 	;;
