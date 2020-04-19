@@ -72,6 +72,8 @@ class Profiler
             return;
         }
 
+        // 'REQUEST_TIME_FLOAT' isn't available before 5.4.0
+        // https://www.php.net/manual/en/reserved.variables.server.php
         if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
             $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
         }
