@@ -3,13 +3,10 @@
 namespace Xhgui\Profiler;
 
 use Exception;
-use MongoDate;
 use RuntimeException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui_Config;
-use Xhgui_Saver_Mongo;
-use Xhgui_Util;
 
 class Profiler
 {
@@ -142,71 +139,6 @@ class Profiler
     }
 
     /**
-     * Mostly copypasta from example header.php in XHGUI
-     *
-     * @param array $data
-     * @return array
-     */
-    private function assembleProfilingData($data)
-    {
-        $uri = array_key_exists('REQUEST_URI', $_SERVER)
-            ? $_SERVER['REQUEST_URI']
-            : null;
-        if (empty($uri) && isset($_SERVER['argv'])) {
-            $cmd = basename($_SERVER['argv'][0]);
-            $uri = $cmd . ' ' . implode(' ', array_slice($_SERVER['argv'], 1));
-        }
-
-        $time = array_key_exists('REQUEST_TIME', $_SERVER)
-            ? $_SERVER['REQUEST_TIME']
-            : time();
-        $requestTimeFloat = explode('.', $_SERVER['REQUEST_TIME_FLOAT']);
-        if (!isset($requestTimeFloat[1])) {
-            $requestTimeFloat[1] = 0;
-        }
-
-        if ($this->saveHandler->getHandler() instanceof Xhgui_Saver_Mongo) {
-            $requestTs = new MongoDate($time);
-            $requestTsMicro = new MongoDate($requestTimeFloat[0], $requestTimeFloat[1]);
-        } else {
-            $requestTs = array('sec' => $time, 'usec' => 0);
-            $requestTsMicro = array('sec' => $requestTimeFloat[0], 'usec' => $requestTimeFloat[1]);
-        }
-
-        $allowedServerKeys = array(
-            'PHP_SELF',
-            'SERVER_ADDR',
-            'SERVER_NAME',
-            'REQUEST_METHOD',
-            'REQUEST_TIME',
-            'REQUEST_TIME_FLOAT',
-            'QUERY_STRING',
-            'DOCUMENT_ROOT',
-            'HTTP_HOST',
-            'HTTP_USER_AGENT',
-            'HTTPS',
-            'REMOTE_ADDR',
-            'REMOTE_USER',
-            'PHP_AUTH_USER',
-            'PATH_INFO',
-        );
-        $serverMeta = array_intersect_key($_SERVER, array_flip($allowedServerKeys));
-
-        $data['meta'] = array(
-            'url' => $uri,
-            'get' => $_GET,
-            'env' => $_ENV,
-            'SERVER' => $serverMeta,
-            'simple_url' => Xhgui_Util::simpleUrl($uri),
-            'request_ts' => $requestTs,
-            'request_ts_micro' => $requestTsMicro,
-            'request_date' => date('Y-m-d', $time),
-        );
-
-        return $data;
-    }
-
-    /**
      * @return array
      * @see Xhgui_Config
      */
@@ -281,9 +213,10 @@ class Profiler
         if (!$this->running) {
             return array();
         }
-        $rawProfilingData = array('profile' => $this->profiler->disable());
 
-        return $this->assembleProfilingData($rawProfilingData);
+        $profile = new ProfilingData($this->profiler->disable());
+
+        return $profile->getProfilingData();
     }
 
     /**
