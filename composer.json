@@ -32,6 +32,9 @@
 	"suggest": {
 		"ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
 		"ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)",
-		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary"
+		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)"
+	},
+	"require-dev": {
+		"ext-json": "*"
 	}
 }
