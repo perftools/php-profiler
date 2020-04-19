@@ -3,10 +3,7 @@
 namespace Xhgui\Profiler;
 
 use Exception;
-use MongoCursorException;
-use MongoCursorTimeoutException;
 use MongoDate;
-use MongoException;
 use RuntimeException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
@@ -266,10 +263,6 @@ class Profiler
 
     /**
      * Stop profiling. Get currently collected data and save it
-     *
-     * @throws MongoException
-     * @throws MongoCursorException
-     * @throws MongoCursorTimeoutException
      */
     public function stop()
     {
