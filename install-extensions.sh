@@ -22,7 +22,8 @@ install_tideways_xhprof() {
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/tideways_xhprof.ini"
 	test -f "$library"
 	echo "extension=$library" > "$config"
-	php -m | grep -F "$extension"
+	find $HOME/.phpenv -ls
+	php -m | tee /dev/tty | grep -F "$extension"
 }
 
 case "$(uname -s):$PHP_VERSION" in
