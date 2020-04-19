@@ -125,6 +125,25 @@ try {
 }
 ```
 
+## Advanced Usage
+
+You might want to control capture and sending yourself, perhaps modify data before sending.
+
+```php
+/** @var \Xhgui\Profiler\Profiler $profiler */
+// start profiling
+$profiler->enable();
+
+// run program
+foo();
+
+// stop profiler
+$profiler_data = $profiler->disable();
+
+// send $profiler_data to saver
+$profiler->save($profiler_data);
+```
+
 ## Configuration
 
 Most of the configuration is xhgui standard and used by Xhgui saver.

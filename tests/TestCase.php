@@ -14,16 +14,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /** @var ProfilerInterface */
     protected $profiler;
 
-    protected function getSample($sampleName)
+    protected function getResource($resourceName)
     {
-        $file = __DIR__ . '/Resources/' . $sampleName;
-        $this->assertFileExists($file);
-        $contents = file_get_contents($file);
-        $this->assertNotEmpty($contents);
-        $sample = json_decode($contents, true);
-        $this->assertNotEmpty($sample);
-
-        return $sample;
+        return $this->readJsonFile(__DIR__ . '/Resources/' . $resourceName);
     }
 
     protected function runProfiler($flags = array(), $options = array())
@@ -41,5 +34,49 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($saver);
 
         return $saver;
+    }
+
+    protected function readJsonFile($filename)
+    {
+        $this->assertFileExists($filename);
+        $contents = file_get_contents($filename);
+        $this->assertNotEmpty($contents);
+        $result = json_decode($contents, true);
+        $this->assertNotEmpty($result);
+
+        return $result;
+    }
+
+    protected function assertExpectedProfilingData(array $data)
+    {
+        $this->assertArrayHasKey('profile', $data);
+        $this->assertArrayHasKey('meta', $data);
+        $this->assertExpectedProfileMeta($data['meta']);
+    }
+
+    private function assertExpectedProfileMeta(array $meta)
+    {
+        $this->assertArrayHasKey('url', $meta);
+        $this->assertArrayHasKey('simple_url', $meta);
+        $this->assertArrayHasKey('request_ts', $meta);
+        $this->assertArrayHasKey('request_ts_micro', $meta);
+        $this->assertArrayHasKey('request_date', $meta);
+        $this->assertArrayHasKey('get', $meta);
+        $this->assertArrayHasKey('env', $meta);
+        $this->assertArrayHasKey('SERVER', $meta);
+
+        $server = $meta['SERVER'];
+        $this->assertArrayHasKey('PHP_SELF', $server);
+        $this->assertArrayHasKey('DOCUMENT_ROOT', $server);
+        $this->assertArrayHasKey('REQUEST_TIME_FLOAT', $server);
+        $this->assertArrayHasKey('REQUEST_TIME', $server);
+
+        $ts = $meta['request_ts'];
+        $this->assertArrayHasKey('sec', $ts, 'meta.request_ts.sec');
+        $this->assertArrayHasKey('usec', $ts, 'meta.request_ts.usec');
+
+        $ts = $meta['request_ts_micro'];
+        $this->assertArrayHasKey('sec', $ts, 'meta.request_ts_micro.sec');
+        $this->assertArrayHasKey('usec', $ts, 'meta.request_ts_micro.usec');
     }
 }
