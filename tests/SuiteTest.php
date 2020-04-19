@@ -2,6 +2,7 @@
 
 namespace Xhgui\Profiler\Test;
 
+use RuntimeException;
 use Xhgui\Profiler\Profiler;
 
 /**
@@ -25,7 +26,12 @@ class SuiteTest extends TestCase
             'save.handler' => 'file',
             'save.handler.filename' => $this->profileStorage,
         );
-        $this->xhguiProfiler = new Profiler($config);
+
+        try {
+            $this->xhguiProfiler = new Profiler($config);
+        } catch (RuntimeException $e) {
+            $this->markTestSkipped($e->getMessage());
+        }
     }
 
     public function testEmptyRun()
