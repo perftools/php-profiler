@@ -5,7 +5,7 @@ namespace Xhgui\Profiler\Profilers;
 abstract class AbstractProfiler implements ProfilerInterface
 {
     /**
-     * @deprecated use enabe() method
+     * @deprecated use enable() method
      */
     public function enableWith($flags = array(), $options = array())
     {
