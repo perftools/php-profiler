@@ -14,11 +14,13 @@ install_tideways_xhprof() {
 	local extension="tideways_xhprof"
 	local tar="$extension.tgz"
 	local config library
+	local zts
 
 	curl -fL -o "$tar" "$url"
 	tar -xvf "$tar"
 
-	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION.so"
+	zts=$(php --version | grep -q ZTS && echo -zts || :)
+	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
 	test -f "$library"
 	echo "extension=$library" > "$config"
