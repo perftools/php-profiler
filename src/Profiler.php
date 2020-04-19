@@ -200,23 +200,25 @@ class Profiler
      */
     public function stop()
     {
-        $data = $this->collectProfilingData();
-        $this->saveProfilingData($data);
-        $this->running = false;
+        $data = $this->disable();
+        $this->save($data);
+
+        return $data;
     }
 
     /**
-     * Returns collected profiling data
+     * Stop profiling. Return currently collected data
      *
      * @return array
      */
-    private function collectProfilingData()
+    public function disable()
     {
         if (!$this->running) {
             return array();
         }
 
         $profile = new ProfilingData($this->profiler->disable());
+        $this->running = false;
 
         return $profile->getProfilingData();
     }
@@ -226,7 +228,7 @@ class Profiler
      *
      * @param array $data
      */
-    private function saveProfilingData(array $data = null)
+    public function save(array $data = array())
     {
         if (!$data) {
             return;
