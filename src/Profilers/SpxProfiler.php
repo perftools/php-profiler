@@ -20,6 +20,11 @@ class SpxProfiler implements ProfilerInterface
 
     public function enable($flags = array(), $options = array())
     {
+        // https://github.com/NoiseByNorthwest/php-spx#available-parameters
+        putenv('SPX_ENABLED=1');
+        putenv('SPX_REPORT=full');
+        putenv('SPX_AUTO_START=0');
+        putenv('SPX_TRACE_FILE=/tmp/spx-SPX_TRACE_FILE');
         spx_profiler_start();
     }
 
@@ -28,6 +33,20 @@ class SpxProfiler implements ProfilerInterface
      */
     public function disable()
     {
-        return spx_profiler_stop();
+        spx_profiler_stop();
+
+        $key = 'spx-full-20200420_114745-rocinante-7902-16807';
+
+        return $this->readProfile($key);
+    }
+
+    private function readProfile($key)
+    {
+        $profileDir = ini_get('spx.data_dir');
+        $json = json_decode(file_get_contents("{$profileDir}/{$key}.json"), true);
+
+        return array_fill(0, $json['call_count'], array());
+
+        return $json;
     }
 }
