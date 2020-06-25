@@ -217,7 +217,7 @@ class Profiler
             return array();
         }
 
-        $profile = new ProfilingData($this->profiler->disable());
+        $profile = new ProfilingData($this->profiler->disable(), $this->config);
         $this->running = false;
 
         return $profile->getProfilingData();

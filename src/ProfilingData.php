@@ -9,7 +9,7 @@ class ProfilingData
     /** @var array */
     private $profile;
 
-    public function __construct(array $profile)
+    public function __construct(array $profile, array $config = array())
     {
         $this->profile = $profile;
     }
