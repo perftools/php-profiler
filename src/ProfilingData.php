@@ -82,7 +82,7 @@ class ProfilingData
      * @param array $env
      * @return array
      */
-    private function getEnvironment($env)
+    private function getEnvironment(array $env)
     {
         foreach ($this->excludeEnv as $key) {
             unset($env[$key]);
