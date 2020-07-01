@@ -98,6 +98,13 @@ try {
 			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
 		),
 		'profiler.options' => array(),
+
+		// Environment variables to exclude from profiling data
+		'profiler.exclude-env' => array(
+			'APP_DATABASE_PASSWORD',
+			'PATH',
+		),
+
 		/**
 		 * Determine whether profiler should run.
 		 * This default implementation just disables the profiler.

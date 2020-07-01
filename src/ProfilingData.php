@@ -9,9 +9,13 @@ class ProfilingData
     /** @var array */
     private $profile;
 
-    public function __construct(array $profile)
+    /** @var array */
+    private $excludeEnv;
+
+    public function __construct(array $profile, array $config = array())
     {
         $this->profile = $profile;
+        $this->excludeEnv = isset($config['profiler.exclude-env']) ? (array)$config['profiler.exclude-env'] : array();
     }
 
     /**
@@ -58,7 +62,7 @@ class ProfilingData
         $meta = array(
             'url' => $uri,
             'get' => $_GET,
-            'env' => $_ENV,
+            'env' => $this->getEnvironment($_ENV),
             'SERVER' => $serverMeta,
             'simple_url' => Xhgui_Util::simpleUrl($uri),
             'request_ts' => $requestTs,
@@ -72,5 +76,18 @@ class ProfilingData
         );
 
         return $data;
+    }
+
+    /**
+     * @param array $env
+     * @return array
+     */
+    private function getEnvironment(array $env)
+    {
+        foreach ($this->excludeEnv as $key) {
+            unset($env[$key]);
+        }
+
+        return $env;
     }
 }
