@@ -97,6 +97,12 @@ try {
 			\Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
 			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
 		),
+
+		// Saver to use.
+		// Please note that 'pdo' and 'mongo' savers are deprecated
+		// Prefer 'upload' or 'file' saver.
+		'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+
 		'profiler.options' => array(),
 
 		// Environment variables to exclude from profiling data
