@@ -15,10 +15,23 @@ final class SaverFactory
      */
     public static function create($saveHandler, array $config = array())
     {
-        $config = self::migrateConfig($config, $saveHandler);
-        $saver = Xhgui_Saver::factory($config);
+        switch ($config['save.handler']) {
+            case Profiler::SAVER_FILE:
+                $saver = new Saver\FileSaver($config['save.handler.file']['filename']);
+                break;
+            default:
+                // create via xhgui-collector
+                $config = self::migrateConfig($config, $saveHandler);
+                $legacySaver = Xhgui_Saver::factory($config);
+                $saver = static::getAdapter($legacySaver);
+                break;
+        }
 
-        return static::getAdapter($saver);
+        if (!$saver || !$saver->isSupported()) {
+            return null;
+        }
+
+        return $saver;
     }
 
     /**
@@ -31,11 +44,6 @@ final class SaverFactory
     private static function migrateConfig(array $config, $saveHandler)
     {
         switch ($saveHandler) {
-            case Profiler::SAVER_FILE:
-                if (isset($config['save.handler.file']['filename']) && !isset($config['save.handler.filename'])) {
-                    $config['save.handler.filename'] = $config['save.handler.file']['filename'];
-                }
-                break;
             case Profiler::SAVER_UPLOAD:
                 if (isset($config['save.handler.upload']['uri']) && !isset($config['save.handler.upload.uri'])) {
                     $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
@@ -73,7 +81,6 @@ final class SaverFactory
     private static function getAdapter(Xhgui_Saver_Interface $saver)
     {
         $adapters = array(
-            new Saver\FileSaver($saver),
             new Saver\PdoSaver($saver),
             new Saver\MongoSaver($saver),
             new Saver\UploadSaver($saver),

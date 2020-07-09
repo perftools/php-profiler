@@ -3,36 +3,34 @@
 namespace Xhgui\Profiler\Saver;
 
 use Exception;
-use ReflectionClass;
-use Xhgui_Saver_File;
 
-/**
- * @property Xhgui_Saver_File $saver
- */
-class FileSaver extends AbstractSaver
+class FileSaver implements SaverInterface
 {
+    private $file;
+
+    public function __construct($file)
+    {
+        $this->file = $file;
+    }
+
     public function isSupported()
     {
-        if (!$this->saver instanceof Xhgui_Saver_File) {
-            return false;
-        }
         if (!function_exists('json_encode')) {
             return false;
         }
 
         try {
-            return is_writable(dirname($this->getSaveFile()));
+            return is_writable(dirname($this->file));
         } catch (Exception $e) {
             return false;
         }
     }
 
-    private function getSaveFile()
+    public function save(array $data)
     {
-        $rc = new ReflectionClass($this->saver);
-        $property = $rc->getProperty('_file');
-        $property->setAccessible(true);
+        $fileName = $this->file;
+        $json = json_encode($data);
 
-        return $property->getValue($this->saver);
+        return file_put_contents($fileName, $json . PHP_EOL, FILE_APPEND);
     }
 }
