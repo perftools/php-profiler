@@ -103,24 +103,29 @@ try {
 		// Prefer 'upload' or 'file' saver.
 		'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
 
-		// File handler.
-		// Appends jsonlines formatted data to path specified in 'save.handler.filename'
-		'save.handler.filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+		'save.handler.file' => array(
+			// Appends jsonlines formatted data to this path
+			'filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+		),
 
 		// Saving profile data by upload is only recommended with HTTPS
 		// endpoints that have IP whitelists applied.
-		'save.handler.upload.uri' => 'https://example.com/run/import',
-		'save.handler.upload.timeout' => 3,
+		'save.handler.upload' => array(
+			'uri' => 'https://example.com/run/import',
+			// The timeout option is in seconds and defaults to 3 if unspecified.
+			'timeout' => 3,
+		),
 
 		// For MongoDB
-		'db.host' => 'mongodb://127.0.0.1:27017',
-		'db.db' => 'xhprof',
-		// Allows you to pass additional options like replicaSet to MongoClient.
-		// 'username', 'password' and 'db' (where the user is added)
-		'db.options' => array(),
+		'save.handler.mongodb' => array(
+			'dsn' => 'mongodb://127.0.0.1:27017',
+			'database' => 'xhprof',
+			// Allows you to pass additional options like replicaSet to MongoClient.
+			// 'username', 'password' and 'db' (where the user is added)
+			'options' => array(),
+		),
 
-		// For PDO
-		'pdo' => array(
+		'save.handler.pdo' => array(
 			'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
 			'user' => null,
 			'pass' => null,

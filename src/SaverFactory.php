@@ -15,10 +15,42 @@ final class SaverFactory
      */
     public static function create($saveHandler, array $config = array())
     {
-        $config['save.handler'] = $saveHandler;
+        $config = self::migrateConfig($config, $saveHandler);
         $saver = Xhgui_Saver::factory($config);
 
         return static::getAdapter($saver);
+    }
+
+    /**
+     * Prepare config for Xhgui_Saver specific to $saveHandler
+     *
+     * @param array $config
+     * @param string $saveHandler
+     * @return array
+     */
+    private static function migrateConfig(array $config, $saveHandler)
+    {
+        switch ($saveHandler) {
+            case Profiler::SAVER_FILE:
+                $config['save.handler.filename'] = $config['save.handler.file']['filename'];
+                break;
+            case Profiler::SAVER_UPLOAD:
+                $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
+                $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
+                break;
+            case Profiler::SAVER_MONGODB:
+                $config['db.host'] = $config['save.handler.mongodb']['dsn'];
+                $config['db.db'] = $config['save.handler.mongodb']['database'];
+                $config['db.options'] = $config['save.handler.mongodb']['options'];
+                break;
+            case Profiler::SAVER_PDO:
+                $config['pdo'] = $config['save.handler.pdo'];
+                break;
+        }
+
+        $config['save.handler'] = $saveHandler;
+
+        return $config;
     }
 
     private static function getAdapter(Xhgui_Saver_Interface $saver)
