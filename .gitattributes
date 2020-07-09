@@ -1,3 +1,5 @@
 /.* export-ignore
+/composer.json export-ignore
+/install-extensions.sh export-ignore
 /phpunit.xml export-ignore
 /tests/ export-ignore
