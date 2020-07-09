@@ -32,19 +32,33 @@ final class SaverFactory
     {
         switch ($saveHandler) {
             case Profiler::SAVER_FILE:
-                $config['save.handler.filename'] = $config['save.handler.file']['filename'];
+                if (isset($config['save.handler.file']['filename']) && !isset($config['save.handler.filename'])) {
+                    $config['save.handler.filename'] = $config['save.handler.file']['filename'];
+                }
                 break;
             case Profiler::SAVER_UPLOAD:
-                $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
-                $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
+                if (isset($config['save.handler.upload']['uri']) && !isset($config['save.handler.upload.uri'])) {
+                    $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
+                }
+                if (isset($config['save.handler.upload.timeout']) && !isset($config['save.handler.upload']['timeout'])) {
+                    $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
+                }
                 break;
             case Profiler::SAVER_MONGODB:
-                $config['db.host'] = $config['save.handler.mongodb']['dsn'];
-                $config['db.db'] = $config['save.handler.mongodb']['database'];
-                $config['db.options'] = $config['save.handler.mongodb']['options'];
+                if (isset($config['save.handler.mongodb']['dsn']) && !isset($config['db.host'])) {
+                    $config['db.host'] = $config['save.handler.mongodb']['dsn'];
+                }
+                if (isset($config['save.handler.mongodb']['database']) && !isset($config['db.db'])) {
+                    $config['db.db'] = $config['save.handler.mongodb']['database'];
+                }
+                if (isset($config['save.handler.mongodb']['options']) && !isset($config['db.options'])) {
+                    $config['db.options'] = $config['save.handler.mongodb']['options'];
+                }
                 break;
             case Profiler::SAVER_PDO:
-                $config['pdo'] = $config['save.handler.pdo'];
+                if (isset($config['save.handler.pdo']) && !isset($config['pdo'])) {
+                    $config['pdo'] = $config['save.handler.pdo'];
+                }
                 break;
         }
 
