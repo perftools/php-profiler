@@ -2,7 +2,6 @@
 
 namespace Xhgui\Profiler\Saver;
 
-use MongoDate;
 use Xhgui_Saver_Mongo;
 
 /**
