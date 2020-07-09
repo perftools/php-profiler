@@ -103,6 +103,30 @@ try {
 		// Prefer 'upload' or 'file' saver.
 		'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
 
+		// File handler.
+		// Appends jsonlines formatted data to path specified in 'save.handler.filename'
+		'save.handler.filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+
+		// Saving profile data by upload is only recommended with HTTPS
+		// endpoints that have IP whitelists applied.
+		'save.handler.upload.uri' => 'https://example.com/run/import',
+		'save.handler.upload.timeout' => 3,
+
+		// For MongoDB
+		'db.host' => 'mongodb://127.0.0.1:27017',
+		'db.db' => 'xhprof',
+		// Allows you to pass additional options like replicaSet to MongoClient.
+		// 'username', 'password' and 'db' (where the user is added)
+		'db.options' => array(),
+
+		// For PDO
+		'pdo' => array(
+			'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+			'user' => null,
+			'pass' => null,
+			'table' => 'results'
+		),
+
 		'profiler.options' => array(),
 
 		// Environment variables to exclude from profiling data
@@ -156,27 +180,6 @@ $profiler_data = $profiler->disable();
 // send $profiler_data to saver
 $profiler->save($profiler_data);
 ```
-
-## Configuration
-
-Most of the configuration is xhgui standard and used by Xhgui saver.
-See [XHGUI Data Collector packagist page][1] for references.
-
-Configuration unique to this package:
-
-| Configuration option | type  | description                                      | default value |
-|----------------------|-------|--------------------------------------------------|---------------|
-| profiler.flags       | array | Array of [ProfilingFlags][2]                     | empty array   |
-| profiler.options     | array | Array of options to pass to profiler enable call | empty array   |
-
-Flags that are not supported by specific profiler, will be ignored.
-
-What you'll likely need to configure when instructing an app to use this profiling:
-
- - save handler type
- - save handler properties (for mongodb, the access credentials, host, db)
- - profiler.flags -- whether to use CPU profiling, memory profiling
- - profiler.enable -- closure which determines whether profiling should run
 
 ## Run description
 
