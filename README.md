@@ -18,10 +18,6 @@ Supported profilers:
 This profiling library will auto-detect any supported profiler and use that.
 The specific profiler can be choosen by 'profiler' config key.
 
-DON'T RELY ON THIS PREFERENCE ORDER IN PRODUCTION ENVIRONMENTS.
-
-You shouldn't have more than one profiler installed in production.
-
 ## Goals
 
  - Compatibility with PHP >= 5.3.0

@@ -10,8 +10,7 @@ final class ProfilerFactory
     /**
      * Creates Profiler instance that can be used.
      *
-     * If you're running multiple (which you shouldn't!),
-     * It will test them in this preference order:
+     * It returns first profiler, that is usable in testing them in this order:
      * 2) tideways_xhprof
      * 2) tideways
      * 1) uprofiler
