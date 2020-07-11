@@ -155,7 +155,7 @@ $config = array(
 
     'save.handler.file' => array(
         // Appends jsonlines formatted data to this path
-        'filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+        'filename' => '/tmp/xhgui.data.jsonl',
     ),
 
     // Saving profile data by upload is only recommended with HTTPS
@@ -210,9 +210,15 @@ $config = array(
 If your site cannot directly connect to your XHGui instance, you can choose
 to save your data to a temporary file for a later import to XHGui.
 
-To configure profiler to save your data to a temporary file,
-change the `save.handler` setting to `file` and define your file's
-path with `save.handler.filename`.
+To save to files, use the following configuration:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_FILE,
+    'save.handler.file' => array(
+        // Appends jsonlines formatted data to this path
+        'filename' => '/tmp/xhgui.data.jsonl',
+    ),
+```
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
