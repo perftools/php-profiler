@@ -27,6 +27,12 @@ DON'T RELY ON THIS PREFERENCE ORDER IN PRODUCTION ENVIRONMENTS.
 
 You shouldn't have more than one profiler installed in production.
 
+## Goals
+
+ - Compatibility with PHP >= 5.3.0
+ - No dependencies aside from the relevant extensions
+ - Customizable and configurable so you can build your own logic on top of it
+
 ## Installing profilers
 
 ### Mongo
