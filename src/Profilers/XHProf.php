@@ -8,28 +8,41 @@ class XHProf extends AbstractProfiler
 {
     const EXTENSION_NAME = 'xhprof';
 
+    /** @var int */
+    private $flags;
+
+    /**
+     * @var array
+     *
+     * An array of optional options, namely, the 'ignored_functions' option to pass in functions to be ignored during profiling
+     */
+    private $options;
+
+    public function __construct(array $config)
+    {
+        $this->flags = $this->combineFlags($config['profiler.flags'], $this->getProfileFlagMap());
+        $this->options = $config['profiler.options'];
+    }
+
     public function isSupported()
     {
         return extension_loaded(self::EXTENSION_NAME);
     }
 
-    public function enable($flags = array(), $options = array())
+    /**
+     * @see https://www.php.net/manual/en/function.xhprof-enable.php
+     */
+    public function enable()
     {
-        xhprof_enable($this->combineFlags($flags), $options);
+        xhprof_enable($this->flags, $this->options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disable()
     {
         return xhprof_disable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProfileFlagMap()
+    private function getProfileFlagMap()
     {
         /*
          * This is disabled on PHP 5.5+ as it causes a segfault

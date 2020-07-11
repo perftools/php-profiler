@@ -88,14 +88,14 @@ class Profiler
             return;
         }
 
-        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
+        $profiler->enable();
         $this->running = true;
     }
 
     private function getProfiler()
     {
         if ($this->profiler === null) {
-            $this->profiler = ProfilerFactory::create() ?: false;
+            $this->profiler = ProfilerFactory::create($this->config) ?: false;
         }
 
         return $this->profiler ?: null;

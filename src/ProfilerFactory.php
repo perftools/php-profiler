@@ -18,13 +18,13 @@ final class ProfilerFactory
      *
      * @return ProfilerInterface|null
      */
-    public static function create()
+    public static function create(array $config)
     {
         $adapters = array(
-            new Profilers\TidewaysXHProf(),
-            new Profilers\Tideways(),
-            new Profilers\UProfiler(),
-            new Profilers\XHProf(),
+            new Profilers\TidewaysXHProf($config),
+            new Profilers\Tideways($config),
+            new Profilers\UProfiler($config),
+            new Profilers\XHProf($config),
         );
 
         $available = array_filter($adapters, function (ProfilerInterface $adapter) {
