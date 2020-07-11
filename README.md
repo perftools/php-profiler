@@ -114,6 +114,8 @@ try {
 			'uri' => 'https://example.com/run/import',
 			// The timeout option is in seconds and defaults to 3 if unspecified.
 			'timeout' => 3,
+			// the token must match 'upload.token' config in xhgui
+			'token' => 'token',
 		),
 
 		// For MongoDB

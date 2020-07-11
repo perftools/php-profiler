@@ -43,6 +43,9 @@ final class SaverFactory
                 if (isset($config['save.handler.upload.timeout']) && !isset($config['save.handler.upload']['timeout'])) {
                     $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
                 }
+                if (!empty($config['save.handler.upload']['token'])) {
+                    $config['save.handler.upload.uri'] .= '?token=' . $config['save.handler.upload']['token'];
+                }
                 break;
             case Profiler::SAVER_MONGODB:
                 if (isset($config['save.handler.mongodb']['dsn']) && !isset($config['db.host'])) {
