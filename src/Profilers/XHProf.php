@@ -44,6 +44,9 @@ class XHProf extends AbstractProfiler
         return xhprof_disable();
     }
 
+    /**
+     * @see https://www.php.net/manual/en/xhprof.constants.php
+     */
     private function getProfileFlagMap()
     {
         /*
