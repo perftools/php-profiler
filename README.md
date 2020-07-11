@@ -97,6 +97,41 @@ try {
 			\Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
 			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
 		),
+
+		// Saver to use.
+		// Please note that 'pdo' and 'mongo' savers are deprecated
+		// Prefer 'upload' or 'file' saver.
+		'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+
+		'save.handler.file' => array(
+			// Appends jsonlines formatted data to this path
+			'filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+		),
+
+		// Saving profile data by upload is only recommended with HTTPS
+		// endpoints that have IP whitelists applied.
+		'save.handler.upload' => array(
+			'uri' => 'https://example.com/run/import',
+			// The timeout option is in seconds and defaults to 3 if unspecified.
+			'timeout' => 3,
+		),
+
+		// For MongoDB
+		'save.handler.mongodb' => array(
+			'dsn' => 'mongodb://127.0.0.1:27017',
+			'database' => 'xhprof',
+			// Allows you to pass additional options like replicaSet to MongoClient.
+			// 'username', 'password' and 'db' (where the user is added)
+			'options' => array(),
+		),
+
+		'save.handler.pdo' => array(
+			'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+			'user' => null,
+			'pass' => null,
+			'table' => 'results'
+		),
+
 		'profiler.options' => array(),
 
 		// Environment variables to exclude from profiling data
@@ -150,27 +185,6 @@ $profiler_data = $profiler->disable();
 // send $profiler_data to saver
 $profiler->save($profiler_data);
 ```
-
-## Configuration
-
-Most of the configuration is xhgui standard and used by Xhgui saver.
-See [XHGUI Data Collector packagist page][1] for references.
-
-Configuration unique to this package:
-
-| Configuration option | type  | description                                      | default value |
-|----------------------|-------|--------------------------------------------------|---------------|
-| profiler.flags       | array | Array of [ProfilingFlags][2]                     | empty array   |
-| profiler.options     | array | Array of options to pass to profiler enable call | empty array   |
-
-Flags that are not supported by specific profiler, will be ignored.
-
-What you'll likely need to configure when instructing an app to use this profiling:
-
- - save handler type
- - save handler properties (for mongodb, the access credentials, host, db)
- - profiler.flags -- whether to use CPU profiling, memory profiling
- - profiler.enable -- closure which determines whether profiling should run
 
 ## Run description
 

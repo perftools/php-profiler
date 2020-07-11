@@ -10,6 +10,11 @@ use Xhgui_Config;
 
 class Profiler
 {
+    const SAVER_UPLOAD = 'upload';
+    const SAVER_FILE = 'file';
+    const SAVER_MONGODB = 'mongodb';
+    const SAVER_PDO = 'pdo';
+
     /**
      * Profiler configuration.
      *

@@ -15,10 +15,56 @@ final class SaverFactory
      */
     public static function create($saveHandler, array $config = array())
     {
-        $config['save.handler'] = $saveHandler;
+        $config = self::migrateConfig($config, $saveHandler);
         $saver = Xhgui_Saver::factory($config);
 
         return static::getAdapter($saver);
+    }
+
+    /**
+     * Prepare config for Xhgui_Saver specific to $saveHandler
+     *
+     * @param array $config
+     * @param string $saveHandler
+     * @return array
+     */
+    private static function migrateConfig(array $config, $saveHandler)
+    {
+        switch ($saveHandler) {
+            case Profiler::SAVER_FILE:
+                if (isset($config['save.handler.file']['filename']) && !isset($config['save.handler.filename'])) {
+                    $config['save.handler.filename'] = $config['save.handler.file']['filename'];
+                }
+                break;
+            case Profiler::SAVER_UPLOAD:
+                if (isset($config['save.handler.upload']['uri']) && !isset($config['save.handler.upload.uri'])) {
+                    $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
+                }
+                if (isset($config['save.handler.upload.timeout']) && !isset($config['save.handler.upload']['timeout'])) {
+                    $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
+                }
+                break;
+            case Profiler::SAVER_MONGODB:
+                if (isset($config['save.handler.mongodb']['dsn']) && !isset($config['db.host'])) {
+                    $config['db.host'] = $config['save.handler.mongodb']['dsn'];
+                }
+                if (isset($config['save.handler.mongodb']['database']) && !isset($config['db.db'])) {
+                    $config['db.db'] = $config['save.handler.mongodb']['database'];
+                }
+                if (isset($config['save.handler.mongodb']['options']) && !isset($config['db.options'])) {
+                    $config['db.options'] = $config['save.handler.mongodb']['options'];
+                }
+                break;
+            case Profiler::SAVER_PDO:
+                if (isset($config['save.handler.pdo']) && !isset($config['pdo'])) {
+                    $config['pdo'] = $config['save.handler.pdo'];
+                }
+                break;
+        }
+
+        $config['save.handler'] = $saveHandler;
+
+        return $config;
     }
 
     private static function getAdapter(Xhgui_Saver_Interface $saver)
