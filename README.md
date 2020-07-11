@@ -88,90 +88,30 @@ Most likely you'll have something like
 
 ```php
 <?php
-// inside some bootstrapper or other "early central point in execution"
+
+// Add this block inside some bootstrapper or other "early central point in execution"
 try {
-	$profilerConfig = array(
-		'profiler.flags' => array(
-			\Xhgui\Profiler\ProfilingFlags::CPU,
-			\Xhgui\Profiler\ProfilingFlags::MEMORY,
-			\Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
-			\Xhgui\Profiler\ProfilingFlags::NO_SPANS,
-		),
+    /**
+     * The constructor will throw an exception if the environment
+     * isn't fit for profiling (extensions missing, other problems)
+     */
+    $profiler = new \Xhgui\Profiler\Profiler($config);
 
-		// Saver to use.
-		// Please note that 'pdo' and 'mongo' savers are deprecated
-		// Prefer 'upload' or 'file' saver.
-		'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+    // The profiler itself checks whether it should be enabled
+    // for request (executes lambda function from config)
+    $profiler->enable();
 
-		'save.handler.file' => array(
-			// Appends jsonlines formatted data to this path
-			'filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
-		),
-
-		// Saving profile data by upload is only recommended with HTTPS
-		// endpoints that have IP whitelists applied.
-		'save.handler.upload' => array(
-			'uri' => 'https://example.com/run/import',
-			// The timeout option is in seconds and defaults to 3 if unspecified.
-			'timeout' => 3,
-			// the token must match 'upload.token' config in xhgui
-			'token' => 'token',
-		),
-
-		// For MongoDB
-		'save.handler.mongodb' => array(
-			'dsn' => 'mongodb://127.0.0.1:27017',
-			'database' => 'xhprof',
-			// Allows you to pass additional options like replicaSet to MongoClient.
-			// 'username', 'password' and 'db' (where the user is added)
-			'options' => array(),
-		),
-
-		'save.handler.pdo' => array(
-			'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
-			'user' => null,
-			'pass' => null,
-			'table' => 'results'
-		),
-
-		'profiler.options' => array(),
-
-		// Environment variables to exclude from profiling data
-		'profiler.exclude-env' => array(
-			'APP_DATABASE_PASSWORD',
-			'PATH',
-		),
-
-		/**
-		 * Determine whether profiler should run.
-		 * This default implementation just disables the profiler.
-		 * Override this with your custom logic in your config
-		 * @return bool
-		 */
-		'profiler.enable' => function () {
-			return false;
-		},
-	);
-	/**
-	 * The constructor will throw an exception if the environment
-	 * isn't fit for profiling (extensions missing, other problems)
-	 */
-	$profiler = new \Xhgui\Profiler\Profiler($profilerConfig);
-
-	// The profiler itself checks whether it should be enabled
-	// for request (executes lambda function from config)
-	$profiler->enable();
-
-	// shutdown handler collects and stores the data.
-	$profiler->registerShutdownHandler();
+    // shutdown handler collects and stores the data.
+    $profiler->registerShutdownHandler();
 } catch (Exception $e){
-	// throw away or log error about profiling instantiation failure
+    // throw away or log error about profiling instantiation failure
 }
 ```
 
 ## Advanced Usage
 
-You might want to control capture and sending yourself, perhaps modify data before sending.
+You might want to control capture and sending yourself,
+perhaps modify data before sending.
 
 ```php
 /** @var \Xhgui\Profiler\Profiler $profiler */
@@ -186,6 +126,77 @@ $profiler_data = $profiler->disable();
 
 // send $profiler_data to saver
 $profiler->save($profiler_data);
+```
+
+## Config
+
+Here's full reference config that should give you idea what to configure.
+
+```php
+<?php
+$config = array(
+    'profiler.flags' => array(
+        \Xhgui\Profiler\ProfilingFlags::CPU,
+        \Xhgui\Profiler\ProfilingFlags::MEMORY,
+        \Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
+        \Xhgui\Profiler\ProfilingFlags::NO_SPANS,
+    ),
+
+    // Saver to use.
+    // Please note that 'pdo' and 'mongo' savers are deprecated
+    // Prefer 'upload' or 'file' saver.
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+
+    'save.handler.file' => array(
+        // Appends jsonlines formatted data to this path
+        'filename' => '/tmp/xhgui.data.' . microtime(true) . '_' . substr(md5($url), 0, 6),
+    ),
+
+    // Saving profile data by upload is only recommended with HTTPS
+    // endpoints that have IP whitelists applied.
+    'save.handler.upload' => array(
+        'uri' => 'https://example.com/run/import',
+        // The timeout option is in seconds and defaults to 3 if unspecified.
+        'timeout' => 3,
+        // the token must match 'upload.token' config in xhgui
+        'token' => 'token',
+    ),
+
+    // For MongoDB
+    'save.handler.mongodb' => array(
+        'dsn' => 'mongodb://127.0.0.1:27017',
+        'database' => 'xhprof',
+        // Allows you to pass additional options like replicaSet to MongoClient.
+        // 'username', 'password' and 'db' (where the user is added)
+        'options' => array(),
+    ),
+
+    'save.handler.pdo' => array(
+        'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+        'user' => null,
+        'pass' => null,
+        'table' => 'results'
+    ),
+
+    // Environment variables to exclude from profiling data
+    'profiler.exclude-env' => array(
+        'APP_DATABASE_PASSWORD',
+        'PATH',
+    ),
+
+    'profiler.options' => array(
+    ),
+
+    /**
+     * Determine whether profiler should run.
+     * This default implementation just disables the profiler.
+     * Override this with your custom logic in your config
+     * @return bool
+     */
+    'profiler.enable' => function () {
+        return false;
+    },
+);
 ```
 
 ## Run description
