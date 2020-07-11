@@ -205,6 +205,30 @@ $config = array(
 );
 ```
 
+## Using file saver
+
+If your site cannot directly connect to your XHGui instance, you can choose
+to save your data to a temporary file for a later import to XHGui.
+
+To configure profiler to save your data to a temporary file,
+change the `save.handler` setting to `file` and define your file's
+path with `save.handler.filename`.
+
+To import a saved files, use XHGui's provided `external/import.php` script.
+
+Be aware of file locking: depending on your workload, you may need to
+change the `save.handler.filename` file path to avoid file locking
+during the import.
+
+The following demonstrate the use of `external/import.php`:
+
+```bash
+php external/import.php -f /path/to/file
+```
+
+**Warning**: Importing the same file twice will load twice the run data into the database,
+resulting in duplicate profiles
+
 ## Run description
 
 When Profiler object constructed, it determines that requirements are in place, whether
