@@ -217,6 +217,35 @@ To save to files, use the following configuration:
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
+## Configure Profiling Rate
+
+You may want to change how frequently you profile the application.  The
+`profiler.enable` configuration option allows you to provide a callback
+function that specifies the requests that are profiled.
+
+The following example configures to profile 1 in 100 requests, excluding
+requests with the `/blog` URL path:
+
+```php
+    'profiler.enable' => function() {
+        $url = $_SERVER['REQUEST_URI'];
+        if (strpos($url, '/blog') === 0) {
+            return false;
+        }
+
+        return mt_rand(1, 100) === 42;
+    },
+```
+
+In contrast, the following example instructs to profile _every_
+request:
+
+```php
+    'profiler.enable' => function() {
+        return true;
+    },
+```
+
 ## Run description
 
 When Profiler object constructed, it determines that requirements are in place, whether
