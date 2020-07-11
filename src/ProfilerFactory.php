@@ -27,10 +27,12 @@ final class ProfilerFactory
             new Profilers\XHProf($config),
         );
 
-        $available = array_filter($adapters, function (ProfilerInterface $adapter) {
-            return $adapter->isSupported();
-        });
+        foreach ($adapters as $adapter) {
+            if ($adapter->isSupported()) {
+                return $adapter;
+            }
+        }
 
-        return current($available) ?: null;
+        return null;
     }
 }
