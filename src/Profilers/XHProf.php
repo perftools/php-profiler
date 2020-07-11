@@ -8,7 +8,7 @@ class XHProf extends AbstractProfiler
 {
     const EXTENSION_NAME = 'xhprof';
 
-    /** @var int */
+    /** @var array */
     private $flags;
 
     /**
@@ -18,10 +18,10 @@ class XHProf extends AbstractProfiler
      */
     private $options;
 
-    public function __construct(array $config)
+    public function __construct(array $flags, array $options)
     {
-        $this->flags = $this->combineFlags($config['profiler.flags'], $this->getProfileFlagMap());
-        $this->options = $config['profiler.options'];
+        $this->flags = $flags;
+        $this->options = $options;
     }
 
     public function isSupported()
@@ -34,7 +34,9 @@ class XHProf extends AbstractProfiler
      */
     public function enable()
     {
-        xhprof_enable($this->flags, $this->options);
+        $flags = $this->combineFlags($this->flags, $this->getProfileFlagMap());
+
+        xhprof_enable($flags, $this->options);
     }
 
     public function disable()

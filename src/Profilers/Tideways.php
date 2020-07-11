@@ -13,16 +13,16 @@ class Tideways extends AbstractProfiler
 {
     const EXTENSION_NAME = 'tideways';
 
-    /** @var int */
+    /** @var array */
     private $flags;
 
     /** @var array */
     private $options;
 
-    public function __construct(array $config)
+    public function __construct(array $flags, array $options)
     {
-        $this->flags = $this->combineFlags($config['profiler.flags'], $this->getProfileFlagMap());
-        $this->options = $config['profiler.options'];
+        $this->flags = $flags;
+        $this->options = $options;
     }
 
     public function isSupported()
@@ -32,7 +32,9 @@ class Tideways extends AbstractProfiler
 
     public function enable()
     {
-        tideways_enable($this->flags, $this->options);
+        $flags = $this->combineFlags($this->flags, $this->getProfileFlagMap());
+
+        tideways_enable($flags, $this->options);
     }
 
     public function disable()

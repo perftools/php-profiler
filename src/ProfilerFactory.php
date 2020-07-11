@@ -23,16 +23,16 @@ final class ProfilerFactory
     {
         $adapters = array(
             Profiler::PROFILER_TIDEWAYS_XHPROF => function ($config) {
-                return new Profilers\TidewaysXHProf($config);
+                return new Profilers\TidewaysXHProf($config['profiler.flags']);
             },
             Profiler::PROFILER_TIDEWAYS => function ($config) {
-                return new Profilers\Tideways($config);
+                return new Profilers\Tideways($config['profiler.flags'], $config['profiler.options']);
             },
             Profiler::PROFILER_UPROFILER => function ($config) {
-                return new Profilers\UProfiler($config);
+                return new Profilers\UProfiler($config['profiler.flags'], $config['profiler.options']);
             },
             Profiler::PROFILER_XHPROF => function ($config) {
-                return new Profilers\XHProf($config);
+                return new Profilers\XHProf($config['profiler.flags'], $config['profiler.options']);
             },
         );
 
