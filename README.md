@@ -15,13 +15,8 @@ Supported profilers:
 [Tideways XHProf]: https://github.com/tideways/php-xhprof-extension
 [UProfiler]: https://github.com/FriendsOfPHP/uprofiler
 
-This profiling library will auto-detect what you have installed and use that.
-
-The preference order is currently as follows:
-1. `tideways_xhprof`
-1. `tideways`
-1. `uprofiler`
-1. `xhprof`
+This profiling library will auto-detect any supported profiler and use that.
+The specific profiler can be choosen by 'profiler' config key.
 
 DON'T RELY ON THIS PREFERENCE ORDER IN PRODUCTION ENVIRONMENTS.
 
@@ -141,6 +136,10 @@ Here's full reference config that should give you idea what to configure.
 ```php
 <?php
 $config = array(
+    // If defined, use specific profiler
+    // otherwise use any profiler that's found
+    'profiler' => \Xhgui\Profiler\Profiler::PROFILER_TIDEWAYS_XHPROF,
+
     'profiler.flags' => array(
         \Xhgui\Profiler\ProfilingFlags::CPU,
         \Xhgui\Profiler\ProfilingFlags::MEMORY,

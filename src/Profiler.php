@@ -15,6 +15,11 @@ class Profiler
     const SAVER_MONGODB = 'mongodb';
     const SAVER_PDO = 'pdo';
 
+    const PROFILER_TIDEWAYS = 'tideways';
+    const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';
+    const PROFILER_UPROFILER = 'uprofiler';
+    const PROFILER_XHPROF = 'xhprof';
+
     /**
      * Profiler configuration.
      *

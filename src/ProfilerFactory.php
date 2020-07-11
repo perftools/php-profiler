@@ -2,6 +2,7 @@
 
 namespace Xhgui\Profiler;
 
+use RuntimeException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 
 final class ProfilerFactory
@@ -21,13 +22,33 @@ final class ProfilerFactory
     public static function create(array $config)
     {
         $adapters = array(
-            new Profilers\TidewaysXHProf($config),
-            new Profilers\Tideways($config),
-            new Profilers\UProfiler($config),
-            new Profilers\XHProf($config),
+            Profiler::PROFILER_TIDEWAYS_XHPROF => function ($config) {
+                return new Profilers\TidewaysXHProf($config);
+            },
+            Profiler::PROFILER_TIDEWAYS => function ($config) {
+                return new Profilers\Tideways($config);
+            },
+            Profiler::PROFILER_UPROFILER => function ($config) {
+                return new Profilers\UProfiler($config);
+            },
+            Profiler::PROFILER_XHPROF => function ($config) {
+                return new Profilers\XHProf($config);
+            },
         );
 
-        foreach ($adapters as $adapter) {
+        if (isset($config['profiler'])) {
+            $profiler = $config['profiler'];
+            if (!isset($adapters[$profiler])) {
+                throw new RuntimeException("Specified profiler '$profiler' is not supported");
+            }
+
+            $adapters = array(
+                $profiler => $adapters[$profiler],
+            );
+        }
+
+        foreach ($adapters as $profiler => $factory) {
+            $adapter = $factory($config);
             if ($adapter->isSupported()) {
                 return $adapter;
             }
