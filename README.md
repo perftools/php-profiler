@@ -222,19 +222,6 @@ To save to files, use the following configuration:
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
-Be aware of file locking: depending on your workload, you may need to
-change the `save.handler.filename` file path to avoid file locking
-during the import.
-
-The following demonstrate the use of `external/import.php`:
-
-```bash
-php external/import.php -f /path/to/file
-```
-
-**Warning**: Importing the same file twice will load twice the run data into the database,
-resulting in duplicate profiles
-
 ## Run description
 
 When Profiler object constructed, it determines that requirements are in place, whether
