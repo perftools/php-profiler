@@ -19,7 +19,7 @@ class Tideways extends AbstractProfiler
     /** @var array */
     private $options;
 
-    public function __construct(array $flags, array $options)
+    public function __construct(array $flags = array(), array $options = array())
     {
         $this->flags = $flags;
         $this->options = $options;

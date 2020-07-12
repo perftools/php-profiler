@@ -16,7 +16,7 @@ class TidewaysXHProf extends AbstractProfiler
     /** @var array */
     private $flags;
 
-    public function __construct(array $flags)
+    public function __construct(array $flags = array())
     {
         $this->flags = $flags;
     }
