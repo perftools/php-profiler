@@ -113,7 +113,7 @@ perhaps modify data before sending.
 ```php
 /** @var \Xhgui\Profiler\Profiler $profiler */
 // start profiling
-$profiler->enable();
+$profiler->enable($flags, $options);
 
 // run program
 foo();

@@ -75,7 +75,7 @@ class Profiler
     /**
      * Enables profiling for the current request / CLI execution
      */
-    public function enable()
+    public function enable($flags = null, $options = null)
     {
         $this->running = false;
         if (!$this->shouldRun) {
@@ -93,7 +93,14 @@ class Profiler
             return;
         }
 
-        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
+        if ($flags === null) {
+            $flags = $this->config['profiler.flags'];
+        }
+        if ($options === null) {
+            $flags = $this->config['profiler.options'];
+        }
+
+        $profiler->enable($flags, $options);
         $this->running = true;
     }
 
