@@ -11,8 +11,11 @@ interface ProfilerInterface
 
     /**
      * Enable profiling.
+     *
+     * @param array $flags
+     * @param array $options
      */
-    public function enable();
+    public function enable($flags = array(), $options = array());
 
     /**
      * Disable (stop) the profiler. Return the collected data.

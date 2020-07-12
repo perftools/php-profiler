@@ -21,17 +21,17 @@ final class ProfilerFactory
     public static function create(array $config)
     {
         $adapters = array(
-            Profiler::PROFILER_TIDEWAYS_XHPROF => function ($config) {
-                return new Profilers\TidewaysXHProf($config['profiler.flags']);
+            Profiler::PROFILER_TIDEWAYS_XHPROF => function () {
+                return new Profilers\TidewaysXHProf();
             },
-            Profiler::PROFILER_TIDEWAYS => function ($config) {
-                return new Profilers\Tideways($config['profiler.flags'], $config['profiler.options']);
+            Profiler::PROFILER_TIDEWAYS => function () {
+                return new Profilers\Tideways();
             },
-            Profiler::PROFILER_UPROFILER => function ($config) {
-                return new Profilers\UProfiler($config['profiler.flags'], $config['profiler.options']);
+            Profiler::PROFILER_UPROFILER => function () {
+                return new Profilers\UProfiler();
             },
-            Profiler::PROFILER_XHPROF => function ($config) {
-                return new Profilers\XHProf($config['profiler.flags'], $config['profiler.options']);
+            Profiler::PROFILER_XHPROF => function () {
+                return new Profilers\XHProf();
             },
         );
 

@@ -13,14 +13,6 @@ class TidewaysXHProf extends AbstractProfiler
 {
     const EXTENSION_NAME = 'tideways_xhprof';
 
-    /** @var array */
-    private $flags;
-
-    public function __construct(array $flags = array())
-    {
-        $this->flags = $flags;
-    }
-
     public function isSupported()
     {
         return extension_loaded(self::EXTENSION_NAME);
@@ -29,11 +21,9 @@ class TidewaysXHProf extends AbstractProfiler
     /**
      * @see https://github.com/tideways/php-xhprof-extension#usage
      */
-    public function enable()
+    public function enable($flags = array(), $options = array())
     {
-        $flags = $this->combineFlags($this->flags, $this->getProfileFlagMap());
-
-        tideways_xhprof_enable($flags);
+        tideways_xhprof_enable($this->combineFlags($flags, $this->getProfileFlagMap()));
     }
 
     public function disable()

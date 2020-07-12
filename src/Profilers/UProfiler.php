@@ -8,28 +8,14 @@ class UProfiler extends AbstractProfiler
 {
     const EXTENSION_NAME = 'uprofiler';
 
-    /** @var array */
-    private $flags;
-
-    /** @var array */
-    private $options;
-
-    public function __construct(array $flags = array(), array $options = array())
-    {
-        $this->flags = $flags;
-        $this->options = $options;
-    }
-
     public function isSupported()
     {
         return extension_loaded(self::EXTENSION_NAME);
     }
 
-    public function enable()
+    public function enable($flags = array(), $options = array())
     {
-        $flags = $this->combineFlags($this->flags, $this->getProfileFlagMap());
-
-        uprofiler_enable($flags, $this->options);
+        uprofiler_enable($this->combineFlags($flags, $this->getProfileFlagMap()), $options);
     }
 
     public function disable()

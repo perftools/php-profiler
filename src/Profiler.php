@@ -93,7 +93,7 @@ class Profiler
             return;
         }
 
-        $profiler->enable();
+        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
         $this->running = true;
     }
 
