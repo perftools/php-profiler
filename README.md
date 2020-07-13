@@ -178,6 +178,26 @@ To save to files, use the following configuration:
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
+## Using MongoDB saver
+
+For saving directly to MongoDB you would need [ext-mongo] for PHP 5
+and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7:
+
+for PHP 5:
+```
+pecl install mongo
+```
+
+for PHP 7:
+```
+pecl install mongodb
+composer require alcaeus/mongo-php-adapter
+```
+
+[ext-mongo]: https://pecl.php.net/mongo
+[ext-mongodb]: https://pecl.php.net/mongodb
+[alcaeus/mongo-php-adapter]: https://github.com/alcaeus/mongo-php-adapter
+
 ## Configure Profiling Rate
 
 You may want to change how frequently you profile the application.  The
@@ -241,21 +261,8 @@ calls for finishing profiling and storing the data.
 [1]: https://packagist.org/packages/perftools/xhgui-collector
 [2]: src/ProfilingFlags.php
 
-
 ## Installing profilers
 
-### Mongo
-
-For PHP 5:
-```
-pecl install mongo
-```
-
-for PHP 7:
-```
-pecl install mongodb
-composer require alcaeus/mongo-php-adapter
-```
 
 ### XHProf
 
