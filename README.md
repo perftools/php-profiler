@@ -16,65 +16,13 @@ Supported profilers:
 [UProfiler]: https://github.com/FriendsOfPHP/uprofiler
 
 This profiling library will auto-detect any supported profiler and use that.
-The specific profiler can be choosen by 'profiler' config key.
+The specific profiler can be choosen by `profiler` config key.
 
 ## Goals
 
  - Compatibility with PHP >= 5.3.0
  - No dependencies aside from the relevant extensions
  - Customizable and configurable so you can build your own logic on top of it
-
-## Installing profilers
-
-### Mongo
-
-For PHP 5:
-```
-pecl install mongo
-```
-
-for PHP 7:
-```
-pecl install mongodb
-composer require alcaeus/mongo-php-adapter
-```
-
-### XHProf
-
-```
-pecl install xhprof-beta
-```
-
-### Tideways (4.x)
-
-```
-curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
-cd php-xhprof-extension-4.1.6/
-phpize
-./configure
-make
-make install
-echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
-```
-
-### Tideways XHProf (5.+)
-
-To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
-
-[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
-[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
-
-Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
-
-```
-brew install glensc/tap/php@7.1-tideways-xhprof
-brew install kabel/pecl/php@7.2-tideways-xhprof
-brew install kabel/pecl/php@7.3-tideways-xhprof
-brew install kabel/pecl/php-tideways-xhprof
-```
-
-[kabel/pecl]: https://github.com/kabel/homebrew-pecl
-[glensc/tap]: https://github.com/glensc/homebrew-tap
 
 ## Usage
 
@@ -292,3 +240,56 @@ calls for finishing profiling and storing the data.
 
 [1]: https://packagist.org/packages/perftools/xhgui-collector
 [2]: src/ProfilingFlags.php
+
+
+## Installing profilers
+
+### Mongo
+
+For PHP 5:
+```
+pecl install mongo
+```
+
+for PHP 7:
+```
+pecl install mongodb
+composer require alcaeus/mongo-php-adapter
+```
+
+### XHProf
+
+```
+pecl install xhprof-beta
+```
+
+### Tideways (4.x)
+
+```
+curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
+cd php-xhprof-extension-4.1.6/
+phpize
+./configure
+make
+make install
+echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
+```
+
+### Tideways XHProf (5.+)
+
+To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
+
+[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
+[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
+
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+
+```
+brew install glensc/tap/php@7.1-tideways-xhprof
+brew install kabel/pecl/php@7.2-tideways-xhprof
+brew install kabel/pecl/php@7.3-tideways-xhprof
+brew install kabel/pecl/php-tideways-xhprof
+```
+
+[kabel/pecl]: https://github.com/kabel/homebrew-pecl
+[glensc/tap]: https://github.com/glensc/homebrew-tap
