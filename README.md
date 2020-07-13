@@ -26,10 +26,25 @@ The specific profiler can be choosen by `profiler` config key.
 
 ## Usage
 
-In order to profile your application, add it as a dependency, then
-configure it and choose a place to start profiling from.
+In order to profile your application, you need to:
+- [Install this package](#installation)
+- [Install profiler extension](#installing-profilers)
+- [Instantiate the profiler](#create-profiler)
+- [Configure profiler to send data to XHGui](#config)
 
-Most likely you'll have something like
+## Installation
+
+The supported way to install this package is via [composer]:
+
+```
+composer require perftools/php-profiler
+```
+
+[composer]: https://getcomposer.org/
+
+## Create profiler
+
+Creating profiler would be something like this:
 
 ```php
 <?php
@@ -75,7 +90,7 @@ $profiler->save($profiler_data);
 
 ## Config
 
-Here's full reference config that should give you idea what to configure.
+Here's a reference config of what can be configured.
 
 ```php
 <?php
@@ -84,6 +99,7 @@ $config = array(
     // otherwise use any profiler that's found
     'profiler' => \Xhgui\Profiler\Profiler::PROFILER_TIDEWAYS_XHPROF,
 
+    // This allows to configure, what profiling data to capture
     'profiler.flags' => array(
         \Xhgui\Profiler\ProfilingFlags::CPU,
         \Xhgui\Profiler\ProfilingFlags::MEMORY,
@@ -95,37 +111,6 @@ $config = array(
     // Please note that 'pdo' and 'mongo' savers are deprecated
     // Prefer 'upload' or 'file' saver.
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
-
-    'save.handler.file' => array(
-        // Appends jsonlines formatted data to this path
-        'filename' => '/tmp/xhgui.data.jsonl',
-    ),
-
-    // Saving profile data by upload is only recommended with HTTPS
-    // endpoints that have IP whitelists applied.
-    'save.handler.upload' => array(
-        'uri' => 'https://example.com/run/import',
-        // The timeout option is in seconds and defaults to 3 if unspecified.
-        'timeout' => 3,
-        // the token must match 'upload.token' config in xhgui
-        'token' => 'token',
-    ),
-
-    // For MongoDB
-    'save.handler.mongodb' => array(
-        'dsn' => 'mongodb://127.0.0.1:27017',
-        'database' => 'xhprof',
-        // Allows you to pass additional options like replicaSet to MongoClient.
-        // 'username', 'password' and 'db' (where the user is added)
-        'options' => array(),
-    ),
-
-    'save.handler.pdo' => array(
-        'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
-        'user' => null,
-        'pass' => null,
-        'table' => 'results'
-    ),
 
     // Environment variables to exclude from profiling data
     'profiler.exclude-env' => array(
@@ -161,9 +146,20 @@ $config = array(
 );
 ```
 
-## Using upload saver
+## Savers
+
+To deliver captured data to XHGui, you will need one of the savers to submit to the datastore XHGui uses.
+
+- [Upload saver](#upload-saver)
+- [File saver](#file-saver)
+- [MongoDB Saver](#mongodb-saver)
+- [PDO Saver](#pdo-saver)
+
+### Upload saver
 
 This is the recommended saver as it's the easiest to set up.
+
+Example config:
 
 ```php
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
@@ -179,12 +175,12 @@ This is the recommended saver as it's the easiest to set up.
     ),
 ```
 
-## Using file saver
+### File saver
 
 If your site cannot directly connect to your XHGui instance, you can choose
 to save your data to a temporary file for a later import to XHGui.
 
-To save to files, use the following configuration:
+Example config:
 
 ```php
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_FILE,
@@ -196,7 +192,7 @@ To save to files, use the following configuration:
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
-## Using MongoDB saver
+### MongoDB Saver
 
 For saving directly to MongoDB you would need [ext-mongo] for PHP 5
 and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7:
@@ -215,6 +211,35 @@ composer require alcaeus/mongo-php-adapter
 [ext-mongo]: https://pecl.php.net/mongo
 [ext-mongodb]: https://pecl.php.net/mongodb
 [alcaeus/mongo-php-adapter]: https://github.com/alcaeus/mongo-php-adapter
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_MONGODB,
+    'save.handler.mongodb' => array(
+        'dsn' => 'mongodb://127.0.0.1:27017',
+        'database' => 'xhprof',
+        // Allows you to pass additional options like replicaSet to MongoClient.
+        // 'username', 'password' and 'db' (where the user is added)
+        'options' => array(),
+    ),
+```
+
+### PDO Saver
+
+PDO Saver should be able to save to any PDO driver connection.
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_PDO,
+    'save.handler.pdo' => array(
+        'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+        'user' => null,
+        'pass' => null,
+        'table' => 'results'
+    ),
+```
 
 ## Configure Profiling Rate
 
@@ -281,6 +306,8 @@ calls for finishing profiling and storing the data.
 
 ## Installing profilers
 
+For this library to capture profiling data, you would need any of the profiler extension.
+Depending on your environment (PHP version), you may need to install different extension.
 
 ### XHProf
 
