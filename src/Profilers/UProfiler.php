@@ -15,21 +15,15 @@ class UProfiler extends AbstractProfiler
 
     public function enable($flags = array(), $options = array())
     {
-        uprofiler_enable($this->combineFlags($flags), $options);
+        uprofiler_enable($this->combineFlags($flags, $this->getProfileFlagMap()), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disable()
     {
         return uprofiler_disable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProfileFlagMap()
+    private function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => UPROFILER_FLAGS_CPU,

@@ -15,6 +15,11 @@ class Profiler
     const SAVER_MONGODB = 'mongodb';
     const SAVER_PDO = 'pdo';
 
+    const PROFILER_TIDEWAYS = 'tideways';
+    const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';
+    const PROFILER_UPROFILER = 'uprofiler';
+    const PROFILER_XHPROF = 'xhprof';
+
     /**
      * Profiler configuration.
      *
@@ -70,7 +75,7 @@ class Profiler
     /**
      * Enables profiling for the current request / CLI execution
      */
-    public function enable()
+    public function enable($flags = null, $options = null)
     {
         $this->running = false;
         if (!$this->shouldRun) {
@@ -88,14 +93,21 @@ class Profiler
             return;
         }
 
-        $profiler->enable($this->config['profiler.flags'], $this->config['profiler.options']);
+        if ($flags === null) {
+            $flags = $this->config['profiler.flags'];
+        }
+        if ($options === null) {
+            $flags = $this->config['profiler.options'];
+        }
+
+        $profiler->enable($flags, $options);
         $this->running = true;
     }
 
     private function getProfiler()
     {
         if ($this->profiler === null) {
-            $this->profiler = ProfilerFactory::create() ?: false;
+            $this->profiler = ProfilerFactory::create($this->config) ?: false;
         }
 
         return $this->profiler ?: null;

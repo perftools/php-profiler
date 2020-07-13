@@ -13,23 +13,23 @@ class XHProf extends AbstractProfiler
         return extension_loaded(self::EXTENSION_NAME);
     }
 
+    /**
+     * @see https://www.php.net/manual/en/function.xhprof-enable.php
+     */
     public function enable($flags = array(), $options = array())
     {
-        xhprof_enable($this->combineFlags($flags), $options);
+        xhprof_enable($this->combineFlags($flags, $this->getProfileFlagMap()), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disable()
     {
         return xhprof_disable();
     }
 
     /**
-     * {@inheritdoc}
+     * @see https://www.php.net/manual/en/xhprof.constants.php
      */
-    public function getProfileFlagMap()
+    private function getProfileFlagMap()
     {
         /*
          * This is disabled on PHP 5.5+ as it causes a segfault

@@ -20,21 +20,15 @@ class Tideways extends AbstractProfiler
 
     public function enable($flags = array(), $options = array())
     {
-        tideways_enable($this->combineFlags($flags), $options);
+        tideways_enable($this->combineFlags($flags, $this->getProfileFlagMap()), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disable()
     {
         return tideways_disable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProfileFlagMap()
+    private function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => TIDEWAYS_FLAGS_CPU,

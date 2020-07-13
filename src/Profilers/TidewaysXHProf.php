@@ -18,23 +18,20 @@ class TidewaysXHProf extends AbstractProfiler
         return extension_loaded(self::EXTENSION_NAME);
     }
 
+    /**
+     * @see https://github.com/tideways/php-xhprof-extension#usage
+     */
     public function enable($flags = array(), $options = array())
     {
-        tideways_xhprof_enable($this->combineFlags($flags));
+        tideways_xhprof_enable($this->combineFlags($flags, $this->getProfileFlagMap()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disable()
     {
         return tideways_xhprof_disable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProfileFlagMap()
+    private function getProfileFlagMap()
     {
         return array(
             ProfilingFlags::CPU => TIDEWAYS_XHPROF_FLAGS_CPU,
