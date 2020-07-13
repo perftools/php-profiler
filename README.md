@@ -277,6 +277,25 @@ By default, all numeric values in the query string are removed.
 
 The URL argument is the `REQUEST_URI` or `argv` value.
 
+## Configure ignored functions
+
+You can use the `profiler.options` configuration value to set additional options
+for the profiler extension. This is useful when you want to exclude specific
+functions from your profiler data:
+
+```php
+    'profiler.options' => array(
+        'ignored_functions' => array(
+            'call_user_func',
+            'call_user_func_array',
+        ),
+    ),
+);
+```
+
+In addition, if you do not want to profile all PHP built-in functions,
+Add `ProfilingFlags::NO_BUILTINS, to 'profiler.flags'.
+
 ## Run description
 
 When Profiler object constructed, it determines that requirements are in place, whether
