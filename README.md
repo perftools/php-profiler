@@ -161,6 +161,24 @@ $config = array(
 );
 ```
 
+## Using upload saver
+
+This is the recommended saver as it's the easiest to set up.
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+
+    // Saving profile data by upload is only recommended with HTTPS
+    // endpoints that have IP whitelists applied.
+    'save.handler.upload' => array(
+        'uri' => 'https://example.com/run/import',
+        // The timeout option is in seconds and defaults to 3 if unspecified.
+        'timeout' => 3,
+        // the token must match 'upload.token' config in XHGui
+        'token' => 'token',
+    ),
+```
+
 ## Using file saver
 
 If your site cannot directly connect to your XHGui instance, you can choose
