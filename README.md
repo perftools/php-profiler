@@ -197,6 +197,19 @@ $config = array(
     'profiler.enable' => function () {
         return false;
     },
+
+    /**
+     * Creates a simplified URL given a standard URL.
+     * Does the following transformations:
+     *
+     * - Remove numeric values after =.
+     *
+     * @param string $url
+     * @return string
+     */
+    'profile.simple_url' => function($url) {
+        return preg_replace('/=\d+/', '', $url);;
+    },
 );
 ```
 
@@ -245,6 +258,24 @@ request:
         return true;
     },
 ```
+
+## Configure 'Simple' URLs Creation
+
+This library generates 'simple' URLs for each profile collected. These URLs are
+used to generate the aggregate data used on the URL view. Since different
+applications have different requirements for how URLs map to logical blocks of
+code, the `profile.simple_url` configuration option allows you to provide
+specify the logic used to generate the simple URL.
+
+By default, all numeric values in the query string are removed.
+
+```php
+    'profile.simple_url' => function($url) {
+        return $url;
+    },
+```
+
+The URL argument is the `REQUEST_URI` or `argv` value.
 
 ## Run description
 
