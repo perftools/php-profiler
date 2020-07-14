@@ -16,7 +16,7 @@ Supported profilers:
 [UProfiler]: https://github.com/FriendsOfPHP/uprofiler
 
 This profiling library will auto-detect any supported profiler and use that.
-The specific profiler can be choosen by 'profiler' config key.
+The specific profiler can be choosen by `profiler` config key.
 
 ## Goals
 
@@ -24,64 +24,27 @@ The specific profiler can be choosen by 'profiler' config key.
  - No dependencies aside from the relevant extensions
  - Customizable and configurable so you can build your own logic on top of it
 
-## Installing profilers
-
-### Mongo
-
-For PHP 5:
-```
-pecl install mongo
-```
-
-for PHP 7:
-```
-pecl install mongodb
-composer require alcaeus/mongo-php-adapter
-```
-
-### XHProf
-
-```
-pecl install xhprof-beta
-```
-
-### Tideways (4.x)
-
-```
-curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
-cd php-xhprof-extension-4.1.6/
-phpize
-./configure
-make
-make install
-echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
-```
-
-### Tideways XHProf (5.+)
-
-To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
-
-[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
-[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
-
-Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
-
-```
-brew install glensc/tap/php@7.1-tideways-xhprof
-brew install kabel/pecl/php@7.2-tideways-xhprof
-brew install kabel/pecl/php@7.3-tideways-xhprof
-brew install kabel/pecl/php-tideways-xhprof
-```
-
-[kabel/pecl]: https://github.com/kabel/homebrew-pecl
-[glensc/tap]: https://github.com/glensc/homebrew-tap
-
 ## Usage
 
-In order to profile your application, add it as a dependency, then
-configure it and choose a place to start profiling from.
+In order to profile your application, you need to:
+- [Install this package](#installation)
+- [Install profiler extension](#installing-profilers)
+- [Instantiate the profiler](#create-profiler)
+- [Configure profiler to send data to XHGui](#config)
 
-Most likely you'll have something like
+## Installation
+
+The supported way to install this package is via [composer]:
+
+```
+composer require perftools/php-profiler
+```
+
+[composer]: https://getcomposer.org/
+
+## Create profiler
+
+Creating profiler would be something like this:
 
 ```php
 <?php
@@ -127,7 +90,7 @@ $profiler->save($profiler_data);
 
 ## Config
 
-Here's full reference config that should give you idea what to configure.
+Here's a reference config of what can be configured.
 
 ```php
 <?php
@@ -136,6 +99,7 @@ $config = array(
     // otherwise use any profiler that's found
     'profiler' => \Xhgui\Profiler\Profiler::PROFILER_TIDEWAYS_XHPROF,
 
+    // This allows to configure, what profiling data to capture
     'profiler.flags' => array(
         \Xhgui\Profiler\ProfilingFlags::CPU,
         \Xhgui\Profiler\ProfilingFlags::MEMORY,
@@ -147,37 +111,6 @@ $config = array(
     // Please note that 'pdo' and 'mongo' savers are deprecated
     // Prefer 'upload' or 'file' saver.
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
-
-    'save.handler.file' => array(
-        // Appends jsonlines formatted data to this path
-        'filename' => '/tmp/xhgui.data.jsonl',
-    ),
-
-    // Saving profile data by upload is only recommended with HTTPS
-    // endpoints that have IP whitelists applied.
-    'save.handler.upload' => array(
-        'uri' => 'https://example.com/run/import',
-        // The timeout option is in seconds and defaults to 3 if unspecified.
-        'timeout' => 3,
-        // the token must match 'upload.token' config in xhgui
-        'token' => 'token',
-    ),
-
-    // For MongoDB
-    'save.handler.mongodb' => array(
-        'dsn' => 'mongodb://127.0.0.1:27017',
-        'database' => 'xhprof',
-        // Allows you to pass additional options like replicaSet to MongoClient.
-        // 'username', 'password' and 'db' (where the user is added)
-        'options' => array(),
-    ),
-
-    'save.handler.pdo' => array(
-        'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
-        'user' => null,
-        'pass' => null,
-        'table' => 'results'
-    ),
 
     // Environment variables to exclude from profiling data
     'profiler.exclude-env' => array(
@@ -213,12 +146,41 @@ $config = array(
 );
 ```
 
-## Using file saver
+## Savers
+
+To deliver captured data to XHGui, you will need one of the savers to submit to the datastore XHGui uses.
+
+- [Upload saver](#upload-saver)
+- [File saver](#file-saver)
+- [MongoDB Saver](#mongodb-saver)
+- [PDO Saver](#pdo-saver)
+
+### Upload saver
+
+This is the recommended saver as it's the easiest to set up.
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+
+    // Saving profile data by upload is only recommended with HTTPS
+    // endpoints that have IP whitelists applied.
+    'save.handler.upload' => array(
+        'uri' => 'https://example.com/run/import',
+        // The timeout option is in seconds and defaults to 3 if unspecified.
+        'timeout' => 3,
+        // the token must match 'upload.token' config in XHGui
+        'token' => 'token',
+    ),
+```
+
+### File saver
 
 If your site cannot directly connect to your XHGui instance, you can choose
 to save your data to a temporary file for a later import to XHGui.
 
-To save to files, use the following configuration:
+Example config:
 
 ```php
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_FILE,
@@ -229,6 +191,55 @@ To save to files, use the following configuration:
 ```
 
 To import a saved files, use XHGui's provided `external/import.php` script.
+
+### MongoDB Saver
+
+For saving directly to MongoDB you would need [ext-mongo] for PHP 5
+and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7:
+
+for PHP 5:
+```
+pecl install mongo
+```
+
+for PHP 7:
+```
+pecl install mongodb
+composer require alcaeus/mongo-php-adapter
+```
+
+[ext-mongo]: https://pecl.php.net/mongo
+[ext-mongodb]: https://pecl.php.net/mongodb
+[alcaeus/mongo-php-adapter]: https://github.com/alcaeus/mongo-php-adapter
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_MONGODB,
+    'save.handler.mongodb' => array(
+        'dsn' => 'mongodb://127.0.0.1:27017',
+        'database' => 'xhprof',
+        // Allows you to pass additional options like replicaSet to MongoClient.
+        // 'username', 'password' and 'db' (where the user is added)
+        'options' => array(),
+    ),
+```
+
+### PDO Saver
+
+PDO Saver should be able to save to any PDO driver connection.
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_PDO,
+    'save.handler.pdo' => array(
+        'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+        'user' => null,
+        'pass' => null,
+        'table' => 'results'
+    ),
+```
 
 ## Configure Profiling Rate
 
@@ -311,3 +322,45 @@ calls for finishing profiling and storing the data.
 
 [1]: https://packagist.org/packages/perftools/xhgui-collector
 [2]: src/ProfilingFlags.php
+
+## Installing profilers
+
+For this library to capture profiling data, you would need any of the profiler extension.
+Depending on your environment (PHP version), you may need to install different extension.
+
+### XHProf
+
+```
+pecl install xhprof-beta
+```
+
+### Tideways (4.x)
+
+```
+curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
+cd php-xhprof-extension-4.1.6/
+phpize
+./configure
+make
+make install
+echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
+```
+
+### Tideways XHProf (5.+)
+
+To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
+
+[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
+[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
+
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+
+```
+brew install glensc/tap/php@7.1-tideways-xhprof
+brew install kabel/pecl/php@7.2-tideways-xhprof
+brew install kabel/pecl/php@7.3-tideways-xhprof
+brew install kabel/pecl/php-tideways-xhprof
+```
+
+[kabel/pecl]: https://github.com/kabel/homebrew-pecl
+[glensc/tap]: https://github.com/glensc/homebrew-tap
