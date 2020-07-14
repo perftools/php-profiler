@@ -155,6 +155,10 @@ class Profiler
 
         flush();
 
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        }
+
         try {
             $this->stop();
         } catch (Exception $e) {
