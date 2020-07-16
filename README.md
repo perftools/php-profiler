@@ -5,15 +5,10 @@ A PHP profiling library based on [XHGUI Data Collector][1].
 This project replaces `header.php` approach from xhgui-collector with object based approach.
 
 Supported profilers:
- - [Tideways XHProf] v5.x - PHP >= 7.0
- - [Tideways] v4.x - PHP >= 7.0
- - [UProfiler] - PHP >= 5.3, < PHP 7.0
- - [XHProf] - PHP >= 5.3, < PHP 7.0
-
-[XHProf]: https://pecl.php.net/package/xhprof
-[Tideways]: https://tideways.io/profiler/downloads
-[Tideways XHProf]: https://github.com/tideways/php-xhprof-extension
-[UProfiler]: https://github.com/FriendsOfPHP/uprofiler
+ - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0
+ - [Tideways v4.x](#tideways-4x): PHP >= 7.0
+ - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
+ - [XHProf](#xhprof): PHP >= 5.3, < PHP 7.0
 
 This profiling library will auto-detect any supported profiler and use that.
 The specific profiler can be choosen by `profiler` config key.
@@ -330,11 +325,29 @@ Depending on your environment (PHP version), you may need to install different e
 
 ### XHProf
 
+[XHProf] supports all PHP versions.
+
+- `xhprof` 0.9.x requires PHP >= 5.3, < PHP 7.0
+- `xhprof` 2.x requires PHP >= 7.0
+
+for PHP 5:
 ```
-pecl install xhprof-beta
+pecl install xhprof-0.9.4
 ```
 
+for PHP 7:
+```
+pecl install xhprof
+```
+
+[XHProf]: https://pecl.php.net/package/xhprof
+
+
 ### Tideways (4.x)
+
+[Tideways] 4.x extension requires with PHP >= 7.0.
+
+To install `tideways` extension, see their [installation documentation][Tideways].
 
 ```
 curl -sSfL https://github.com/tideways/php-xhprof-extension/archive/v4.1.6.tar.gz | tar zx
@@ -346,11 +359,15 @@ make install
 echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc/php/7.1/conf.d/ext-tideways.ini
 ```
 
+[Tideways]: https://tideways.com/profiler/downloads
+
 ### Tideways XHProf (5.+)
 
-To install [tideways_xhprof], see their [installation documentation][tideways-xhprof-install].
+[Tideways XHProf v5.x][tideways_xhprof] requires PHP >= 7.0.
 
-[tideways_xhprof]: https://github.com/tideways/php-profiler-extension
+To install `tideways_xhprof` extension, see their [installation documentation][tideways-xhprof-install].
+
+[tideways_xhprof]: https://github.com/tideways/php-xhprof-extension
 [tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
 
 Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
@@ -364,3 +381,12 @@ brew install kabel/pecl/php-tideways-xhprof
 
 [kabel/pecl]: https://github.com/kabel/homebrew-pecl
 [glensc/tap]: https://github.com/glensc/homebrew-tap
+
+### UProfiler
+
+[UProfiler] requires PHP >= 5.3, < PHP 7.0
+
+To install `uprofiler` extension, see their [installation documentation][uprofiler-install].
+
+[UProfiler]: https://github.com/FriendsOfPHP/uprofiler
+[uprofiler-install]: https://github.com/FriendsOfPHP/uprofiler#installing-the-uprofiler-extension
