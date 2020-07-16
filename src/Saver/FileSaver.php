@@ -15,10 +15,6 @@ class FileSaver implements SaverInterface
 
     public function isSupported()
     {
-        if (!function_exists('json_encode')) {
-            return false;
-        }
-
         try {
             return is_writable(dirname($this->file));
         } catch (Exception $e) {
