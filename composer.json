@@ -30,6 +30,8 @@
 		"perftools/xhgui-collector": "^1.8"
 	},
 	"suggest": {
+		"ext-curl": "cURL extension for upload saver",
+		"ext-json": "JSON extension for upload saver",
 		"ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
 		"ext-mongodb": "mongodb extension (PHP>=5.4,<7.3)",
 		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)"

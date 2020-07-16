@@ -15,9 +15,20 @@ final class SaverFactory
      */
     public static function create($saveHandler, array $config = array())
     {
-        switch ($config['save.handler']) {
+        switch ($saveHandler) {
             case Profiler::SAVER_FILE:
-                $saver = new Saver\FileSaver($config['save.handler.file']['filename']);
+                $saverConfig = array_merge(array(
+                    'filename' => null,
+                ), $config['save.handler.file']);
+                $saver = new Saver\FileSaver($saverConfig['filename']);
+                break;
+            case Profiler::SAVER_UPLOAD:
+                $saverConfig = array_merge(array(
+                    'uri' => null,
+                    'token' => null,
+                    'timeout' => 3,
+                ), $config['save.handler.upload']);
+                $saver = new Saver\UploadSaver($saverConfig['uri'], $saverConfig['token'], $saverConfig['timeout']);
                 break;
             default:
                 // create via xhgui-collector
@@ -44,17 +55,6 @@ final class SaverFactory
     private static function migrateConfig(array $config, $saveHandler)
     {
         switch ($saveHandler) {
-            case Profiler::SAVER_UPLOAD:
-                if (isset($config['save.handler.upload']['uri']) && !isset($config['save.handler.upload.uri'])) {
-                    $config['save.handler.upload.uri'] = $config['save.handler.upload']['uri'];
-                }
-                if (isset($config['save.handler.upload.timeout']) && !isset($config['save.handler.upload']['timeout'])) {
-                    $config['save.handler.upload.timeout'] = $config['save.handler.upload']['timeout'];
-                }
-                if (!empty($config['save.handler.upload']['token'])) {
-                    $config['save.handler.upload.uri'] .= '?token=' . $config['save.handler.upload']['token'];
-                }
-                break;
             case Profiler::SAVER_MONGODB:
                 if (isset($config['save.handler.mongodb']['dsn']) && !isset($config['db.host'])) {
                     $config['db.host'] = $config['save.handler.mongodb']['dsn'];
@@ -83,7 +83,6 @@ final class SaverFactory
         $adapters = array(
             new Saver\PdoSaver($saver),
             new Saver\MongoSaver($saver),
-            new Saver\UploadSaver($saver),
         );
 
         $available = array_filter($adapters, function (SaverInterface $adapter) {
