@@ -2,6 +2,7 @@
 
 namespace Xhgui\Profiler;
 
+use RuntimeException;
 use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui_Saver;
 use Xhgui_Saver_Interface;
@@ -32,6 +33,9 @@ final class SaverFactory
                 break;
             default:
                 // create via xhgui-collector
+                if (!class_exists('\Xhgui_Saver')) {
+                    throw new RuntimeException("For {$saveHandler} you need to install xhgui-collector package: composer require perftools/xhgui-collector");
+                }
                 $config = self::migrateConfig($config, $saveHandler);
                 $legacySaver = Xhgui_Saver::factory($config);
                 $saver = static::getAdapter($legacySaver);
