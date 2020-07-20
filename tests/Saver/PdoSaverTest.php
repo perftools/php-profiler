@@ -14,7 +14,7 @@ class PdoSaverTest extends TestCase
     public function setUp()
     {
         $config = array(
-            'pdo' => array(
+            'save.handler.pdo' => array(
                 'dsn' => sprintf('sqlite:%s/php-profiler-test-save.sqlite3', sys_get_temp_dir()),
                 'user' => 'xhgui',
                 'pass' => 'xhgui',

@@ -14,9 +14,11 @@ class MongoSaverTest extends TestCase
     public function setUp()
     {
         $config = array(
-            'db.host' => 'mongodb://127.0.0.1:27017',
-            'db.db' => getenv('XHGUI_MONGO_DB') ?: 'xhprof',
-            'db.options' => array(),
+            'save.handler.mongodb' => array(
+                'dsn' => 'mongodb://127.0.0.1:27017',
+                'database' => getenv('XHGUI_MONGO_DB') ?: 'xhprof',
+                'options' => array(),
+            ),
         );
         $this->saver = $this->createSaver('mongodb', $config);
     }

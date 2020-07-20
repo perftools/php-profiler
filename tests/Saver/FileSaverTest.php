@@ -14,7 +14,9 @@ class FileSaverTest extends TestCase
     public function setUp()
     {
         $config = array(
-            'save.handler.filename' => sys_get_temp_dir() . '/php-profiler-test-save.json',
+            'save.handler.file' => array(
+                'filename' => sys_get_temp_dir() . '/php-profiler-test-save.json',
+            ),
         );
         $this->saver = $this->createSaver('file', $config);
     }
