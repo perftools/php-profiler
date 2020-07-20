@@ -19,7 +19,7 @@ final class SaverFactory
             case Profiler::SAVER_FILE:
                 $saverConfig = array_merge(array(
                     'filename' => null,
-                ), $config['save.handler.file']);
+                ), isset($config['save.handler.file']) ? $config['save.handler.file'] : array());
                 $saver = new Saver\FileSaver($saverConfig['filename']);
                 break;
             case Profiler::SAVER_UPLOAD:
@@ -27,7 +27,7 @@ final class SaverFactory
                     'uri' => null,
                     'token' => null,
                     'timeout' => 3,
-                ), $config['save.handler.upload']);
+                ), isset($config['save.handler.upload']) ? $config['save.handler.upload'] : array());
                 $saver = new Saver\UploadSaver($saverConfig['uri'], $saverConfig['token'], $saverConfig['timeout']);
                 break;
             default:
