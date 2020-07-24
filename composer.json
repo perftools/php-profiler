@@ -29,6 +29,9 @@
 		"php": "^5.3.0 || ^7.0 || ^8.0",
 		"ext-json": "*"
 	},
+	"conflict": {
+		"perftools/xhgui-collector": "<1.8"
+	},
 	"suggest": {
 		"ext-curl": "cURL extension for upload saver",
 		"ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
