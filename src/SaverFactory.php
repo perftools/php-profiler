@@ -56,18 +56,18 @@ final class SaverFactory
     {
         switch ($saveHandler) {
             case Profiler::SAVER_MONGODB:
-                if (isset($config['save.handler.mongodb']['dsn']) && !isset($config['db.host'])) {
+                if (isset($config['save.handler.mongodb']['dsn'])) {
                     $config['db.host'] = $config['save.handler.mongodb']['dsn'];
                 }
-                if (isset($config['save.handler.mongodb']['database']) && !isset($config['db.db'])) {
+                if (isset($config['save.handler.mongodb']['database'])) {
                     $config['db.db'] = $config['save.handler.mongodb']['database'];
                 }
-                if (isset($config['save.handler.mongodb']['options']) && !isset($config['db.options'])) {
+                if (isset($config['save.handler.mongodb']['options'])) {
                     $config['db.options'] = $config['save.handler.mongodb']['options'];
                 }
                 break;
             case Profiler::SAVER_PDO:
-                if (isset($config['save.handler.pdo']) && !isset($config['pdo'])) {
+                if (isset($config['save.handler.pdo'])) {
                     $config['pdo'] = $config['save.handler.pdo'];
                 }
                 break;
