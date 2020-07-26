@@ -97,7 +97,7 @@ class Profiler
             $flags = $this->config['profiler.flags'];
         }
         if ($options === null) {
-            $flags = $this->config['profiler.options'];
+            $options = $this->config['profiler.options'];
         }
 
         $profiler->enable($flags, $options);
