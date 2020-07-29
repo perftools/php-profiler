@@ -12,6 +12,12 @@ die() {
 	exit 1
 }
 
+install_xhprof() {
+    local version="${1:-stable}"
+
+    pecl install xhprof-$version
+}
+
 install_mongo() {
     pecl install mongo
 }
@@ -47,6 +53,7 @@ case "$(uname -s):$PHP_VERSION" in
 	install_mongo
 	;;
 Linux:7.*)
+	install_xhprof
 	install_mongodb
 	install_tideways_xhprof
 	;;
