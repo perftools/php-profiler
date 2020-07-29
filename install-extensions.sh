@@ -28,7 +28,7 @@ install_uprofiler() {
     git clone "$url" --depth=1 uprofiler
     cd uprofiler/extension
     phpize
-    ./configure --with-php-config=path-to-php-config
+    ./configure
     make
     make install
     cd ../..
