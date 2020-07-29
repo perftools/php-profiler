@@ -1,7 +1,8 @@
 language: php
 os: linux
 dist: trusty
-
+services:
+  - mongodb
 env:
   - PHPUNIT_VERSION=7.5
 
@@ -39,7 +40,9 @@ cache:
     - vendor
 
 install:
-  - composer install --no-interaction --prefer-dist
+  - composer config preferred-install dist
+  - composer remove --dev alcaeus/mongo-php-adapter --no-update
+  - composer install
   - composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
   - ./install-extensions.sh || true
 

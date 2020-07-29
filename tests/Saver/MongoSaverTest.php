@@ -6,7 +6,6 @@ use Xhgui\Profiler\Saver\MongoSaver;
 use Xhgui\Profiler\Test\TestCase;
 
 /**
- * @requires extension mongodb
  * @property MongoSaver $saver
  */
 class MongoSaverTest extends TestCase
