@@ -23,7 +23,7 @@ install_mongo() {
 }
 
 install_mongodb() {
-    pecl install mongodb
+    php -m | grep -q mongodb || pecl install mongodb
     composer require --dev alcaeus/mongo-php-adapter
 }
 
