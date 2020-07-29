@@ -24,7 +24,9 @@ class SuiteTest extends TestCase
                 return true;
             },
             'save.handler' => Profiler::SAVER_FILE,
-            'save.handler.filename' => $this->profileStorage,
+            'save.handler.file' => array(
+                'filename' => $this->profileStorage,
+            ),
         );
 
         try {
