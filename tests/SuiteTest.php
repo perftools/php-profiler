@@ -18,7 +18,7 @@ class SuiteTest extends TestCase
     public function setUp()
     {
         $runId = sprintf('xhgui-test-%f-%04x', microtime(true), mt_rand(1, 0xffff));
-        $this->profileStorage = sys_get_temp_dir() . '/php-profiler-' . $runId . '.json';
+        $this->profileStorage = __DIR__ . '/tmp/php-profiler-' . $runId . '.json';
         $config = array(
             'profiler.enable' => function () {
                 return true;
