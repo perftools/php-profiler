@@ -61,8 +61,8 @@ install_tideways_xhprof() {
 
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
-	install_xhprof 0.9.4
 	install_uprofiler
+	install_xhprof 0.9.4
 	install_mongo
 	;;
 Linux:7.*)
