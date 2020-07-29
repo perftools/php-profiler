@@ -23,7 +23,7 @@ class SuiteTest extends TestCase
             'profiler.enable' => function () {
                 return true;
             },
-            'save.handler' => 'file',
+            'save.handler' => Profiler::SAVER_FILE,
             'save.handler.filename' => $this->profileStorage,
         );
 
