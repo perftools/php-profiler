@@ -27,6 +27,11 @@ class XHProfTest extends TestCase
             ProfilingFlags::NO_BUILTINS,
         );
         $data = $this->runProfiler($flags);
-        $this->assertCount(2, $data);
+
+        $expected = array(
+            'main()==>Xhgui\Profiler\Profilers\XHProf::disable',
+            'main()',
+        );
+        $this->assertSame($expected, array_keys($data));
     }
 }
