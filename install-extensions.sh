@@ -19,7 +19,7 @@ install_xhprof() {
 }
 
 install_mongo() {
-    pecl install mongo
+    echo no | pecl install mongo
 }
 
 install_mongodb() {
