@@ -2,12 +2,12 @@
 
 namespace Xhgui\Profiler\Saver;
 
-use Xhgui_Saver_Interface;
-
-interface SaverInterface extends Xhgui_Saver_Interface
+interface SaverInterface
 {
     /**
      * @return bool
      */
     public function isSupported();
+
+    public function save(array $data);
 }
