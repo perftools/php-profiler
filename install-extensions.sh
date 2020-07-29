@@ -12,6 +12,14 @@ die() {
 	exit 1
 }
 
+install_mongo() {
+    pecl install mongo
+}
+
+install_mongodb() {
+    pecl install mongodb
+}
+
 install_tideways_xhprof() {
 	local version=$TIDEWAYS_XHPROF_VERSION
 	local arch=$(uname -m)
@@ -33,7 +41,16 @@ install_tideways_xhprof() {
 }
 
 case "$(uname -s):$PHP_VERSION" in
+*:5.*)
+	install_xhprof 0.9.4
+	install_mongo
+	;;
 Linux:7.*)
+	install_mongodb
 	install_tideways_xhprof
+	;;
+*:7.*)
+	install_xhprof
+	install_mongodb
 	;;
 esac
