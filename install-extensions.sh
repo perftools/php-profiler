@@ -22,6 +22,18 @@ install_mongo() {
     echo no | pecl install mongo
 }
 
+install_uprofiler() {
+    local url=https://github.com/FriendsOfPHP/uprofiler
+
+    git clone "$url" --depth=1 uprofiler
+    cd uprofiler/extension
+    phpize
+    ./configure --with-php-config=path-to-php-config
+    make
+    make install
+    cd ../..
+}
+
 install_mongodb() {
     php -m | grep -q mongodb || pecl install -f mongodb
     composer require --dev alcaeus/mongo-php-adapter
@@ -50,6 +62,7 @@ install_tideways_xhprof() {
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
+	install_uprofiler
 	install_mongo
 	;;
 Linux:7.*)
