@@ -54,6 +54,14 @@ class Profiler
     private $running;
 
     /**
+     * If true, session is closed, buffers are flushed and fcgi request is finished on shutdown handler
+     * Disable this if this conflicts with your framework.
+     *
+     * @var bool
+     */
+    private $flush;
+
+    /**
      * Profiler constructor.
      *
      * @param array $config
@@ -128,12 +136,13 @@ class Profiler
      *
      * @see Profiler::shutDown
      */
-    public function registerShutdownHandler()
+    public function registerShutdownHandler($flush = true)
     {
         // do not register shutdown function if the profiler isn't running
         if (!$this->running) {
             return;
         }
+        $this->flush = $flush;
 
         register_shutdown_function(array($this, 'shutDown'));
     }
@@ -143,6 +152,18 @@ class Profiler
      */
     public function shutDown()
     {
+        if ($this->flush) {
+            $this->flush();
+        }
+
+        try {
+            $this->stop();
+        } catch (Exception $e) {
+            return;
+        }
+    }
+
+    private function flush() {
         // ignore_user_abort(true) allows your PHP script to continue executing, even if the user has terminated their request.
         // Further Reading: http://blog.preinheimer.com/index.php?/archives/248-When-does-a-user-abort.html
         // flush() asks PHP to send any data remaining in the output buffers. This is normally done when the script completes, but
@@ -157,12 +178,6 @@ class Profiler
 
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
-        }
-
-        try {
-            $this->stop();
-        } catch (Exception $e) {
-            return;
         }
     }
 
