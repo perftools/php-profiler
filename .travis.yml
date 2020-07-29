@@ -1,7 +1,8 @@
 language: php
 os: linux
 dist: trusty
-
+services:
+  - mongodb
 env:
   - PHPUNIT_VERSION=7.5
 
