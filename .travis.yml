@@ -39,7 +39,8 @@ cache:
     - vendor
 
 install:
-  - composer install --no-interaction --prefer-dist
+  - composer config preferred-install dist
+  - composer install
   - composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
   - ./install-extensions.sh || true
 
