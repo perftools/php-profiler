@@ -15,11 +15,7 @@ class FileSaver implements SaverInterface
 
     public function isSupported()
     {
-        try {
-            return is_writable(dirname($this->file));
-        } catch (Exception $e) {
-            return false;
-        }
+        return is_writable(dirname($this->file));
     }
 
     public function save(array $data)
