@@ -6,6 +6,7 @@ use Exception;
 
 class FileSaver implements SaverInterface
 {
+    /** @var string */
     private $file;
 
     public function __construct($file)
@@ -20,9 +21,8 @@ class FileSaver implements SaverInterface
 
     public function save(array $data)
     {
-        $fileName = $this->file;
         $json = json_encode($data);
 
-        return file_put_contents($fileName, $json . PHP_EOL, FILE_APPEND);
+        return file_put_contents($this->file, $json . PHP_EOL, FILE_APPEND);
     }
 }
