@@ -65,10 +65,10 @@ class Profiler
         $shouldRunFunction = $this->config['profiler.enable'];
         $this->shouldRun = is_callable($shouldRunFunction) ? $shouldRunFunction() : false;
         if (!$this->getProfiler()) {
-            throw new RuntimeException('Unable to create profiler: no suitable profiler found');
+            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
         }
         if (!$this->getSaver()) {
-            throw new RuntimeException('Unable to create profiler: unable to save data');
+            throw new RuntimeException('Unable to create profiler: Unable to create saver');
         }
     }
 
