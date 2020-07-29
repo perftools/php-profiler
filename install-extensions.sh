@@ -18,6 +18,7 @@ install_mongo() {
 
 install_mongodb() {
     pecl install mongodb
+    composer require --dev alcaeus/mongo-php-adapter
 }
 
 install_tideways_xhprof() {
