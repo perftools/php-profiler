@@ -6,9 +6,9 @@ This project replaces `header.php` approach from xhgui-collector with object bas
 
 Supported profilers:
  - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0
+ - [XHProf](#xhprof): PHP >= 5.3, PHP >= 7.0
  - [Tideways v4.x](#tideways-4x): PHP >= 7.0
  - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
- - [XHProf](#xhprof): PHP >= 5.3, PHP >= 7.0
 
 This profiling library will auto-detect any supported profiler and use that.
 The specific profiler can be choosen by `profiler` config key.
