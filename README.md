@@ -340,6 +340,14 @@ for PHP 7:
 pecl install xhprof
 ```
 
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] tap:
+
+```
+brew install kabel/pecl/php@7.2-xhprof
+brew install kabel/pecl/php@7.3-xhprof
+brew install kabel/pecl/php-xhprof
+```
+
 [XHProf]: https://pecl.php.net/package/xhprof
 
 
