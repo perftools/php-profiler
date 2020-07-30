@@ -2,8 +2,6 @@
 
 namespace Xhgui\Profiler\Saver;
 
-use Exception;
-
 class FileSaver implements SaverInterface
 {
     /** @var string */
