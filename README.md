@@ -63,6 +63,14 @@ try {
 }
 ```
 
+If you need to disable profiler doing `flush`, `session_write_close` and
+`fastcgi_finish_request` at the end of profiling, pass `false` to register
+shutdown handler:
+
+```php
+$profiler->registerShutdownHandler(false);
+```
+
 ## Advanced Usage
 
 You might want to control capture and sending yourself,
