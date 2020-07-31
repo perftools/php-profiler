@@ -181,7 +181,7 @@ class Profiler
              * @return bool
              */
             function () {
-                return false;
+                return true;
             };
 
         return array_replace(Xhgui_Config::all(),
