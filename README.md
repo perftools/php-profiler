@@ -54,10 +54,7 @@ try {
 
     // The profiler itself checks whether it should be enabled
     // for request (executes lambda function from config)
-    $profiler->enable();
-
-    // shutdown handler collects and stores the data.
-    $profiler->registerShutdownHandler();
+    $profiler->start();
 } catch (Exception $e){
     // throw away or log error about profiling instantiation failure
 }
@@ -68,7 +65,7 @@ If you need to disable profiler doing `flush`, `session_write_close` and
 shutdown handler:
 
 ```php
-$profiler->registerShutdownHandler(false);
+$profiler->start(false);
 ```
 
 ## Advanced Usage

@@ -136,13 +136,12 @@ class Profiler
      *
      * @see Profiler::shutDown
      */
-    public function registerShutdownHandler($flush = true)
+    private function registerShutdownHandler()
     {
         // do not register shutdown function if the profiler isn't running
         if (!$this->running) {
             return;
         }
-        $this->flush = $flush;
 
         register_shutdown_function(array($this, 'shutDown'));
     }
@@ -231,9 +230,13 @@ class Profiler
     /**
      * This is an alias for method "enable"
      */
-    public function start()
+    public function start($flush = true)
     {
         $this->enable();
+
+        $this->flush = $flush;
+        // shutdown handler collects and stores the data.
+        $this->registerShutdownHandler();
     }
 
     /**
