@@ -83,6 +83,11 @@ class Profiler
             throw new RuntimeException('Unable to create profiler: No suitable profiler found');
         }
 
+        $saver = $this->getSaver();
+        if (!$saver) {
+            throw new RuntimeException('Unable to create saver');
+        }
+
         if ($flags === null) {
             $flags = $this->config['profiler.flags'];
         }
@@ -260,7 +265,14 @@ class Profiler
             return array();
         }
 
-        $profile = new ProfilingData($this->profiler->disable(), $this->config);
+        $profiler = $this->getProfiler();
+        if (!$profiler) {
+            // error for unable to create profiler already thrown in enable() method
+            // but this can also happen if methods are called out of sync
+            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
+        }
+
+        $profile = new ProfilingData($profiler->disable(), $this->config);
         $this->running = false;
 
         return $profile->getProfilingData();
@@ -279,6 +291,8 @@ class Profiler
 
         $saver = $this->getSaver();
         if (!$saver) {
+            // error for unable to create saver already thrown in enable() method
+            // but this can also happen if methods are called out of sync
             throw new RuntimeException('Unable to create profiler: Unable to create saver');
         }
 
