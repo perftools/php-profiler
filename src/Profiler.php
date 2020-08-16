@@ -40,13 +40,6 @@ class Profiler
     private $profiler;
 
     /**
-     * Result of config `profiler.enable` function execution.
-     *
-     * @var bool
-     */
-    private $shouldRun;
-
-    /**
      * Simple state variable to hold the value of 'Is the profiler running or not?'
      *
      * @var bool
@@ -70,14 +63,6 @@ class Profiler
     public function __construct(array $config)
     {
         $this->config = array_replace($this->getDefaultConfig(), $config);
-        $shouldRunFunction = $this->config['profiler.enable'];
-        $this->shouldRun = is_callable($shouldRunFunction) ? $shouldRunFunction() : false;
-        if (!$this->getProfiler()) {
-            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
-        }
-        if (!$this->getSaver()) {
-            throw new RuntimeException('Unable to create profiler: Unable to create saver');
-        }
     }
 
     /**
@@ -86,9 +71,6 @@ class Profiler
     public function enable($flags = null, $options = null)
     {
         $this->running = false;
-        if (!$this->shouldRun) {
-            return;
-        }
 
         // 'REQUEST_TIME_FLOAT' isn't available before 5.4.0
         // https://www.php.net/manual/en/reserved.variables.server.php
@@ -98,7 +80,12 @@ class Profiler
 
         $profiler = $this->getProfiler();
         if (!$profiler) {
-            return;
+            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
+        }
+
+        $saver = $this->getSaver();
+        if (!$saver) {
+            throw new RuntimeException('Unable to create saver');
         }
 
         if ($flags === null) {
@@ -131,18 +118,29 @@ class Profiler
     }
 
     /**
+     * Returns value of `profiler.enable` function evaluation
+     *
+     * @return bool
+     */
+    private function shouldRun()
+    {
+        $closure = $this->config['profiler.enable'];
+
+        return is_callable($closure) ? $closure() : false;
+    }
+
+    /**
      * Calls register_shutdown_function .
      * Registers this class' shutDown method as the shutdown handler
      *
      * @see Profiler::shutDown
      */
-    public function registerShutdownHandler($flush = true)
+    private function registerShutdownHandler()
     {
         // do not register shutdown function if the profiler isn't running
         if (!$this->running) {
             return;
         }
-        $this->flush = $flush;
 
         register_shutdown_function(array($this, 'shutDown'));
     }
@@ -163,7 +161,8 @@ class Profiler
         }
     }
 
-    private function flush() {
+    private function flush()
+    {
         // ignore_user_abort(true) allows your PHP script to continue executing, even if the user has terminated their request.
         // Further Reading: http://blog.preinheimer.com/index.php?/archives/248-When-does-a-user-abort.html
         // flush() asks PHP to send any data remaining in the output buffers. This is normally done when the script completes, but
@@ -229,11 +228,19 @@ class Profiler
     }
 
     /**
-     * This is an alias for method "enable"
+     * Evaluate profiler.enable condition, and start profiling if that returned true.
      */
-    public function start()
+    public function start($flush = true)
     {
+        if (!$this->shouldRun()) {
+            return;
+        }
+
         $this->enable();
+
+        $this->flush = $flush;
+        // shutdown handler collects and stores the data.
+        $this->registerShutdownHandler();
     }
 
     /**
@@ -258,7 +265,14 @@ class Profiler
             return array();
         }
 
-        $profile = new ProfilingData($this->profiler->disable(), $this->config);
+        $profiler = $this->getProfiler();
+        if (!$profiler) {
+            // error for unable to create profiler already thrown in enable() method
+            // but this can also happen if methods are called out of sync
+            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
+        }
+
+        $profile = new ProfilingData($profiler->disable(), $this->config);
         $this->running = false;
 
         return $profile->getProfilingData();
@@ -275,7 +289,14 @@ class Profiler
             return;
         }
 
-        $this->saveHandler->save($data);
+        $saver = $this->getSaver();
+        if (!$saver) {
+            // error for unable to create saver already thrown in enable() method
+            // but this can also happen if methods are called out of sync
+            throw new RuntimeException('Unable to create profiler: Unable to create saver');
+        }
+
+        $saver->save($data);
     }
 
     /**
