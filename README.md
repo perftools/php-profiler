@@ -140,8 +140,8 @@ $config = array(
      * @param string $url
      * @return string
      */
-    'profile.simple_url' => function($url) {
-        return preg_replace('/=\d+/', '', $url);;
+    'profiler.simple_url' => function($url) {
+        return preg_replace('/=d+/', '', $url);
     },
 );
 ```
