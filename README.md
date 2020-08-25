@@ -140,8 +140,8 @@ $config = array(
      * @param string $url
      * @return string
      */
-    'profile.simple_url' => function($url) {
-        return preg_replace('/=\d+/', '', $url);;
+    'profiler.simple_url' => function($url) {
+        return preg_replace('/=d+/', '', $url);
     },
 );
 ```
@@ -195,17 +195,19 @@ To import a saved files, use XHGui's provided `external/import.php` script.
 ### MongoDB Saver
 
 For saving directly to MongoDB you would need [ext-mongo] for PHP 5
-and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7:
+and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7
+along with `perftools/xhgui-collector` package:
 
 for PHP 5:
 ```
 pecl install mongo
+composer require perftools/xhgui-collector
 ```
 
 for PHP 7:
 ```
 pecl install mongodb
-composer require alcaeus/mongo-php-adapter
+composer require perftools/xhgui-collector alcaeus/mongo-php-adapter
 ```
 
 [ext-mongo]: https://pecl.php.net/mongo
@@ -228,6 +230,12 @@ Example config:
 ### PDO Saver
 
 PDO Saver should be able to save to any PDO driver connection.
+
+You will need to install additionally `perftools/xhgui-collector` package:
+
+```
+composer require perftools/xhgui-collector
+```
 
 Example config:
 

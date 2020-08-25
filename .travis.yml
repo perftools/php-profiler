@@ -33,6 +33,49 @@ jobs:
     - php: "7.4"
     - php: "nightly"
 
+    # without perftools/xhgui-collector
+    - php: "5.3"
+      dist: precise
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=4.8
+    - php: "5.4"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=4.8
+    - php: "5.5"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=4.8
+    - php: "5.6"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=5.7
+    - php: "7.0"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=6.5
+    - php: "7.1"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
+    - php: "7.2"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
+    - php: "7.3"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
+    - php: "7.4"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
+    - php: "nightly"
+      env:
+      - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
+
 cache:
   apt: true
   directories:
@@ -45,6 +88,7 @@ install:
   - composer install
   - composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
   - ./install-extensions.sh || true
+  - if [ "$XHGUI_COLLECTOR" = "false" ]; then composer remove --dev perftools/xhgui-collector; fi
 
 script:
   - vendor/bin/phpunit --version

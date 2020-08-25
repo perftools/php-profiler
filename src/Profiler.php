@@ -6,7 +6,6 @@ use Exception;
 use RuntimeException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
-use Xhgui_Config;
 
 class Profiler
 {
@@ -24,8 +23,6 @@ class Profiler
      * Profiler configuration.
      *
      * @var array
-     * @see Xhgui_Config
-     * @see https://raw.githubusercontent.com/perftools/xhgui/6dac03aaa37df4b42d949bf4f8455573bea44e03/config/config.default.php
      */
     private $config;
 
@@ -182,15 +179,9 @@ class Profiler
 
     /**
      * @return array
-     * @see Xhgui_Config
      */
     private function getDefaultConfig()
     {
-        $file = $this->getDefaultConfigFile();
-        if ($file) {
-            Xhgui_Config::load($file);
-        }
-
         $defaultShouldRunFunction =
             /**
              * Determine whether profiler should run.
@@ -202,29 +193,26 @@ class Profiler
                 return true;
             };
 
-        return array_replace(Xhgui_Config::all(),
-            array(
-                'profiler.enable' => $defaultShouldRunFunction,
-                'profiler.flags' => array(),
-                'profiler.options' => array(),
-            )
+        return array(
+            'profiler.enable' => $defaultShouldRunFunction,
+            'profiler.flags' => array(),
+            'profiler.options' => array(),
+            'save.handler' => Profiler::SAVER_FILE,
+            'profiler.exclude-env' => array(),
+
+            /**
+             * Creates a simplified URL given a standard URL.
+             * Does the following transformations:
+             *
+             * - Remove numeric values after =.
+             *
+             * @param string $url
+             * @return string
+             */
+            'profiler.simple_url' => function ($url) {
+                return preg_replace('/=\d+/', '', $url);
+            },
         );
-    }
-
-    private function getDefaultConfigFile()
-    {
-        $paths = array(
-            // aside the vendor
-            dirname(dirname(dirname(__DIR__))) . '/perftools/xhgui-collector/config/config.default.php',
-        );
-
-        foreach ($paths as $path) {
-            if (file_exists($path)) {
-                return $path;
-            }
-        }
-
-        return null;
     }
 
     /**

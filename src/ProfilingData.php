@@ -2,20 +2,20 @@
 
 namespace Xhgui\Profiler;
 
-use Xhgui_Util;
-
 class ProfilingData
 {
     /** @var array */
     private $profile;
-
     /** @var array */
     private $excludeEnv;
+    /** @var callable */
+    private $simpleUrl;
 
     public function __construct(array $profile, array $config = array())
     {
         $this->profile = $profile;
         $this->excludeEnv = isset($config['profiler.exclude-env']) ? (array)$config['profiler.exclude-env'] : array();
+        $this->simpleUrl = isset($config['profiler.simple_url']) ? $config['profiler.simple_url'] : null;
     }
 
     /**
@@ -64,7 +64,7 @@ class ProfilingData
             'get' => $_GET,
             'env' => $this->getEnvironment($_ENV),
             'SERVER' => $serverMeta,
-            'simple_url' => Xhgui_Util::simpleUrl($uri),
+            'simple_url' => $this->getSimpleUrl($uri),
             'request_ts' => $requestTs,
             'request_ts_micro' => $requestTsMicro,
             'request_date' => date('Y-m-d', $time),
@@ -89,5 +89,24 @@ class ProfilingData
         }
 
         return $env;
+    }
+
+    /**
+     * Creates a simplified URL given a standard URL.
+     * Does the following transformations:
+     *
+     * - Remove numeric values after =.
+     *
+     * @param string $url
+     * @return string
+     */
+    private function getSimpleUrl($url)
+    {
+        $callable = $this->simpleUrl;
+        if (is_callable($callable)) {
+            return call_user_func($callable, $url);
+        }
+
+        return preg_replace('/=\d+/', '', $url);
     }
 }

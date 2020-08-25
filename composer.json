@@ -27,8 +27,13 @@
 	},
 	"require": {
 		"php": "^5.3.0 || ^7.0 || ^8.0",
-		"ext-json": "*",
+		"ext-json": "*"
+	},
+	"require-dev": {
 		"perftools/xhgui-collector": "^1.8"
+	},
+	"conflict": {
+		"perftools/xhgui-collector": "<1.8"
 	},
 	"suggest": {
 		"ext-curl": "cURL extension for upload saver",
@@ -37,10 +42,7 @@
 		"ext-tideways": "Use tideways to profile",
 		"ext-uprofiler": "Use uprofiler to profile",
 		"ext-xhprof": "Use xhprof to profile",
-		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)"
-	},
-	"require-dev": {
-		"ext-json": "*",
-		"alcaeus/mongo-php-adapter": "^1.1"
+		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-libary (PHP>=5.6)",
+		"perftools/xhgui-collector": "For mongodb or pdo savers"
 	}
 }
