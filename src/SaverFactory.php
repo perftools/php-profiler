@@ -41,7 +41,10 @@ final class SaverFactory
 
                 $savers = array();
                 foreach ($saverConfig['savers'] as $saver) {
-                    $savers[] = self::create($saver, $config);
+                    $instance = self::create($saver, $config);
+                    if ($instance) {
+                        $savers[] = $instance;
+                    }
                 }
                 $saver = new Saver\StackSaver($savers, $saverConfig['saveAll']);
                 break;
