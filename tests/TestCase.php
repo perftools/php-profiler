@@ -47,6 +47,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $result;
     }
 
+    protected function skipIfNoXhguiCollector()
+    {
+        if (!class_exists('\Xhgui_Saver')) {
+            $this->markTestSkipped('Optional dependency perftools/xhgui-collector missing');
+        }
+    }
+
     protected function assertExpectedProfilingData(array $data)
     {
         $this->assertArrayHasKey('profile', $data);

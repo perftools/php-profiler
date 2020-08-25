@@ -12,6 +12,7 @@ class MongoSaverTest extends TestCase
 {
     public function setUp()
     {
+        $this->skipIfNoXhguiCollector();
         $config = array(
             'save.handler.mongodb' => array(
                 'dsn' => 'mongodb://127.0.0.1:27017',
@@ -19,6 +20,7 @@ class MongoSaverTest extends TestCase
                 'options' => array(),
             ),
         );
+
         $this->saver = $this->createSaver('mongodb', $config);
     }
 
