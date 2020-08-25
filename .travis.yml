@@ -58,18 +58,23 @@ jobs:
     - php: "7.1"
       env:
       - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
     - php: "7.2"
       env:
       - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
     - php: "7.3"
       env:
       - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
     - php: "7.4"
       env:
       - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
     - php: "nightly"
       env:
       - XHGUI_COLLECTOR=false
+      - PHPUNIT_VERSION=7.5
 
 cache:
   apt: true
