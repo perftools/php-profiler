@@ -96,6 +96,9 @@ class Profiler
         $this->running = true;
     }
 
+    /**
+     * @return ProfilerInterface|null
+     */
     private function getProfiler()
     {
         if ($this->profiler === null) {
@@ -105,6 +108,9 @@ class Profiler
         return $this->profiler ?: null;
     }
 
+    /**
+     * @return SaverInterface|null
+     */
     private function getSaver()
     {
         if ($this->saveHandler === null) {
@@ -260,10 +266,10 @@ class Profiler
             throw new RuntimeException('Unable to create profiler: No suitable profiler found');
         }
 
-        $profile = new ProfilingData($profiler->disable(), $this->config);
+        $profile = new ProfilingData($this->config);
         $this->running = false;
 
-        return $profile->getProfilingData();
+        return $profile->getProfilingData($profiler->disable());
     }
 
     /**

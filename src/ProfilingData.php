@@ -5,15 +5,12 @@ namespace Xhgui\Profiler;
 class ProfilingData
 {
     /** @var array */
-    private $profile;
-    /** @var array */
     private $excludeEnv;
     /** @var callable */
     private $simpleUrl;
 
-    public function __construct(array $profile, array $config = array())
+    public function __construct(array $config = array())
     {
-        $this->profile = $profile;
         $this->excludeEnv = isset($config['profiler.exclude-env']) ? (array)$config['profiler.exclude-env'] : array();
         $this->simpleUrl = isset($config['profiler.simple_url']) ? $config['profiler.simple_url'] : null;
     }
@@ -23,7 +20,7 @@ class ProfilingData
      *
      * @return array
      */
-    public function getProfilingData()
+    public function getProfilingData(array $profile)
     {
         $uri = array_key_exists('REQUEST_URI', $_SERVER) ? $_SERVER['REQUEST_URI'] : null;
         if (empty($uri) && isset($_SERVER['argv'])) {
@@ -71,7 +68,7 @@ class ProfilingData
         );
 
         $data = array(
-            'profile' => $this->profile,
+            'profile' => $profile,
             'meta' => $meta,
         );
 
