@@ -68,9 +68,13 @@ final class SaverFactory
                 }
                 if (isset($config['save.handler.mongodb']['options'])) {
                     $config['db.options'] = $config['save.handler.mongodb']['options'];
+                } else {
+                    $config['db.options'] = array();
                 }
                 if (isset($config['save.handler.mongodb']['driverOptions'])) {
                     $config['db.driverOptions'] = $config['save.handler.mongodb']['driverOptions'];
+                } else {
+                    $config['db.driverOptions'] = array();
                 }
                 break;
             case Profiler::SAVER_PDO:
