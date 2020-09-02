@@ -224,6 +224,8 @@ Example config:
         // Allows you to pass additional options like replicaSet to MongoClient.
         // 'username', 'password' and 'db' (where the user is added)
         'options' => array(),
+        // Allows you to pass driver options like ca_file to MongoClient
+        'driverOptions' => array(),
     ),
 ```
 
