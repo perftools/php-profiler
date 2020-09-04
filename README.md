@@ -135,13 +135,26 @@ $config = array(
      * Creates a simplified URL given a standard URL.
      * Does the following transformations:
      *
-     * - Remove numeric values after =.
+     * - Remove numeric values after "=" in query string.
      *
      * @param string $url
      * @return string
      */
     'profiler.simple_url' => function($url) {
-        return preg_replace('/=d+/', '', $url);
+        return preg_replace('/=\d+/', '', $url);
+    },
+
+    /**
+     * Enable this to clean up the url before submitting it to XHGui.
+     * This way it is possible to remove sensitive data or discard any other data.
+     *
+     * The URL argument is the `REQUEST_URI` or `argv` value.
+     *
+     * @param string $url
+     * @return string
+     */
+    'profiler.replace_url' => function($url) {
+        return str_replace('token', '', $url);
     },
 );
 ```
@@ -286,17 +299,15 @@ This library generates 'simple' URLs for each profile collected. These URLs are
 used to generate the aggregate data used on the URL view. Since different
 applications have different requirements for how URLs map to logical blocks of
 code, the `profile.simple_url` configuration option allows you to provide
-specify the logic used to generate the simple URL.
+the logic used to generate the simple URL.
 
 By default, all numeric values in the query string are removed.
 
 ```php
     'profile.simple_url' => function($url) {
-        return $url;
+        return preg_replace('/=\d+/', '', $url);
     },
 ```
-
-The URL argument is the `REQUEST_URI` or `argv` value.
 
 ## Configure ignored functions
 

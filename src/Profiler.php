@@ -271,36 +271,18 @@ class Profiler
      */
     private function getDefaultConfig()
     {
-        $defaultShouldRunFunction =
-            /**
-             * Determine whether profiler should run.
-             * This default implementation just disables the profiler.
-             * Override this with your custom logic in your config
-             * @return bool
-             */
-            function () {
-                return true;
-            };
-
         return array(
-            'profiler.enable' => $defaultShouldRunFunction,
+            'save.handler' => Profiler::SAVER_FILE,
+            'profiler.enable' => function () {
+                return true;
+            },
             'profiler.flags' => array(),
             'profiler.options' => array(),
-            'save.handler' => Profiler::SAVER_FILE,
             'profiler.exclude-env' => array(),
-
-            /**
-             * Creates a simplified URL given a standard URL.
-             * Does the following transformations:
-             *
-             * - Remove numeric values after =.
-             *
-             * @param string $url
-             * @return string
-             */
             'profiler.simple_url' => function ($url) {
                 return preg_replace('/=\d+/', '', $url);
             },
+            'profiler.replace_url' => null,
         );
     }
 }
