@@ -25,14 +25,10 @@ class ProfilingData
     {
         $url = $this->getUrl();
 
-        $time = array_key_exists('REQUEST_TIME', $_SERVER) ? $_SERVER['REQUEST_TIME'] : time();
         $requestTimeFloat = explode('.', $_SERVER['REQUEST_TIME_FLOAT']);
         if (!isset($requestTimeFloat[1])) {
             $requestTimeFloat[1] = 0;
         }
-
-        $requestTs = array('sec' => $time, 'usec' => 0);
-        $requestTsMicro = array('sec' => $requestTimeFloat[0], 'usec' => $requestTimeFloat[1]);
 
         $allowedServerKeys = array(
             'PHP_SELF',
@@ -59,9 +55,10 @@ class ProfilingData
             'env' => $this->getEnvironment($_ENV),
             'SERVER' => $serverMeta,
             'simple_url' => $this->getSimpleUrl($url),
-            'request_ts' => $requestTs,
-            'request_ts_micro' => $requestTsMicro,
-            'request_date' => date('Y-m-d', $time),
+            'request_ts_micro' => array('sec' => $requestTimeFloat[0], 'usec' => $requestTimeFloat[1]),
+            // these are superfluous and should be dropped in the future
+            'request_ts' => array('sec' => $requestTimeFloat[0], 'usec' => 0),
+            'request_date' => date('Y-m-d', $requestTimeFloat[0]),
         );
 
         $data = array(
