@@ -63,6 +63,33 @@ class Profiler
     }
 
     /**
+     * Evaluate profiler.enable condition, and start profiling if that returned true.
+     */
+    public function start($flush = true)
+    {
+        if (!$this->shouldRun()) {
+            return;
+        }
+
+        $this->enable();
+
+        $this->flush = $flush;
+        // shutdown handler collects and stores the data.
+        $this->registerShutdownHandler();
+    }
+
+    /**
+     * Stop profiling. Get currently collected data and save it
+     */
+    public function stop()
+    {
+        $data = $this->disable();
+        $this->save($data);
+
+        return $data;
+    }
+
+    /**
      * Enables profiling for the current request / CLI execution
      */
     public function enable($flags = null, $options = null)
@@ -96,23 +123,61 @@ class Profiler
         $this->running = true;
     }
 
-    private function getProfiler()
+    /**
+     * Stop profiling. Return currently collected data
+     *
+     * @return array
+     */
+    public function disable()
     {
-        if ($this->profiler === null) {
-            $this->profiler = ProfilerFactory::create($this->config) ?: false;
+        if (!$this->running) {
+            return array();
         }
 
-        return $this->profiler ?: null;
-    }
-
-    private function getSaver()
-    {
-        if ($this->saveHandler === null) {
-            $this->saveHandler = SaverFactory::create($this->config['save.handler'], $this->config) ?: false;
+        $profiler = $this->getProfiler();
+        if (!$profiler) {
+            // error for unable to create profiler already thrown in enable() method
+            // but this can also happen if methods are called out of sync
+            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
         }
 
-        return $this->saveHandler ?: null;
+        $profile = new ProfilingData($this->config);
+        $this->running = false;
+
+        return $profile->getProfilingData($profiler->disable());
     }
+
+    /**
+     * Saves collected profiling data
+     *
+     * @param array $data
+     */
+    public function save(array $data = array())
+    {
+        if (!$data) {
+            return;
+        }
+
+        $saver = $this->getSaver();
+        if (!$saver) {
+            // error for unable to create saver already thrown in enable() method
+            // but this can also happen if methods are called out of sync
+            throw new RuntimeException('Unable to create profiler: Unable to create saver');
+        }
+
+        $saver->save($data);
+    }
+
+    /**
+     * Tells, if profiler is running or not
+     *
+     * @return bool
+     */
+    public function isRunning()
+    {
+        return $this->running;
+    }
+
 
     /**
      * Returns value of `profiler.enable` function evaluation
@@ -178,6 +243,30 @@ class Profiler
     }
 
     /**
+     * @return ProfilerInterface|null
+     */
+    private function getProfiler()
+    {
+        if ($this->profiler === null) {
+            $this->profiler = ProfilerFactory::create($this->config) ?: false;
+        }
+
+        return $this->profiler ?: null;
+    }
+
+    /**
+     * @return SaverInterface|null
+     */
+    private function getSaver()
+    {
+        if ($this->saveHandler === null) {
+            $this->saveHandler = SaverFactory::create($this->config['save.handler'], $this->config) ?: false;
+        }
+
+        return $this->saveHandler ?: null;
+    }
+
+    /**
      * @return array
      */
     private function getDefaultConfig()
@@ -213,87 +302,5 @@ class Profiler
                 return preg_replace('/=\d+/', '', $url);
             },
         );
-    }
-
-    /**
-     * Evaluate profiler.enable condition, and start profiling if that returned true.
-     */
-    public function start($flush = true)
-    {
-        if (!$this->shouldRun()) {
-            return;
-        }
-
-        $this->enable();
-
-        $this->flush = $flush;
-        // shutdown handler collects and stores the data.
-        $this->registerShutdownHandler();
-    }
-
-    /**
-     * Stop profiling. Get currently collected data and save it
-     */
-    public function stop()
-    {
-        $data = $this->disable();
-        $this->save($data);
-
-        return $data;
-    }
-
-    /**
-     * Stop profiling. Return currently collected data
-     *
-     * @return array
-     */
-    public function disable()
-    {
-        if (!$this->running) {
-            return array();
-        }
-
-        $profiler = $this->getProfiler();
-        if (!$profiler) {
-            // error for unable to create profiler already thrown in enable() method
-            // but this can also happen if methods are called out of sync
-            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
-        }
-
-        $profile = new ProfilingData($profiler->disable(), $this->config);
-        $this->running = false;
-
-        return $profile->getProfilingData();
-    }
-
-    /**
-     * Saves collected profiling data
-     *
-     * @param array $data
-     */
-    public function save(array $data = array())
-    {
-        if (!$data) {
-            return;
-        }
-
-        $saver = $this->getSaver();
-        if (!$saver) {
-            // error for unable to create saver already thrown in enable() method
-            // but this can also happen if methods are called out of sync
-            throw new RuntimeException('Unable to create profiler: Unable to create saver');
-        }
-
-        $saver->save($data);
-    }
-
-    /**
-     * Tells, if profiler is running or not
-     *
-     * @return bool
-     */
-    public function isRunning()
-    {
-        return $this->running;
     }
 }
