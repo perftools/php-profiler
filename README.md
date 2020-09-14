@@ -293,6 +293,20 @@ request:
     },
 ```
 
+## Profile using XHProf helper
+
+If you want to start profiling using a browser based tool like [XHProf helper], You can use this method:
+
+```php
+    'profiler.enable' => function() {
+        return !empty($_COOKIE['_profiler']);
+        // or
+        return !empty($_COOKIE['XHProf_Profile']);
+    },
+```
+
+[XHProf helper]: https://chrome.google.com/webstore/detail/xhprof-helper/adnlhmmjijeflmbmlpmhilkicpnodphi?hl=en
+
 ## Configure 'Simple' URLs Creation
 
 This library generates 'simple' URLs for each profile collected. These URLs are
