@@ -205,6 +205,34 @@ Example config:
 
 To import a saved files, use XHGui's provided `external/import.php` script.
 
+### Stack saver
+
+Allows saving to multiple handlers.
+Useful to fall back to file saver if the upload saver failed.
+
+Example config:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_STACK,
+    'save.handler.stack' => array(
+        'savers' => array(
+            \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+            \Xhgui\Profiler\Profiler::SAVER_FILE,
+        ),
+        // if saveAll=false, break the chain on successful save
+        'saveAll' => false,
+    ),
+    // subhandler specific configs
+    'save.handler.file' => array(
+        'filename' => '/tmp/xhgui.data.jsonl',
+    ),
+    'save.handler.upload' => array(
+        'uri' => 'https://example.com/run/import',
+        'timeout' => 3,
+        'token' => 'token',
+    ),
+```
+
 ### MongoDB Saver
 
 For saving directly to MongoDB you would need [ext-mongo] for PHP 5

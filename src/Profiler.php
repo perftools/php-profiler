@@ -13,6 +13,7 @@ class Profiler
     const SAVER_FILE = 'file';
     const SAVER_MONGODB = 'mongodb';
     const SAVER_PDO = 'pdo';
+    const SAVER_STACK = 'stack';
 
     const PROFILER_TIDEWAYS = 'tideways';
     const PROFILER_TIDEWAYS_XHPROF = 'tideways_xhprof';

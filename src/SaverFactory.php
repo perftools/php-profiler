@@ -23,6 +23,7 @@ final class SaverFactory
                 ), isset($config['save.handler.file']) ? $config['save.handler.file'] : array());
                 $saver = new Saver\FileSaver($saverConfig['filename']);
                 break;
+
             case Profiler::SAVER_UPLOAD:
                 $saverConfig = array_merge(array(
                     'uri' => null,
@@ -30,6 +31,22 @@ final class SaverFactory
                     'timeout' => 3,
                 ), isset($config['save.handler.upload']) ? $config['save.handler.upload'] : array());
                 $saver = new Saver\UploadSaver($saverConfig['uri'], $saverConfig['token'], $saverConfig['timeout']);
+                break;
+
+            case Profiler::SAVER_STACK:
+                $saverConfig = array_merge(array(
+                    'savers' => array(),
+                    'saveAll' => false,
+                ), isset($config['save.handler.stack']) ? $config['save.handler.stack'] : array());
+
+                $savers = array();
+                foreach ($saverConfig['savers'] as $saver) {
+                    $instance = self::create($saver, $config);
+                    if ($instance) {
+                        $savers[] = $instance;
+                    }
+                }
+                $saver = new Saver\StackSaver($savers, $saverConfig['saveAll']);
                 break;
             default:
                 // create via xhgui-collector
