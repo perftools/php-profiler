@@ -122,13 +122,15 @@ $config = array(
     ),
 
     /**
-     * Determine whether profiler should run.
-     * This default implementation just disables the profiler.
-     * Override this with your custom logic in your config
+     * Determine whether the profiler should run.
+     * This default implementation profiles every request.
+     * Override this with your custom logic in your config.
+     *
+     * @see https://github.com/perftools/php-profiler#configure-profiling-rate
      * @return bool
      */
     'profiler.enable' => function () {
-        return false;
+        return true;
     },
 
     /**
