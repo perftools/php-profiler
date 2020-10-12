@@ -148,7 +148,7 @@ $config = array(
 
     /**
      * Enable this to clean up the url before submitting it to XHGui.
-     * This way it is possible to remove sensitive data or discard any other data.
+     * This way it is possible to remove sensitive data or discard any other data from the url or command line.
      *
      * The URL argument is the `REQUEST_URI` or `argv` value.
      *
