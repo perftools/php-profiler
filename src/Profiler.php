@@ -277,7 +277,12 @@ class Profiler
             'profiler.enable' => function () {
                 return true;
             },
-            'profiler.flags' => array(),
+            'profiler.flags' => array(
+                ProfilingFlags::CPU,
+                ProfilingFlags::MEMORY,
+                ProfilingFlags::NO_BUILTINS,
+                ProfilingFlags::NO_SPANS,
+            ),
             'profiler.options' => array(),
             'profiler.exclude-env' => array(),
             'profiler.simple_url' => function ($url) {
