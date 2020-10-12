@@ -11,7 +11,7 @@ Supported profilers:
  - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
 
 This profiling library will auto-detect any supported profiler and use that.
-The specific profiler can be choosen by `profiler` config key.
+The specific profiler can be chosen by `profiler` config key.
 
 ## Goals
 
