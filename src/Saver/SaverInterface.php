@@ -9,5 +9,8 @@ interface SaverInterface
      */
     public function isSupported();
 
+    /**
+     * @return bool
+     */
     public function save(array $data);
 }

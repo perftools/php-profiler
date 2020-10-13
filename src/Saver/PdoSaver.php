@@ -17,4 +17,11 @@ class PdoSaver extends AbstractSaver
 
         return class_exists('PDO');
     }
+
+    public function save(array $data)
+    {
+        parent::save($data);
+
+        return true;
+    }
 }
