@@ -23,7 +23,7 @@ class UploadSaver implements SaverInterface
 
     public function isSupported()
     {
-        return function_exists('curl_init');
+        return $this->url && function_exists('curl_init');
     }
 
     public function save(array $data)
