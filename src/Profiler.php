@@ -179,7 +179,6 @@ class Profiler
         return $this->running;
     }
 
-
     /**
      * Returns value of `profiler.enable` function evaluation
      *
