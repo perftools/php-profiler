@@ -17,4 +17,11 @@ class MongoSaver extends AbstractSaver
 
         return class_exists('MongoClient');
     }
+
+    public function save(array $data)
+    {
+        $result = parent::save($data);
+
+        return !empty($result);
+    }
 }

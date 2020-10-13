@@ -30,6 +30,8 @@ class UploadSaver implements SaverInterface
     {
         $json = json_encode($data);
         $this->submit($this->url, $json);
+
+        return true;
     }
 
     /**
