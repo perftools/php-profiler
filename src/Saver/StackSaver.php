@@ -5,7 +5,9 @@ namespace Xhgui\Profiler\Saver;
 use Exception;
 
 /**
- * Save to stack of savers
+ * Save to stack of savers.
+ *
+ * Supports saving to all savers, or to first successful one.
  */
 class StackSaver implements SaverInterface
 {
@@ -16,13 +18,13 @@ class StackSaver implements SaverInterface
 
     public function __construct(array $savers, $saveAll = false)
     {
-        $this->savers = $savers;
+        $this->savers = $this->validateSavers($savers);
         $this->saveAll = (bool)$saveAll;
     }
 
     public function isSupported()
     {
-        return true;
+        return count($this->savers) > 0;
     }
 
     public function save(array $data)
@@ -42,6 +44,23 @@ class StackSaver implements SaverInterface
             if (!$this->saveAll) {
                 break;
             }
+        }
+
+        return $result;
+    }
+
+    private function validateSavers(array $savers)
+    {
+        $result = array();
+        foreach ($savers as $saver) {
+            try {
+                if (!$saver->isSupported()) {
+                    continue;
+                }
+            } catch (Exception $e) {
+                continue;
+            }
+            $result[] = $saver;
         }
 
         return $result;
