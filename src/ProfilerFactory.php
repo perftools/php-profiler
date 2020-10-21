@@ -2,7 +2,7 @@
 
 namespace Xhgui\Profiler;
 
-use RuntimeException;
+use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 
 final class ProfilerFactory
@@ -38,7 +38,7 @@ final class ProfilerFactory
         if (isset($config['profiler'])) {
             $profiler = $config['profiler'];
             if (!isset($adapters[$profiler])) {
-                throw new RuntimeException("Specified profiler '$profiler' is not supported");
+                throw new ProfilerException("Specified profiler '$profiler' is not supported");
             }
 
             $adapters = array(

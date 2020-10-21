@@ -3,7 +3,7 @@
 namespace Xhgui\Profiler;
 
 use Exception;
-use RuntimeException;
+use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 
@@ -56,7 +56,6 @@ class Profiler
      * Profiler constructor.
      *
      * @param array $config
-     * @throws RuntimeException if unable to create profiler
      */
     public function __construct(array $config)
     {
@@ -105,12 +104,12 @@ class Profiler
 
         $profiler = $this->getProfiler();
         if (!$profiler) {
-            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
+            throw new ProfilerException('Unable to create profiler: No suitable profiler found');
         }
 
         $saver = $this->getSaver();
         if (!$saver) {
-            throw new RuntimeException('Unable to create saver');
+            throw new ProfilerException('Unable to create saver');
         }
 
         if ($flags === null) {
@@ -139,7 +138,7 @@ class Profiler
         if (!$profiler) {
             // error for unable to create profiler already thrown in enable() method
             // but this can also happen if methods are called out of sync
-            throw new RuntimeException('Unable to create profiler: No suitable profiler found');
+            throw new ProfilerException('Unable to create profiler: No suitable profiler found');
         }
 
         $profile = new ProfilingData($this->config);
@@ -163,7 +162,7 @@ class Profiler
         if (!$saver) {
             // error for unable to create saver already thrown in enable() method
             // but this can also happen if methods are called out of sync
-            throw new RuntimeException('Unable to create profiler: Unable to create saver');
+            throw new ProfilerException('Unable to create profiler: Unable to create saver');
         }
 
         $saver->save($data);
@@ -218,7 +217,7 @@ class Profiler
 
         try {
             $this->stop();
-        } catch (Exception $e) {
+        } catch (ProfilerException $e) {
             return;
         }
     }

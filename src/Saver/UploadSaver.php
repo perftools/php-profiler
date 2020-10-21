@@ -2,7 +2,7 @@
 
 namespace Xhgui\Profiler\Saver;
 
-use RuntimeException;
+use Xhgui\Profiler\Exception\ProfilerException;
 
 class UploadSaver implements SaverInterface
 {
@@ -42,7 +42,7 @@ class UploadSaver implements SaverInterface
     {
         $ch = curl_init($url);
         if (!$ch) {
-            throw new RuntimeException('Failed to create cURL resource');
+            throw new ProfilerException('Failed to create cURL resource');
         }
 
         $headers = array(
@@ -61,23 +61,23 @@ class UploadSaver implements SaverInterface
             CURLOPT_TIMEOUT => $this->timeout,
         ));
         if (!$res) {
-            throw new RuntimeException('Failed to set cURL options');
+            throw new ProfilerException('Failed to set cURL options');
         }
 
         $result = curl_exec($ch);
         if ($result === false) {
-            throw new RuntimeException('Failed to submit data');
+            throw new ProfilerException('Failed to submit data');
         }
         curl_close($ch);
 
         $response = json_decode($result, true);
         if (!$response) {
-            throw new RuntimeException('Failed to decode response');
+            throw new ProfilerException('Failed to decode response');
         }
 
         if (isset($response['error']) && $response['error']) {
             $message = isset($response['message']) ? $response['message'] : 'Error in response';
-            throw new RuntimeException($message);
+            throw new ProfilerException($message);
         }
     }
 }
