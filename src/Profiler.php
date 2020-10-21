@@ -217,7 +217,7 @@ class Profiler
 
         try {
             $this->stop();
-        } catch (Exception $e) {
+        } catch (ProfilerException $e) {
             return;
         }
     }
