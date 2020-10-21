@@ -18,26 +18,32 @@ final class SaverFactory
     {
         switch ($saveHandler) {
             case Profiler::SAVER_FILE:
-                $saverConfig = array_merge(array(
+                $defaultConfig = array(
                     'filename' => null,
-                ), isset($config['save.handler.file']) ? $config['save.handler.file'] : array());
+                );
+                $userConfig = isset($config['save.handler.file']) && is_array($config['save.handler.file']) ? $config['save.handler.file'] : array();
+                $saverConfig = array_merge($defaultConfig, $userConfig);
                 $saver = new Saver\FileSaver($saverConfig['filename']);
                 break;
 
             case Profiler::SAVER_UPLOAD:
-                $saverConfig = array_merge(array(
+                $defaultConfig = array(
                     'uri' => null,
                     'token' => null,
                     'timeout' => 3,
-                ), isset($config['save.handler.upload']) ? $config['save.handler.upload'] : array());
+                );
+                $userConfig = isset($config['save.handler.upload']) && is_array($config['save.handler.upload']) ? $config['save.handler.upload'] : array();
+                $saverConfig = array_merge($defaultConfig, $userConfig);
                 $saver = new Saver\UploadSaver($saverConfig['uri'], $saverConfig['token'], $saverConfig['timeout']);
                 break;
 
             case Profiler::SAVER_STACK:
-                $saverConfig = array_merge(array(
+                $defaultConfig = array(
                     'savers' => array(),
                     'saveAll' => false,
-                ), isset($config['save.handler.stack']) ? $config['save.handler.stack'] : array());
+                );
+                $userConfig = isset($config['save.handler.stack']) && is_array($config['save.handler.stack']) ? $config['save.handler.stack'] : array();
+                $saverConfig = array_merge($defaultConfig, $userConfig);
 
                 $savers = array();
                 foreach ($saverConfig['savers'] as $saver) {
