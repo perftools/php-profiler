@@ -3,7 +3,6 @@
 namespace Xhgui\Profiler;
 
 use Exception;
-use RuntimeException;
 use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
@@ -57,7 +56,6 @@ class Profiler
      * Profiler constructor.
      *
      * @param array $config
-     * @throws RuntimeException if unable to create profiler
      */
     public function __construct(array $config)
     {
