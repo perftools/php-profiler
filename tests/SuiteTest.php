@@ -2,7 +2,7 @@
 
 namespace Xhgui\Profiler\Test;
 
-use RuntimeException;
+use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profiler;
 
 /**
@@ -28,7 +28,7 @@ class SuiteTest extends TestCase
 
         try {
             $this->xhguiProfiler = new Profiler($config);
-        } catch (RuntimeException $e) {
+        } catch (ProfilerException $e) {
             $this->markTestSkipped($e->getMessage());
         }
     }
