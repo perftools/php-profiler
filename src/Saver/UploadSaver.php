@@ -13,7 +13,7 @@ class UploadSaver implements SaverInterface
     /** @var bool */
     private $compress;
 
-    public function __construct($url, $token, $timeout, $compress = false)
+    public function __construct($url, $token, $timeout, $compress)
     {
         $this->url = $url;
         if ($token) {
