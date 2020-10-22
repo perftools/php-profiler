@@ -90,76 +90,11 @@ $profiler->save($profiler_data);
 
 ## Config
 
-Here's a reference config of what can be configured.
+Reference config of what can be configured:
 
-```php
-<?php
-$config = array(
-    // If defined, use specific profiler
-    // otherwise use any profiler that's found
-    'profiler' => \Xhgui\Profiler\Profiler::PROFILER_TIDEWAYS_XHPROF,
+- [examples/autoload.php](examples/autoload.php)
 
-    // This allows to configure, what profiling data to capture
-    'profiler.flags' => array(
-        \Xhgui\Profiler\ProfilingFlags::CPU,
-        \Xhgui\Profiler\ProfilingFlags::MEMORY,
-        \Xhgui\Profiler\ProfilingFlags::NO_BUILTINS,
-        \Xhgui\Profiler\ProfilingFlags::NO_SPANS,
-    ),
-
-    // Saver to use.
-    // Please note that 'pdo' and 'mongo' savers are deprecated
-    // Prefer 'upload' or 'file' saver.
-    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
-
-    // Environment variables to exclude from profiling data
-    'profiler.exclude-env' => array(
-        'APP_DATABASE_PASSWORD',
-        'PATH',
-    ),
-
-    'profiler.options' => array(
-    ),
-
-    /**
-     * Determine whether the profiler should run.
-     * This default implementation profiles every request.
-     * Override this with your custom logic in your config.
-     *
-     * @see https://github.com/perftools/php-profiler#configure-profiling-rate
-     * @return bool
-     */
-    'profiler.enable' => function () {
-        return true;
-    },
-
-    /**
-     * Creates a simplified URL given a standard URL.
-     * Does the following transformations:
-     *
-     * - Remove numeric values after "=" in query string.
-     *
-     * @param string $url
-     * @return string
-     */
-    'profiler.simple_url' => function($url) {
-        return preg_replace('/=\d+/', '', $url);
-    },
-
-    /**
-     * Enable this to clean up the url before submitting it to XHGui.
-     * This way it is possible to remove sensitive data or discard any other data from the url or command line.
-     *
-     * The URL argument is the `REQUEST_URI` or `argv` value.
-     *
-     * @param string $url
-     * @return string
-     */
-    'profiler.replace_url' => function($url) {
-        return str_replace('token', '', $url);
-    },
-);
-```
+It includes all configiration optioms and inline documentation about the options.
 
 ## Savers
 
