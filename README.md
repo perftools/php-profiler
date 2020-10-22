@@ -25,7 +25,7 @@ In order to profile your application, you need to:
 - [Install this package](#installation)
 - [Install profiler extension](#installing-profilers)
 - [Instantiate the profiler](#create-profiler)
-- [Configure profiler to send data to XHGui](#config)
+- [Configure saver to send data to XHGui](#savers)
 
 ## Installation
 
