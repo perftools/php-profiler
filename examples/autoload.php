@@ -33,6 +33,52 @@ try {
         // Prefer 'upload' or 'file' saver.
         'save.handler' => Profiler::SAVER_UPLOAD,
 
+        // Saving profile data by upload is only recommended with HTTPS
+        // endpoints that have IP whitelists applied.
+        // https://github.com/perftools/php-profiler#upload-saver
+        'save.handler.upload' => array(
+            'uri' => 'https://example.com/run/import',
+            // The timeout option is in seconds and defaults to 3 if unspecified.
+            'timeout' => 3,
+            // the token must match 'upload.token' config in XHGui
+            'token' => 'token',
+        ),
+
+        // https://github.com/perftools/php-profiler#file-saver
+        'save.handler.file' => array(
+            // Appends jsonlines formatted data to this path
+            'filename' => '/tmp/xhgui.data.jsonl',
+        ),
+
+        // https://github.com/perftools/php-profiler#stack-saver
+        'save.handler.stack' => array(
+            'savers' => array(
+                Profiler::SAVER_UPLOAD,
+                Profiler::SAVER_FILE,
+            ),
+            // if saveAll=false, break the chain on successful save
+            'saveAll' => false,
+        ),
+
+        // https://github.com/perftools/php-profiler#mongodb-saver
+        'save.handler.mongodb' => array(
+            'dsn' => 'mongodb://127.0.0.1:27017',
+            'database' => 'xhprof',
+            // Allows you to pass additional options like replicaSet to MongoClient.
+            // 'username', 'password' and 'db' (where the user is added)
+            'options' => array(),
+            // Allows you to pass driver options like ca_file to MongoClient
+            'driverOptions' => array(),
+        ),
+
+        // https://github.com/perftools/php-profiler#pdo-saver
+        'save.handler.pdo' => array(
+            'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
+            'user' => null,
+            'pass' => null,
+            'table' => 'results'
+        ),
+
         // Environment variables to exclude from profiling data
         'profiler.exclude-env' => array(),
         'profiler.options' => array(),
