@@ -32,7 +32,7 @@ class UploadSaver implements SaverInterface
     public function save(array $data)
     {
         $json = json_encode($data);
-        $this->submit($this->url, $json, $this->compress);
+        $this->submit($this->url, $json, $this->hasCompression());
 
         return true;
     }
@@ -83,5 +83,13 @@ class UploadSaver implements SaverInterface
             $message = isset($response['message']) ? $response['message'] : 'Error in response';
             throw new ProfilerException($message);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasCompression()
+    {
+        return $this->compress && function_exists('gzencode');
     }
 }
