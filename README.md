@@ -328,6 +328,12 @@ calls for finishing profiling and storing the data.
 For this library to capture profiling data, you would need any of the profiler extension.
 Depending on your environment (PHP version), you may need to install different extension.
 
+Supported profilers:
+ - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0
+ - [XHProf](#xhprof): PHP >= 5.3, PHP >= 7.0
+ - [Tideways v4.x](#tideways-4x): PHP >= 7.0
+ - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
+
 ### XHProf
 
 [XHProf] supports all PHP versions.
