@@ -102,6 +102,7 @@ To deliver captured data to XHGui, you will need one of the savers to submit to 
 
 - [Upload saver](#upload-saver)
 - [File saver](#file-saver)
+- [Stack saver](#stack-saver)
 - [MongoDB Saver](#mongodb-saver)
 - [PDO Saver](#pdo-saver)
 
