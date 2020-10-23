@@ -37,7 +37,7 @@ try {
         // endpoints that have IP whitelists applied.
         // https://github.com/perftools/php-profiler#upload-saver
         'save.handler.upload' => array(
-            'uri' => 'https://example.com/run/import',
+            'url' => 'https://example.com/run/import',
             // The timeout option is in seconds and defaults to 3 if unspecified.
             'timeout' => 3,
             // the token must match 'upload.token' config in XHGui

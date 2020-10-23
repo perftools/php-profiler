@@ -118,7 +118,7 @@ Example config:
     // Saving profile data by upload is only recommended with HTTPS
     // endpoints that have IP whitelists applied.
     'save.handler.upload' => array(
-        'uri' => 'https://example.com/run/import',
+        'url' => 'https://example.com/run/import',
         // The timeout option is in seconds and defaults to 3 if unspecified.
         'timeout' => 3,
         // the token must match 'upload.token' config in XHGui
@@ -165,7 +165,7 @@ Example config:
         'filename' => '/tmp/xhgui.data.jsonl',
     ),
     'save.handler.upload' => array(
-        'uri' => 'https://example.com/run/import',
+        'url' => 'https://example.com/run/import',
         'timeout' => 3,
         'token' => 'token',
     ),
