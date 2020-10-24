@@ -306,7 +306,7 @@ functions from your profiler data:
 ```
 
 In addition, if you do not want to profile all PHP built-in functions,
-Add `ProfilingFlags::NO_BUILTINS, to 'profiler.flags'.
+Add `ProfilingFlags::NO_BUILTINS`, to 'profiler.flags'.
 
 ## Run description
 
