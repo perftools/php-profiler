@@ -37,6 +37,13 @@
 	"conflict": {
 		"perftools/xhgui-collector": "<1.8"
 	},
+	"extra": {
+		"preload": {
+			"paths": [
+				"src"
+			]
+		}
+	},
 	"suggest": {
 		"ext-curl": "cURL extension for upload saver",
 		"ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
