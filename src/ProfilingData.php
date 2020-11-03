@@ -46,6 +46,7 @@ class ProfilingData
             'REQUEST_TIME_FLOAT',
             'SERVER_ADDR',
             'SERVER_NAME',
+            'UNIQUE_ID',
         );
 
         $serverMeta = array_intersect_key($_SERVER, array_flip($allowedServerKeys));
