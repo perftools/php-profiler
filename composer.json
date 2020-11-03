@@ -31,6 +31,7 @@
 	},
 	"require-dev": {
 		"alcaeus/mongo-php-adapter": "^1.1",
+		"ayesh/composer-preload": "^0.1.2",
 		"perftools/xhgui-collector": "^1.8"
 	},
 	"conflict": {
