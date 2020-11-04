@@ -88,6 +88,23 @@ $profiler_data = $profiler->disable();
 $profiler->save($profiler_data);
 ```
 
+## Autoloader
+
+To be able to profile autoloader, this project provides `autoload.php` that
+loads classes needed to start up the profiler.
+
+Load it before loading composer autoloader:
+
+```php
+
+require_once '/path/to/autoload.php';
+
+$profiler = new \Xhgui\Profiler\Profiler($config);
+$profiler->start();
+
+require_once '/path/to/vendor/autoload.php';
+```
+
 ## Config
 
 Reference config of what can be configured:
