@@ -94,7 +94,7 @@ Reference config of what can be configured:
 
 - [examples/autoload.php](examples/autoload.php)
 
-It includes all configiration optioms and inline documentation about the options.
+It includes all configuration options and inline documentation about the options.
 
 ## Savers
 
