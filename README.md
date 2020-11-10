@@ -1,8 +1,6 @@
 # PHP Profiler
 
-A PHP profiling library based on [XHGUI Data Collector][1].
-
-This project replaces `header.php` approach from xhgui-collector with object based approach.
+A PHP profiling library to submit profilings to [XHGUI][xhgui].
 
 Supported profilers:
  - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0
@@ -12,6 +10,8 @@ Supported profilers:
 
 This profiling library will auto-detect any supported profiler and use that.
 The specific profiler can be chosen by `profiler` config key.
+
+[xhgui]: https://github.com/perftools/xhgui
 
 ## Goals
 
@@ -308,22 +308,6 @@ functions from your profiler data:
 In addition, if you do not want to profile all PHP built-in functions,
 Add `ProfilingFlags::NO_BUILTINS`, to 'profiler.flags'.
 
-## Run description
-
-When Profiler object constructed, it determines that requirements are in place, whether
-profiling should run, which save handler to construct and constructs the save handler.
-In case of failures, it will throw an exception.
-
-`enable` will detect an available profiler and call its enable function with the current
-configuration.
-
-`registerShutdownHandler` will ensure profer is running and then call
-`register_shutdown_handler`. It will register a shutdown handler that provides the
-calls for finishing profiling and storing the data.
-
-[1]: https://packagist.org/packages/perftools/xhgui-collector
-[2]: src/ProfilingFlags.php
-
 ## Installing profilers
 
 For this library to capture profiling data, you would need any of the profiler extension.
@@ -361,7 +345,6 @@ brew install kabel/pecl/php-xhprof
 ```
 
 [XHProf]: https://pecl.php.net/package/xhprof
-
 
 ### Tideways (4.x)
 
