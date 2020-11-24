@@ -271,6 +271,9 @@ class Profiler
     {
         return array(
             'save.handler' => Profiler::SAVER_FILE,
+            'save.handler.file' => array(
+                'filename' => sys_get_temp_dir() . '/xhgui.data.jsonl',
+            ),
             'profiler.enable' => function () {
                 return true;
             },
