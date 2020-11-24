@@ -76,7 +76,7 @@ try {
             'dsn' => 'sqlite:/tmp/xhgui.sqlite3',
             'user' => null,
             'pass' => null,
-            'table' => 'results'
+            'table' => 'results',
         ),
 
         // Environment variables to exclude from profiling data
