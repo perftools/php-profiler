@@ -97,12 +97,12 @@ Load it before loading composer autoloader:
 
 ```php
 
-require_once '/path/to/autoload.php';
+require_once '/path/to/your/project/vendor/perftools/php-profiler/autoload.php';
 
 $profiler = new \Xhgui\Profiler\Profiler($config);
 $profiler->start();
 
-require_once '/path/to/vendor/autoload.php';
+require_once '/path/to/your/project/vendor/autoload.php';
 ```
 
 ## Config
