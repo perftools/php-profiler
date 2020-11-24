@@ -105,6 +105,8 @@ $profiler->start();
 require_once '/path/to/your/project/vendor/autoload.php';
 ```
 
+Loading composer autoloader is still needed when saving results to MongoDB or PDO directly.
+
 ## Config
 
 Reference config of what can be configured:
