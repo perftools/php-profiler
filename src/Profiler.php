@@ -2,7 +2,6 @@
 
 namespace Xhgui\Profiler;
 
-use Exception;
 use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
