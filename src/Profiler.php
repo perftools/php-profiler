@@ -270,7 +270,17 @@ class Profiler
     private function getDefaultConfig()
     {
         return array(
-            'save.handler' => Profiler::SAVER_FILE,
+            'save.handler' => Profiler::SAVER_STACK,
+            'save.handler.stack' => array(
+                'savers' => array(
+                    Profiler::SAVER_UPLOAD,
+                    Profiler::SAVER_FILE,
+                ),
+                'saveAll' => false,
+            ),
+            'save.handler.file' => array(
+                'filename' => sys_get_temp_dir() . '/xhgui.data.jsonl',
+            ),
             'profiler.enable' => function () {
                 return true;
             },

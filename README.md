@@ -100,11 +100,38 @@ It includes all configuration options and inline documentation about the options
 
 To deliver captured data to XHGui, you will need one of the savers to submit to the datastore XHGui uses.
 
+- [Stack saver](#stack-saver)
 - [Upload saver](#upload-saver)
 - [File saver](#file-saver)
-- [Stack saver](#stack-saver)
 - [MongoDB Saver](#mongodb-saver)
 - [PDO Saver](#pdo-saver)
+
+### Stack saver
+
+Allows saving to multiple handlers.
+
+The example config configures to use Upload Saver, and if that fails save to File Saver:
+
+```php
+    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_STACK,
+    'save.handler.stack' => array(
+        'savers' => array(
+            \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
+            \Xhgui\Profiler\Profiler::SAVER_FILE,
+        ),
+        // if saveAll=false, break the chain on successful save
+        'saveAll' => false,
+    ),
+    // subhandler specific configs
+    'save.handler.file' => array(
+        'filename' => '/tmp/xhgui.data.jsonl',
+    ),
+    'save.handler.upload' => array(
+        'url' => 'https://example.com/run/import',
+        'timeout' => 3,
+        'token' => 'token',
+    ),
+```
 
 ### Upload saver
 
@@ -142,34 +169,6 @@ Example config:
 ```
 
 To import a saved files, use XHGui's provided `external/import.php` script.
-
-### Stack saver
-
-Allows saving to multiple handlers.
-Useful to fall back to file saver if the upload saver failed.
-
-Example config:
-
-```php
-    'save.handler' => \Xhgui\Profiler\Profiler::SAVER_STACK,
-    'save.handler.stack' => array(
-        'savers' => array(
-            \Xhgui\Profiler\Profiler::SAVER_UPLOAD,
-            \Xhgui\Profiler\Profiler::SAVER_FILE,
-        ),
-        // if saveAll=false, break the chain on successful save
-        'saveAll' => false,
-    ),
-    // subhandler specific configs
-    'save.handler.file' => array(
-        'filename' => '/tmp/xhgui.data.jsonl',
-    ),
-    'save.handler.upload' => array(
-        'url' => 'https://example.com/run/import',
-        'timeout' => 3,
-        'token' => 'token',
-    ),
-```
 
 ### MongoDB Saver
 
