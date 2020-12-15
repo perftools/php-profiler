@@ -31,22 +31,24 @@ class ProfilingData
         }
 
         $allowedServerKeys = array(
+            'DOCUMENT_ROOT',
+            'HTTPS',
+            'HTTP_HOST',
+            'HTTP_USER_AGENT',
+            'PATH_INFO',
+            'PHP_AUTH_USER',
             'PHP_SELF',
-            'SERVER_ADDR',
-            'SERVER_NAME',
+            'QUERY_STRING',
+            'REMOTE_ADDR',
+            'REMOTE_USER',
             'REQUEST_METHOD',
             'REQUEST_TIME',
             'REQUEST_TIME_FLOAT',
-            'QUERY_STRING',
-            'DOCUMENT_ROOT',
-            'HTTP_HOST',
-            'HTTP_USER_AGENT',
-            'HTTPS',
-            'REMOTE_ADDR',
-            'REMOTE_USER',
-            'PHP_AUTH_USER',
-            'PATH_INFO',
+            'SERVER_ADDR',
+            'SERVER_NAME',
+            'UNIQUE_ID',
         );
+
         $serverMeta = array_intersect_key($_SERVER, array_flip($allowedServerKeys));
 
         $meta = array(
