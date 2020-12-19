@@ -268,6 +268,18 @@ requests with the `/blog` URL path:
     },
 ```
 
+Here's an example to disable profiling if xdebug session is enalbed:
+
+```php
+    'profiler.enable' => function() {
+        if (function_exists('xdebug_is_enabled') && xdebug_is_enabled()) {
+            return false;
+        }
+
+        return true;
+    },
+```
+
 In contrast, the following example instructs to profile _every_
 request:
 
