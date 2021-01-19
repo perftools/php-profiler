@@ -122,8 +122,8 @@ To deliver captured data to XHGui, you will need one of the savers to submit to 
 - [Stack saver](#stack-saver)
 - [Upload saver](#upload-saver)
 - [File saver](#file-saver)
-- [MongoDB Saver](#mongodb-saver)
-- [PDO Saver](#pdo-saver)
+- [MongoDB Saver](#mongodb-saver) (deprecated)
+- [PDO Saver](#pdo-saver) (deprecated)
 
 ### Stack saver
 
@@ -191,6 +191,8 @@ To import a saved files, use XHGui's provided `external/import.php` script.
 
 ### MongoDB Saver
 
+NOTE: Saving directly to MongoDB is discouraged, use Upload/File/Stack saver instead.
+
 For saving directly to MongoDB you would need [ext-mongo] for PHP 5
 and [ext-mongodb] with [alcaeus/mongo-php-adapter] package for PHP 7
 along with `perftools/xhgui-collector` package:
@@ -227,6 +229,8 @@ Example config:
 ```
 
 ### PDO Saver
+
+NOTE: Saving directly to PDO is discouraged, use Upload/File/Stack saver instead.
 
 PDO Saver should be able to save to any PDO driver connection.
 
