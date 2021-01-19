@@ -129,7 +129,7 @@ To deliver captured data to XHGui, you will need one of the savers to submit to 
 
 Allows saving to multiple handlers.
 
-The example config configures to use Upload Saver, and if that fails save to File Saver:
+The example config configures to use Upload Saver, and if that fails, save to File Saver:
 
 ```php
     'save.handler' => \Xhgui\Profiler\Profiler::SAVER_STACK,
