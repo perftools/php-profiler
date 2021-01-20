@@ -20,7 +20,9 @@ class MongoSaver extends AbstractSaver
 
     public function save(array $data)
     {
-        $data['profile'] = $this->encodeProfile($data['profile']);
+        if (isset($data['profile'])) {
+            $data['profile'] = $this->encodeProfile($data['profile']);
+        }
 
         $result = parent::save($data);
 
