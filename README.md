@@ -124,6 +124,7 @@ To deliver captured data to XHGui, you will need one of the savers to submit to 
 - [File saver](#file-saver)
 - [MongoDB Saver](#mongodb-saver) (deprecated)
 - [PDO Saver](#pdo-saver) (deprecated)
+- [Custom Saver](#custom-saver) Custom saver
 
 ### Stack saver
 
@@ -250,6 +251,31 @@ Example config:
         'pass' => null,
         'table' => 'results'
     ),
+```
+
+## Custom Saver
+You may create custom profiler saver by implementing SaverInterface.
+
+```php
+use Xhgui\Profiler\Profiler;
+use Xhgui\Profiler\Saver\SaverInterface;
+
+class StdOutSaver implements SaverInterface
+{
+    public function isSupported()
+    {
+        return true;
+    }
+    
+    public function save(array $data)
+    {
+        fwrite(STDOUT, json_encode($data));
+    }
+}
+
+//...
+/** @var Profiler $profiler */
+$profiler->setCustomSaver(new StdOutSaver());
 ```
 
 ## Configure Profiling Rate

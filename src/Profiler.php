@@ -178,6 +178,16 @@ class Profiler
     }
 
     /**
+     * Set custom profiler
+     *
+     * @param  SaverInterface  $saver
+     */
+    public function setCustomSaver(SaverInterface $saver)
+    {
+        $this->saveHandler = $saver;
+    }
+
+    /**
      * Returns value of `profiler.enable` function evaluation
      *
      * @return bool
@@ -263,6 +273,7 @@ class Profiler
 
         return $this->saveHandler ?: null;
     }
+
 
     /**
      * @return array
