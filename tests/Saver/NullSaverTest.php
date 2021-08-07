@@ -16,9 +16,9 @@ class CustomSaverTest extends TestCase
 {
     public function setCustomSaver()
     {
-        $saver = new CustomSaver();
+        $saver = new NullSaver();
         $profiler = new Profiler(array());
-        $profiler->setCustomSaver($saver);
+        $profiler->setSaver($saver);
         $profiler->start();
         try {
             $profiler->stop();
@@ -30,7 +30,7 @@ class CustomSaverTest extends TestCase
 }
 
 
-class CustomSaver implements SaverInterface
+class NullSaver implements SaverInterface
 {
     public function isSupported()
     {

@@ -178,11 +178,11 @@ class Profiler
     }
 
     /**
-     * Set custom profiler
+     * Set profiler saver
      *
      * @param  SaverInterface  $saver
      */
-    public function setCustomSaver(SaverInterface $saver)
+    public function setSaver(SaverInterface $saver)
     {
         $this->saveHandler = $saver;
     }

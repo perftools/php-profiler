@@ -275,7 +275,7 @@ class StdOutSaver implements SaverInterface
 
 //...
 /** @var Profiler $profiler */
-$profiler->setCustomSaver(new StdOutSaver());
+$profiler->setSaver(new StdOutSaver());
 ```
 
 ## Configure Profiling Rate
