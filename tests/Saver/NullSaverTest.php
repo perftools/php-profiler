@@ -2,17 +2,12 @@
 
 namespace Xhgui\Profiler\Test\Saver;
 
+use Exception;
 use Xhgui\Profiler\Profiler;
-use Xhgui\Profiler\Saver\FileSaver;
-use Xhgui\Profiler\Saver\SaverInterface;
+use Xhgui\Profiler\Test\Resources\NullSaver;
 use Xhgui\Profiler\Test\TestCase;
 
-/**
- * @requires extension json
- * @property FileSaver $saver
- */
-
-class CustomSaverTest extends TestCase
+class NullSaverTest extends TestCase
 {
     public function setCustomSaver()
     {
@@ -23,22 +18,8 @@ class CustomSaverTest extends TestCase
         try {
             $profiler->stop();
             $this->markTestIncomplete('Custom saver not executed');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertEquals('CustomSaver executed', $e->getMessage());
         }
-    }
-}
-
-
-class NullSaver implements SaverInterface
-{
-    public function isSupported()
-    {
-        return true;
-    }
-
-    public function save(array $data)
-    {
-        throw new \Exception('CustomSaver executed');
     }
 }
