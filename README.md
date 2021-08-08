@@ -254,7 +254,7 @@ Example config:
 ```
 
 ## Custom Saver
-You may create custom profiler saver by implementing SaverInterface.
+You can create your own profile saver by implementing `SaverInterface` and calling `setSaver()`.
 
 ```php
 use Xhgui\Profiler\Profiler;
