@@ -274,7 +274,6 @@ class Profiler
         return $this->saveHandler ?: null;
     }
 
-
     /**
      * @return array
      */
