@@ -178,6 +178,16 @@ class Profiler
     }
 
     /**
+     * Set profiler saver
+     *
+     * @param  SaverInterface  $saver
+     */
+    public function setSaver(SaverInterface $saver)
+    {
+        $this->saveHandler = $saver;
+    }
+
+    /**
      * Returns value of `profiler.enable` function evaluation
      *
      * @return bool
