@@ -266,7 +266,7 @@ class StdOutSaver implements SaverInterface
     {
         return true;
     }
-    
+
     public function save(array $data)
     {
         fwrite(STDOUT, json_encode($data));
