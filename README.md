@@ -268,7 +268,7 @@ requests with the `/blog` URL path:
     },
 ```
 
-Here's an example to disable profiling if xdebug session is enalbed:
+Here's an example to disable profiling if xdebug session is enabled:
 
 ```php
     'profiler.enable' => function() {
