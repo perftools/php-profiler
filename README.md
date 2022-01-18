@@ -376,13 +376,17 @@ To install `tideways_xhprof` extension, see their [installation documentation][t
 [tideways_xhprof]: https://github.com/tideways/php-xhprof-extension
 [tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
 
-Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] tap:
 
 ```
+brew install kabel/pecl/php@7.4-tideways-xhprof
+brew install kabel/pecl/php@8.0-tideways-xhprof
+brew install kabel/pecl/php@8.1-tideways-xhprof
+```
+
+For outdated php versions few recipes exist in [glensc/tap] tap:
+```
 brew install glensc/tap/php@7.1-tideways-xhprof
-brew install kabel/pecl/php@7.2-tideways-xhprof
-brew install kabel/pecl/php@7.3-tideways-xhprof
-brew install kabel/pecl/php-tideways-xhprof
 ```
 
 [kabel/pecl]: https://github.com/kabel/homebrew-pecl
@@ -408,9 +412,9 @@ pecl install xhprof
 Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] tap:
 
 ```
-brew install kabel/pecl/php@7.2-xhprof
-brew install kabel/pecl/php@7.3-xhprof
-brew install kabel/pecl/php-xhprof
+brew install kabel/pecl/php@7.4-xhprof
+brew install kabel/pecl/php@8.0-xhprof
+brew install kabel/pecl/php@8.1-xhprof
 ```
 
 [XHProf]: https://pecl.php.net/package/xhprof
