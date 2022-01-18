@@ -367,6 +367,27 @@ Supported profilers:
  - [Tideways v4.x](#tideways-4x): PHP >= 7.0
  - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
 
+### Tideways XHProf (5.+)
+
+[Tideways XHProf v5.x][tideways_xhprof] requires PHP >= 7.0.
+
+To install `tideways_xhprof` extension, see their [installation documentation][tideways-xhprof-install].
+
+[tideways_xhprof]: https://github.com/tideways/php-xhprof-extension
+[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
+
+Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
+
+```
+brew install glensc/tap/php@7.1-tideways-xhprof
+brew install kabel/pecl/php@7.2-tideways-xhprof
+brew install kabel/pecl/php@7.3-tideways-xhprof
+brew install kabel/pecl/php-tideways-xhprof
+```
+
+[kabel/pecl]: https://github.com/kabel/homebrew-pecl
+[glensc/tap]: https://github.com/glensc/homebrew-tap
+
 ### XHProf
 
 [XHProf] supports all PHP versions.
@@ -374,12 +395,12 @@ Supported profilers:
 - `xhprof` 0.9.x requires PHP >= 5.3, < PHP 7.0
 - `xhprof` 2.x requires PHP >= 7.0
 
-for PHP 5:
+for PHP 5.x:
 ```
 pecl install xhprof-0.9.4
 ```
 
-for PHP 7:
+for PHP >=7.0:
 ```
 pecl install xhprof
 ```
@@ -411,27 +432,6 @@ echo extension=/usr/local/lib/php/pecl/20160303/tideways.so | tee /usr/local/etc
 ```
 
 [Tideways]: https://tideways.com/profiler/downloads
-
-### Tideways XHProf (5.+)
-
-[Tideways XHProf v5.x][tideways_xhprof] requires PHP >= 7.0.
-
-To install `tideways_xhprof` extension, see their [installation documentation][tideways-xhprof-install].
-
-[tideways_xhprof]: https://github.com/tideways/php-xhprof-extension
-[tideways-xhprof-install]: https://github.com/tideways/php-xhprof-extension#installation
-
-Alternatively on `brew` (macOS) you can use packages from [kabel/pecl] or [glensc/tap] taps:
-
-```
-brew install glensc/tap/php@7.1-tideways-xhprof
-brew install kabel/pecl/php@7.2-tideways-xhprof
-brew install kabel/pecl/php@7.3-tideways-xhprof
-brew install kabel/pecl/php-tideways-xhprof
-```
-
-[kabel/pecl]: https://github.com/kabel/homebrew-pecl
-[glensc/tap]: https://github.com/glensc/homebrew-tap
 
 ### UProfiler
 
