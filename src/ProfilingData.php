@@ -25,7 +25,7 @@ class ProfilingData
     {
         $url = $this->getUrl();
 
-        $requestTimeFloat = explode('.', $_SERVER['REQUEST_TIME_FLOAT']);
+        $requestTimeFloat = explode('.', sprintf('%.6F', $_SERVER['REQUEST_TIME_FLOAT']));
         if (!isset($requestTimeFloat[1])) {
             $requestTimeFloat[1] = 0;
         }
