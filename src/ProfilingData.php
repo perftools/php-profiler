@@ -26,9 +26,8 @@ class ProfilingData
         $url = $this->getUrl();
 
         $requestTimeFloat = explode('.', sprintf('%.6F', $_SERVER['REQUEST_TIME_FLOAT']));
-        if (!isset($requestTimeFloat[1])) {
-            $requestTimeFloat[1] = 0;
-        }
+        $sec = $requestTimeFloat[0];
+        $usec = isset($requestTimeFloat[1]) ? $requestTimeFloat[1] : 0;
 
         $allowedServerKeys = array(
             'DOCUMENT_ROOT',
@@ -57,10 +56,10 @@ class ProfilingData
             'env' => $this->getEnvironment($_ENV),
             'SERVER' => $serverMeta,
             'simple_url' => $this->getSimpleUrl($url),
-            'request_ts_micro' => array('sec' => $requestTimeFloat[0], 'usec' => $requestTimeFloat[1]),
+            'request_ts_micro' => array('sec' => $sec, 'usec' => $usec),
             // these are superfluous and should be dropped in the future
-            'request_ts' => array('sec' => $requestTimeFloat[0], 'usec' => 0),
-            'request_date' => date('Y-m-d', $requestTimeFloat[0]),
+            'request_ts' => array('sec' => $sec, 'usec' => 0),
+            'request_date' => date('Y-m-d', $sec),
         );
 
         $data = array(
