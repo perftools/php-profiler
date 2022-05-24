@@ -46,7 +46,7 @@ final class ProfilerFactory
             );
         }
 
-        foreach ($adapters as $profiler => $factory) {
+        foreach ($adapters as $factory) {
             $adapter = $factory($config);
             if ($adapter->isSupported()) {
                 return $adapter;
