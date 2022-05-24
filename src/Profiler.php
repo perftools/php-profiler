@@ -280,11 +280,11 @@ class Profiler
     private function getDefaultConfig()
     {
         return array(
-            'save.handler' => Profiler::SAVER_STACK,
+            'save.handler' => self::SAVER_STACK,
             'save.handler.stack' => array(
                 'savers' => array(
-                    Profiler::SAVER_UPLOAD,
-                    Profiler::SAVER_FILE,
+                    self::SAVER_UPLOAD,
+                    self::SAVER_FILE,
                 ),
                 'saveAll' => false,
             ),
