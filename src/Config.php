@@ -35,6 +35,9 @@ class Config implements ArrayAccess
             throw new ProfilerException("File does not exist: $filename");
         }
         $config = require $filename;
+        if ($config === 1) {
+            throw new ProfilerException("Config did not return an array: $filename");
+        }
         $this->merge($config);
     }
 
