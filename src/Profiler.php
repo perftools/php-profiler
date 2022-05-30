@@ -22,7 +22,7 @@ final class Profiler
     /**
      * Profiler configuration.
      *
-     * @var array
+     * @var Config
      */
     private $config;
 
@@ -54,11 +54,15 @@ final class Profiler
     /**
      * Profiler constructor.
      *
-     * @param array $config
+     * @param array|Config $config
      */
-    public function __construct(array $config)
+    public function __construct($config)
     {
-        $this->config = array_replace($this->getDefaultConfig(), $config);
+        if ($config instanceof Config) {
+            $this->config = $config;
+        } else {
+            $this->config = new Config($config);
+        }
     }
 
     /**

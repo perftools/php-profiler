@@ -14,7 +14,7 @@ final class ProfilingData
     /** @var callable|null */
     private $replaceUrl;
 
-    public function __construct(array $config = array())
+    public function __construct(Config $config)
     {
         $this->excludeEnv = isset($config['profiler.exclude-env']) ? (array)$config['profiler.exclude-env'] : array();
         $this->simpleUrl = isset($config['profiler.simple_url']) ? $config['profiler.simple_url'] : null;

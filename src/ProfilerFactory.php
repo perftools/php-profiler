@@ -21,7 +21,7 @@ final class ProfilerFactory
      *
      * @return ProfilerInterface|null
      */
-    public static function create(array $config)
+    public static function create(Config $config)
     {
         $adapters = array(
             Profiler::PROFILER_TIDEWAYS_XHPROF => function () {

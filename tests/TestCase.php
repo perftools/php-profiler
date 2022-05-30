@@ -2,6 +2,7 @@
 
 namespace Xhgui\Profiler\Test;
 
+use Xhgui\Profiler\Config;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui\Profiler\SaverFactory;
@@ -30,7 +31,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createSaver($saveHandler, array $config = array())
     {
-        $saver = SaverFactory::create($saveHandler, $config);
+        $saver = SaverFactory::create($saveHandler, new Config($config));
         $this->assertNotNull($saver);
 
         return $saver;
