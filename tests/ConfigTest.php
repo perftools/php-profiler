@@ -20,6 +20,12 @@ class ConfigTest extends TestCase
         $this->assertEquals(Profiler::SAVER_UPLOAD, $config['save.handler']);
     }
 
+    public function testFromFile()
+    {
+        $config = Config::create();
+        $this->assertEquals(Profiler::SAVER_STACK, $config['save.handler']);
+    }
+
     /**
      * @expectedException \Xhgui\Profiler\Exception\ProfilerException
      * @expectedExceptionMessage Config did not return an array

@@ -27,6 +27,22 @@ class Config implements ArrayAccess
     }
 
     /**
+     * Create config from defaults, and merge config/config.php if the file exists
+     *
+     * @return Config
+     */
+    public static function create()
+    {
+        $configDir = dirname(__DIR__) . '/config';
+        $config = new self();
+        if (file_exists($file = $configDir . '/config.php')) {
+            $config->load($file);
+        }
+
+        return $config;
+    }
+
+    /**
      * Load a config file, merge with the currently loaded configuration.
      */
     public function load($filename)
