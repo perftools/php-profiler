@@ -4,7 +4,7 @@ namespace Xhgui\Profiler\Profilers;
 
 use Xhgui\Profiler\ProfilingFlags;
 
-class XHProf extends AbstractProfiler
+final class XHProf extends AbstractProfiler
 {
     const EXTENSION_NAME = 'xhprof';
 

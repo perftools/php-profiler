@@ -5,6 +5,9 @@ namespace Xhgui\Profiler;
 use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 
+/**
+ * @internal
+ */
 final class ProfilerFactory
 {
     /**

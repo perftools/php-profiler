@@ -9,7 +9,7 @@ use Xhgui\Profiler\ProfilingFlags;
  *
  * @see https://github.com/tideways/php-profiler-extension
  */
-class Tideways extends AbstractProfiler
+final class Tideways extends AbstractProfiler
 {
     const EXTENSION_NAME = 'tideways';
 

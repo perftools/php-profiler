@@ -4,7 +4,7 @@ namespace Xhgui\Profiler\Saver;
 
 use Xhgui\Profiler\Exception\ProfilerException;
 
-class UploadSaver implements SaverInterface
+final class UploadSaver implements SaverInterface
 {
     /** @var string */
     private $url;

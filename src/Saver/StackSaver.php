@@ -9,7 +9,7 @@ use Exception;
  *
  * Supports saving to all savers, or to first successful one.
  */
-class StackSaver implements SaverInterface
+final class StackSaver implements SaverInterface
 {
     /** @var array */
     private $savers;
