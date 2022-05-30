@@ -7,6 +7,9 @@ use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui_Saver;
 use Xhgui_Saver_Interface;
 
+/**
+ * @internal
+ */
 final class SaverFactory
 {
     /**

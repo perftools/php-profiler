@@ -2,6 +2,9 @@
 
 namespace Xhgui\Profiler;
 
+/**
+ * @internal
+ */
 final class ProfilingData
 {
     /** @var array */
