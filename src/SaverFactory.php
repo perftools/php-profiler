@@ -62,7 +62,7 @@ final class SaverFactory
                 }
                 $config = self::migrateConfig($config, $saveHandler);
                 $legacySaver = Xhgui_Saver::factory($config);
-                $saver = static::getAdapter($legacySaver);
+                $saver = self::getAdapter($legacySaver);
                 break;
         }
 

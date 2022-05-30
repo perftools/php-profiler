@@ -6,7 +6,7 @@ use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 
-class Profiler
+final class Profiler
 {
     const SAVER_UPLOAD = 'upload';
     const SAVER_FILE = 'file';

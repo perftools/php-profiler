@@ -2,7 +2,7 @@
 
 namespace Xhgui\Profiler;
 
-class ProfilingData
+final class ProfilingData
 {
     /** @var array */
     private $excludeEnv;

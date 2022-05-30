@@ -2,7 +2,7 @@
 
 namespace Xhgui\Profiler\Saver;
 
-class FileSaver implements SaverInterface
+final class FileSaver implements SaverInterface
 {
     /** @var string */
     private $file;

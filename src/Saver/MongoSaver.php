@@ -7,7 +7,7 @@ use Xhgui_Saver_Mongo;
 /**
  * @property Xhgui_Saver_Mongo $saver
  */
-class MongoSaver extends AbstractSaver
+final class MongoSaver extends AbstractSaver
 {
     public function isSupported()
     {
