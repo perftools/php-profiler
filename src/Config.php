@@ -3,6 +3,7 @@
 namespace Xhgui\Profiler;
 
 use ArrayAccess;
+use Xhgui\Profiler\Exception\ProfilerException;
 
 class Config implements ArrayAccess
 {
@@ -23,6 +24,18 @@ class Config implements ArrayAccess
     public function toArray()
     {
         return $this->config;
+    }
+
+    /**
+     * Load a config file, merge with the currently loaded configuration.
+     */
+    public function load($filename)
+    {
+        if (!file_exists($filename)) {
+            throw new ProfilerException("File does not exist: $filename");
+        }
+        $config = require $filename;
+        $this->merge($config);
     }
 
     private function merge(array $config)
