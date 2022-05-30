@@ -9,7 +9,7 @@ use Xhgui\Profiler\Test\TestCase;
 
 class NullSaverTest extends TestCase
 {
-    public function setCustomSaver()
+    public function testCustomSaver()
     {
         $saver = new NullSaver();
         $profiler = new Profiler(array());
