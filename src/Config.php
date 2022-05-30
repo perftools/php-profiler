@@ -17,6 +17,14 @@ class Config implements ArrayAccess
         }
     }
 
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->config;
+    }
+
     private function merge(array $config)
     {
         $this->config = array_replace($this->config, $config);
