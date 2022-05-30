@@ -19,7 +19,7 @@ class NullSaverTest extends TestCase
             $profiler->stop();
             $this->markTestIncomplete('Custom saver not executed');
         } catch (Exception $e) {
-            $this->assertEquals('CustomSaver executed', $e->getMessage());
+            $this->assertEquals('NullSaver executed', $e->getMessage());
         }
     }
 }
