@@ -8,6 +8,7 @@ require_once __DIR__ . '/src/Profilers/ProfilerInterface.php';
 require_once __DIR__ . '/src/Saver/SaverInterface.php';
 
 require_once __DIR__ . '/src/Exception/ProfilerException.php';
+require_once __DIR__ . '/src/Config.php';
 require_once __DIR__ . '/src/Profiler.php';
 require_once __DIR__ . '/src/ProfilerFactory.php';
 require_once __DIR__ . '/src/Profilers/AbstractProfiler.php';
