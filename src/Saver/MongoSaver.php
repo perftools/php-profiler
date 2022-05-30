@@ -37,7 +37,7 @@ class MongoSaver extends AbstractSaver
      *
      * Replace the dots with underscrore in keys.
      *
-     * @link https://github.com/perftools/xhgui/issues/209
+     * @see https://github.com/perftools/xhgui/issues/209
      */
     private function encodeProfile(array $profile)
     {

@@ -62,20 +62,20 @@ class UploadSaver implements SaverInterface
         ));
         if (!$res) {
             $error = curl_errno($ch) ? curl_error($ch) : '';
-            throw new ProfilerException('Failed to set cURL options'.($error ? ': '.$error : ''));
+            throw new ProfilerException('Failed to set cURL options' . ($error ? ': ' . $error : ''));
         }
 
         $result = curl_exec($ch);
         if ($result === false) {
             $error = curl_errno($ch) ? curl_error($ch) : '';
-            throw new ProfilerException('Failed to submit data'.($error ? ': '.$error : ''));
+            throw new ProfilerException('Failed to submit data' . ($error ? ': ' . $error : ''));
         }
         curl_close($ch);
 
         $response = json_decode($result, true);
         if (!$response) {
-            $error = json_last_error() ? (PHP_VERSION_ID >= 50500 ? json_last_error_msg() : 'Error '.json_last_error()) : '';
-            throw new ProfilerException('Failed to decode response'.($error ? ': '.$error : ''));
+            $error = json_last_error() ? (PHP_VERSION_ID >= 50500 ? json_last_error_msg() : 'Error ' . json_last_error()) : '';
+            throw new ProfilerException('Failed to decode response' . ($error ? ': ' . $error : ''));
         }
 
         if (isset($response['error']) && $response['error']) {
