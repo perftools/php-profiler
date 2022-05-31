@@ -2,10 +2,10 @@
 
 set -xeu
 
-: "${TRAVIS_PHP_VERSION=7.4}"
-: "${TIDEWAYS_VERSION=4.1.4}"
-: "${TIDEWAYS_XHPROF_VERSION=5.0.2}"
-: "${PHP_VERSION=${TRAVIS_PHP_VERSION}}"
+: ${TRAVIS_PHP_VERSION=7.4}
+: ${TIDEWAYS_VERSION=4.1.4}
+: ${TIDEWAYS_XHPROF_VERSION=5.0.2}
+: ${PHP_VERSION=${TRAVIS_PHP_VERSION}}
 
 die() {
 	echo >&2 "ERROR: $*"
@@ -13,7 +13,7 @@ die() {
 }
 
 install_xhprof() {
-    declare version="${1:-stable}"
+    local version="${1:-stable}"
 
     pecl install xhprof-$version
 }
