@@ -46,7 +46,7 @@ install_tideways_xhprof() {
 
 	zts=$(php --version | grep -q ZTS && echo -zts || :)
 	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
-	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
+	config="/etc/php/$PHP_VERSION/cli/conf.d/10-tideways_xhprof.ini"
 	test -f "$library" || die "Extension not available: $library"
 	echo "extension=$library" > "$config"
 	has_extension "$extension"
