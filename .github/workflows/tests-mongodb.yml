@@ -53,7 +53,7 @@ jobs:
         run: sudo ./install-extensions.sh
 
       - name: Run PHPUnit tests
-        run: echo composer test
+        run: composer test
         env:
           XHGUI_SAVE_HANDLER: "pdo"
 
