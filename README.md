@@ -1,6 +1,6 @@
 # PHP Profiler
 
-A PHP profiling library to submit profilings to [XHGUI][xhgui].
+A PHP profiling library to submit profilings to [XHGui][xhgui].
 
 Supported profilers:
  - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0

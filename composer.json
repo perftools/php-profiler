@@ -1,6 +1,6 @@
 {
 	"name": "perftools/php-profiler",
-	"description": "PHP Profiling based on XHGUI",
+	"description": "PHP Profiling based on XHGui",
 	"license": "MIT",
 	"authors": [
 		{
