@@ -26,6 +26,7 @@ In order to profile your application, you need to:
 - [Install profiler extension](#installing-profilers)
 - [Instantiate the profiler](#create-profiler)
 - [Configure saver to send data to XHGui](#savers)
+- [Import jsonl files](#import-jsonl-files) (optional)
 
 ## Installation
 
@@ -202,7 +203,7 @@ Example config:
     ),
 ```
 
-To import a saved files, use XHGui's provided `external/import.php` script.
+To import a saved files, see [Import jsonl files](#import-jsonl-files) section.
 
 ### MongoDB Saver
 
@@ -291,6 +292,23 @@ class StdOutSaver implements SaverInterface
 /** @var Profiler $profiler */
 $profiler->setSaver(new StdOutSaver());
 ```
+
+### Import jsonl files
+
+You can use `./bin/import.php` script to submit files saved by [File Saver](#file-saver) to XHGui server.
+
+1. [Setup config file](#using-config-file)
+1. Configure to use [Upload Saver](#upload-saver)
+1. Execute the `./bin/import.php` script
+
+The script can take multiple [jsonl] formatted files, or if none given read stdin stream.
+
+```sh
+$ ./bin/import.php tests/tmp/php-profiler-xhgui-test-1596093567.787220-c857.json
+Imported 1 lines
+```
+
+[jsonl]: https://jsonlines.org/
 
 ## Configure Profiling Rate
 
