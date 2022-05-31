@@ -1,0 +1,35 @@
+name: "Tests: MongoDB"
+
+on:
+  - pull_request
+
+jobs:
+  mongodb:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php:
+          - "7.4"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: xdebug
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress
+
+      - name: Run PHPUnit tests
+        run: composer test
+
+# vim:ft=yaml:et:ts=2:sw=2
