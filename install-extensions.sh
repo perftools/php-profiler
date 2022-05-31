@@ -19,6 +19,7 @@ has_extension() {
 install_xhprof() {
     local version="${1:-stable}"
 
+    has_extension "xhprof" && return 0
     pecl install xhprof-$version
 }
 
