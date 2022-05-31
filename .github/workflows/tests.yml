@@ -43,12 +43,11 @@ jobs:
           composer install --prefer-dist --no-progress --no-suggest
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
-
       - name: Install extensions
         run: sudo ./install-extensions.sh
 
       - name: Run PHPUnit tests
-        run: phpunit
+        run: composer test
         env:
           XHGUI_SAVE_HANDLER: "pdo"
 
