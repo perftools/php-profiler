@@ -12,6 +12,8 @@ jobs:
       matrix:
         php:
           - "7.4"
+    env:
+      PHPUNIT_VERSION: "7.5"
 
     steps:
       - name: Checkout Code
@@ -37,7 +39,10 @@ jobs:
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: |
+          composer install --prefer-dist --no-progress --no-suggest
+          composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
+
 
       - name: Install extensions
         run: sudo ./install-extensions.sh
