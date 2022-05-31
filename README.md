@@ -68,6 +68,20 @@ shutdown handler:
 $profiler->start(false);
 ```
 
+## Using config file
+
+You can create `config/config.php` and load config from there:
+
+1. copy `config/config.default.php` to `config/config.php`
+2. use `Config::create()` to `new Profiler`
+
+```php
+// Config::create() will load config/config.default.php
+// and then merge with config/config.php (if it exists).
+$config = \Xhgui\Profiler\Config::create();
+$profiler = new \Xhgui\Profiler\Profiler($config);
+```
+
 ## Advanced Usage
 
 You might want to control capture and sending yourself,
