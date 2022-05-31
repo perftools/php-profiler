@@ -56,7 +56,7 @@ final class Profiler
      *
      * @param array|Config $config
      */
-    public function __construct($config)
+    public function __construct($config = array())
     {
         if ($config instanceof Config) {
             $this->config = $config;
