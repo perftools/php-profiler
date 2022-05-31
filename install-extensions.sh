@@ -53,6 +53,9 @@ install_tideways_xhprof() {
 	php -m | grep -F "$extension"
 }
 
+# Show php config paths
+php --ini
+
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
