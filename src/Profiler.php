@@ -22,7 +22,7 @@ final class Profiler
     /**
      * Profiler configuration.
      *
-     * @var array
+     * @var Config
      */
     private $config;
 
@@ -54,11 +54,15 @@ final class Profiler
     /**
      * Profiler constructor.
      *
-     * @param array $config
+     * @param array|Config $config
      */
-    public function __construct(array $config)
+    public function __construct($config)
     {
-        $this->config = array_replace($this->getDefaultConfig(), $config);
+        if ($config instanceof Config) {
+            $this->config = $config;
+        } else {
+            $this->config = new Config($config);
+        }
     }
 
     /**
@@ -272,40 +276,5 @@ final class Profiler
         }
 
         return $this->saveHandler ?: null;
-    }
-
-    /**
-     * @return array
-     */
-    private function getDefaultConfig()
-    {
-        return array(
-            'save.handler' => self::SAVER_STACK,
-            'save.handler.stack' => array(
-                'savers' => array(
-                    self::SAVER_UPLOAD,
-                    self::SAVER_FILE,
-                ),
-                'saveAll' => false,
-            ),
-            'save.handler.file' => array(
-                'filename' => sys_get_temp_dir() . '/xhgui.data.jsonl',
-            ),
-            'profiler.enable' => function () {
-                return true;
-            },
-            'profiler.flags' => array(
-                ProfilingFlags::CPU,
-                ProfilingFlags::MEMORY,
-                ProfilingFlags::NO_BUILTINS,
-                ProfilingFlags::NO_SPANS,
-            ),
-            'profiler.options' => array(),
-            'profiler.exclude-env' => array(),
-            'profiler.simple_url' => function ($url) {
-                return preg_replace('/=\d+/', '', $url);
-            },
-            'profiler.replace_url' => null,
-        );
     }
 }

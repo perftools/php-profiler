@@ -14,10 +14,10 @@ final class SaverFactory
 {
     /**
      * @param string $saveHandler
-     * @param array $config
+     * @param Config $config
      * @return SaverInterface|null
      */
-    public static function create($saveHandler, array $config = array())
+    public static function create($saveHandler, Config $config)
     {
         switch ($saveHandler) {
             case Profiler::SAVER_FILE:
@@ -64,7 +64,7 @@ final class SaverFactory
                     throw new ProfilerException("For {$saveHandler} you need to install xhgui-collector package: composer require perftools/xhgui-collector");
                 }
                 $config = self::migrateConfig($config, $saveHandler);
-                $legacySaver = Xhgui_Saver::factory($config);
+                $legacySaver = Xhgui_Saver::factory($config->toArray());
                 $saver = self::getAdapter($legacySaver);
                 break;
         }
@@ -79,11 +79,11 @@ final class SaverFactory
     /**
      * Prepare config for Xhgui_Saver specific to $saveHandler
      *
-     * @param array $config
+     * @param Config $config
      * @param string $saveHandler
-     * @return array
+     * @return Config
      */
-    private static function migrateConfig(array $config, $saveHandler)
+    private static function migrateConfig(Config $config, $saveHandler)
     {
         switch ($saveHandler) {
             case Profiler::SAVER_MONGODB:
