@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
-          composer install --prefer-dist --no-progress --no-suggest
+          composer install --prefer-dist --no-progress
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
       - name: Install extensions
