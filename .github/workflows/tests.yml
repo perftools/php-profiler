@@ -5,7 +5,7 @@ on:
   - push
 
 jobs:
-  mysql:
+  test:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-20.04
     strategy:
