@@ -11,6 +11,11 @@ die() {
 	exit 1
 }
 
+has_extension() {
+    local extension="$1"
+    php -m | awk -vrc=1 -vextension="$extension" '$1 == extension { rc=0 } END { exit rc }'
+}
+
 install_xhprof() {
     local version="${1:-stable}"
 
