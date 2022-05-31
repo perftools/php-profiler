@@ -39,6 +39,9 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Install extensions
+        run: ./install-extensions.sh
+
       - name: Run PHPUnit tests
         run: composer test
         env:
