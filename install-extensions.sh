@@ -49,7 +49,7 @@ install_tideways_xhprof() {
 	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
 	test -f "$library" || die "Extension not available: $library"
 	echo "extension=$library" > "$config"
-	php -m | grep -F "$extension"
+	has_extension "$extension"
 }
 
 case "$(uname -s):$PHP_VERSION" in
