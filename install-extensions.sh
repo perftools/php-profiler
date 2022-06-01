@@ -38,16 +38,20 @@ install_tideways_xhprof() {
 	local url="https://github.com/tideways/php-xhprof-extension/releases/download/v$version/tideways-xhprof-$version-$arch.tar.gz"
 	local extension="tideways_xhprof"
 	local tar="$extension.tgz"
-	local config library
+	local workdir="vendor/tideways_xhprof"
+	local library="$PWD/$workdir/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
+	local config
 	local zts
 
-	curl -fL -o "$tar" "$url"
-	tar -xvf "$tar" -C vendor/tideways_xhprof
+	if [ ! -f "$library" ]; then
+		curl -fL -o "$tar" "$url"
+		mkdir -p "$workdir"
+		tar -xvf "$tar" -C "$workdir"
+	fi
 
 	zts=$(php --version | grep -q ZTS && echo -zts || :)
-	library="$PWD/vendor/tideways_xhprof/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
-	config="/etc/php/$PHP_VERSION/cli/conf.d/10-tideways_xhprof.ini"
 	test -f "$library" || die "Extension not available: $library"
+	config="/etc/php/$PHP_VERSION/cli/conf.d/10-tideways_xhprof.ini"
 	echo "extension=$library" > "$config"
 	has_extension "$extension"
 }
