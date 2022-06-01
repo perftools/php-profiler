@@ -59,7 +59,5 @@ jobs:
 
       - name: Run PHPUnit tests
         run: composer test
-        env:
-          XHGUI_SAVE_HANDLER: "pdo"
 
 # vim:ft=yaml:et:ts=2:sw=2
