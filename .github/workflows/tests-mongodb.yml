@@ -43,7 +43,7 @@ jobs:
         id: composer-cache
         uses: actions/cache@v2
         env:
-          CACHE_KEY: "${{ runner.os }}-php-${{ env.PHP_VERSION }}-phpunit-${{ env.PHPUNIT_VERSION }}-v2"
+          CACHE_KEY: "${{ runner.os }}-php-${{ env.PHP_VERSION }}-phpunit-${{ env.PHPUNIT_VERSION }}-v3"
         with:
           path: vendor
           key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/composer.json') }}
