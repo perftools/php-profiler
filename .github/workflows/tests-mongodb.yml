@@ -55,7 +55,9 @@ jobs:
         run: |
           composer install --prefer-dist --no-progress
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
-          ./install-extensions.sh
+
+      - name: Install extensions
+        run: ./install-extensions.sh
 
       - name: Run PHPUnit tests
         run: composer test
