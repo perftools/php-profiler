@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bin/env bash
 
 set -xeu
 
