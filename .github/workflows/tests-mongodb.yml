@@ -56,9 +56,7 @@ jobs:
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
       - name: Install extensions
-        run: |
-          env
-          sudo ./install-extensions.sh
+        run: ./install-extensions.sh
 
       - name: Run PHPUnit tests
         run: composer test
