@@ -71,7 +71,7 @@ Linux:7.*|Linux:8.*)
 	install_mongodb
 	install_tideways_xhprof
 	;;
-*:7.*)
+*:7.*|*:8.*)
 	install_xhprof
 	install_mongodb
 	;;
