@@ -54,7 +54,7 @@ install_tideways_xhprof() {
 
 	test -f "$library" || die "Extension not available: $library"
 	config="/etc/php/$PHP_VERSION/cli/conf.d/10-tideways_xhprof.ini"
-	echo "extension=$library" > "$config"
+	echo "extension=$library" | sudo tee "$config"
 	has_extension "$extension"
 }
 
