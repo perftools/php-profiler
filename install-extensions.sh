@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-set -xeu
-
-echo "PHP_VERSION=$PHP_VERSION"
+set -eu
+set -x
 
 : "${TIDEWAYS_VERSION:=4.1.4}"
 : "${TIDEWAYS_XHPROF_VERSION:=5.0.4}"
