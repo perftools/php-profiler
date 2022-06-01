@@ -56,9 +56,6 @@ jobs:
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
       - name: Install extensions
-        env:
-          CACHE_KEY: "${{ runner.os }}-php-${{ matrix.php }}-phpunit-${{ env.PHPUNIT_VERSION }}"
-          PHP_VERSION2: "${{ matrix.php }}"
         run: |
           env
           sudo ./install-extensions.sh
