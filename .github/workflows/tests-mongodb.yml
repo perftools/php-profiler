@@ -17,6 +17,7 @@ jobs:
           - "7.4"
     env:
       PHPUNIT_VERSION: "7.5"
+      PHP_VERSION: "${{ matrix.php }}"
 
     services:
       mongodb:
