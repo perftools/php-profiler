@@ -2,9 +2,9 @@
 
 set -xeu
 
-: "${TIDEWAYS_VERSION=4.1.4}"
-: "${TIDEWAYS_XHPROF_VERSION=5.0.2}"
-: "${PHP_VERSION=7.4}"
+: "${TIDEWAYS_VERSION:=4.1.4}"
+: "${TIDEWAYS_XHPROF_VERSION:=5.0.2}"
+: "${PHP_VERSION:=7.4}"
 
 die() {
 	echo >&2 "ERROR: $*"
