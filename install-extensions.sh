@@ -2,6 +2,8 @@
 
 set -xeu
 
+echo "PHP_VERSION=$PHP_VERSION"
+
 : "${TIDEWAYS_VERSION:=4.1.4}"
 : "${TIDEWAYS_XHPROF_VERSION:=5.0.4}"
 : "${PHP_VERSION:=7.4}"
