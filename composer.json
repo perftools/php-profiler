@@ -15,6 +15,9 @@
 	"config": {
 		"sort-packages": true
 	},
+	"scripts": {
+		"test": "phpunit"
+	},
 	"autoload": {
 		"psr-4": {
 			"Xhgui\\Profiler\\": "src/"
