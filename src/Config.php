@@ -62,7 +62,8 @@ class Config implements ArrayAccess
         $this->config = array_replace($this->config, $config);
     }
 
-    public function offsetExists($offset): bool
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset)
     {
         return isset($this->config[$offset]);
     }
@@ -73,12 +74,14 @@ class Config implements ArrayAccess
         return $this->config[$offset];
     }
 
-    public function offsetSet($offset, $value): void
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value)
     {
         $this->config[$offset] = $value;
     }
 
-    public function offsetUnset($offset): void
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset)
     {
         unset($this->config[$offset]);
     }
