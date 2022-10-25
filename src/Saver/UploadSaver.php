@@ -10,8 +10,10 @@ final class UploadSaver implements SaverInterface
     private $url;
     /** @var int */
     private $timeout;
+    /** @var bool */
+    private $compress;
 
-    public function __construct($url, $token, $timeout)
+    public function __construct($url, $token, $timeout, $compress)
     {
         $this->url = $url;
         if ($token) {
@@ -19,6 +21,7 @@ final class UploadSaver implements SaverInterface
         }
 
         $this->timeout = $timeout;
+        $this->compress = $compress;
     }
 
     public function isSupported()
@@ -29,7 +32,7 @@ final class UploadSaver implements SaverInterface
     public function save(array $data)
     {
         $json = json_encode($data);
-        $this->submit($this->url, $json);
+        $this->submit($this->url, $json, $this->hasCompression());
 
         return true;
     }
@@ -37,8 +40,9 @@ final class UploadSaver implements SaverInterface
     /**
      * @param string $url
      * @param string $payload
+     * @param bool $compress
      */
-    private function submit($url, $payload)
+    private function submit($url, $payload, $compress)
     {
         $ch = curl_init($url);
         if (!$ch) {
@@ -49,13 +53,13 @@ final class UploadSaver implements SaverInterface
             // Prefer to receive JSON back
             'Accept: application/json',
             // The sent data is JSON
-            'Content-Type: application/json',
+            $compress ? 'Content-Type: application/json+gzip' : 'Content-Type: application/json',
         );
 
         $res = curl_setopt_array($ch, array(
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_POSTFIELDS => $compress ? gzencode($payload) : $payload,
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_TIMEOUT => $this->timeout,
@@ -82,5 +86,13 @@ final class UploadSaver implements SaverInterface
             $message = isset($response['message']) ? $response['message'] : 'Error in response';
             throw new ProfilerException($message);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasCompression()
+    {
+        return $this->compress && function_exists('gzencode');
     }
 }

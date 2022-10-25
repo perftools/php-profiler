@@ -185,6 +185,8 @@ Example config:
         'timeout' => 3,
         // the token must match 'upload.token' config in XHGui
         'token' => 'token',
+        // whether to gzip compress the payload
+        'compress' => true,
     ),
 ```
 
