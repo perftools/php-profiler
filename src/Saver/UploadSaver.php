@@ -28,7 +28,12 @@ final class UploadSaver implements SaverInterface
 
     public function save(array $data)
     {
-        $json = json_encode($data);
+        $json = json_encode($data, PHP_VERSION_ID >= 70200 ? JSON_INVALID_UTF8_IGNORE : 0);
+
+        if ($json === false) {
+            return false;
+        }
+
         $this->submit($this->url, $json);
 
         return true;
