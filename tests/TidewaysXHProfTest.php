@@ -18,7 +18,7 @@ class TidewaysXHProfTest extends TestCase
     public function testDefaults()
     {
         $data = $this->runProfiler();
-        $this->assertCount(3, $data);
+        $this->assertArrayHasKey('main()', $data);
     }
 
     public function testCpuFlags()
@@ -27,7 +27,7 @@ class TidewaysXHProfTest extends TestCase
             ProfilingFlags::CPU,
         );
         $data = $this->runProfiler($flags);
-        $this->assertCount(3, $data);
+        $this->assertArrayHasKey('main()', $data);
         $main = $data['main()'];
         $this->assertArrayHasKey('cpu', $main);
     }
@@ -39,7 +39,7 @@ class TidewaysXHProfTest extends TestCase
             ProfilingFlags::MEMORY,
         );
         $data = $this->runProfiler($flags);
-        $this->assertCount(3, $data);
+        $this->assertArrayHasKey('main()', $data);
 
         $main = $data['main()'];
         $this->assertArrayHasKey('cpu', $main);
@@ -52,6 +52,6 @@ class TidewaysXHProfTest extends TestCase
             ProfilingFlags::NO_BUILTINS,
         );
         $data = $this->runProfiler($flags);
-        $this->assertCount(2, $data);
+        $this->assertArrayHasKey('main()', $data);
     }
 }

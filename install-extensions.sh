@@ -1,20 +1,26 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -xeu
+set -eu
+set -x
 
-: ${TRAVIS_PHP_VERSION=7.4}
-: ${TIDEWAYS_VERSION=4.1.4}
-: ${TIDEWAYS_XHPROF_VERSION=5.0.2}
-: ${PHP_VERSION=${TRAVIS_PHP_VERSION}}
+: "${TIDEWAYS_VERSION:=4.1.4}"
+: "${TIDEWAYS_XHPROF_VERSION:=5.0.4}"
+: "${PHP_VERSION:=7.4}"
 
 die() {
 	echo >&2 "ERROR: $*"
 	exit 1
 }
 
+has_extension() {
+    local extension="$1"
+    php -m | awk -vrc=1 -vextension="$extension" '$1 == extension { rc=0 } END { exit rc }'
+}
+
 install_xhprof() {
     local version="${1:-stable}"
 
+    has_extension "xhprof" && return 0
     pecl install xhprof-$version
 }
 
@@ -23,7 +29,7 @@ install_mongo() {
 }
 
 install_mongodb() {
-    php -m | grep -q mongodb || pecl install -f mongodb
+    has_extension "mongodb" || pecl install -f mongodb
     composer require --dev alcaeus/mongo-php-adapter
 }
 
@@ -33,31 +39,40 @@ install_tideways_xhprof() {
 	local url="https://github.com/tideways/php-xhprof-extension/releases/download/v$version/tideways-xhprof-$version-$arch.tar.gz"
 	local extension="tideways_xhprof"
 	local tar="$extension.tgz"
-	local config library
+	local workdir="vendor/tideways_xhprof"
+	local library
+	local config
 	local zts
 
-	curl -fL -o "$tar" "$url"
-	tar -xvf "$tar"
-
 	zts=$(php --version | grep -q ZTS && echo -zts || :)
-	library="$PWD/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
-	config="$HOME/.phpenv/versions/$PHP_VERSION/etc/conf.d/tideways_xhprof.ini"
+	library="$PWD/$workdir/tideways_xhprof-$version/tideways_xhprof-$PHP_VERSION$zts.so"
+
+	if [ ! -f "$library" ]; then
+		curl -fL -o "$tar" "$url"
+		mkdir -p "$workdir"
+		tar -xvf "$tar" -C "$workdir"
+	fi
+
 	test -f "$library" || die "Extension not available: $library"
-	echo "extension=$library" > "$config"
-	php -m | grep -F "$extension"
+	config="/etc/php/$PHP_VERSION/cli/conf.d/10-tideways_xhprof.ini"
+	echo "extension=$library" | sudo tee "$config"
+	has_extension "$extension"
 }
+
+# Show php config paths
+php --ini
 
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
 	install_mongo
 	;;
-Linux:7.*)
+Linux:7.*|Linux:8.*)
 	install_xhprof
 	install_mongodb
 	install_tideways_xhprof
 	;;
-*:7.*)
+*:7.*|*:8.*)
 	install_xhprof
 	install_mongodb
 	;;
