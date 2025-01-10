@@ -35,6 +35,7 @@ final class SaverFactory
                     'url' => null,
                     'token' => null,
                     'timeout' => 3,
+                    'verify' => true,
                 );
                 $userConfig = isset($config['save.handler.upload']) && is_array($config['save.handler.upload']) ? $config['save.handler.upload'] : array();
                 $saverConfig = array_merge($defaultConfig, $userConfig);
