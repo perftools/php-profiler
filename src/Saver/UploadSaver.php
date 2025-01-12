@@ -21,7 +21,7 @@ final class UploadSaver implements SaverInterface
         }
 
         $this->timeout = $timeout;
-        $this->verify = $verify;
+        $this->verify = is_bool($verify) ? $verify : true;
     }
 
     public function isSupported()
