@@ -58,6 +58,8 @@ install_tideways_xhprof() {
 	has_extension "$extension"
 }
 
+pecl version
+
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
