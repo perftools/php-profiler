@@ -54,6 +54,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer remove alcaeus/mongo-php-adapter --no-update --dev
           composer install --prefer-dist
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
