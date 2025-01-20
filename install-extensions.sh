@@ -67,7 +67,7 @@ php -m
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
-	install_mongo
+	install_mongo 1.6.16
 	;;
 Linux:7.*|Linux:8.*)
 	install_xhprof
