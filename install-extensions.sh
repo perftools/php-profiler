@@ -20,6 +20,8 @@ install_xhprof() {
     local ext="xhprof" version="${1:-stable}"
 
     has_extension "$ext" && return 0
+    # https://github.com/shivammathur/setup-php/issues/905
+    sudo rm -rf /tmp/pear # shivammathur's leftovers...
     pecl install "$ext-$version"
 }
 
