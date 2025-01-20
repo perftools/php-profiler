@@ -10,13 +10,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        phpunit:
+          - "7.5"
         php:
           - "7.1"
           - "7.2"
           - "7.3"
           - "7.4"
+
     env:
-      PHPUNIT_VERSION: "7.5"
+      PHPUNIT_VERSION: "${{ matrix.phpunit }}"
       PHP_VERSION: "${{ matrix.php }}"
 
     services:
