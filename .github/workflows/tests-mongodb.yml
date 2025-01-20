@@ -54,7 +54,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --prefer-dist --no-progress
+          composer install --prefer-dist
           composer require --dev phpunit/phpunit:^$PHPUNIT_VERSION
 
       - name: Install extensions
