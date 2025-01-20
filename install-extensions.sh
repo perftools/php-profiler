@@ -17,14 +17,16 @@ has_extension() {
 }
 
 install_xhprof() {
-    local version="${1:-stable}"
+    local ext="xhprof" version="${1:-stable}"
 
-    has_extension "xhprof" && return 0
-    pecl install xhprof-$version
+    has_extension "$ext" && return 0
+    pecl install "$ext-$version"
 }
 
 install_mongo() {
-    echo no | pecl install mongo
+    local ext="mongo" version="${1:-stable}"
+
+    echo no | pecl install "$ext-$version"
 }
 
 install_mongodb() {
