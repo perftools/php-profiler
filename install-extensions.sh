@@ -22,6 +22,8 @@ install_xhprof() {
     has_extension "$ext" && return 0
     # https://github.com/shivammathur/setup-php/issues/905
     sudo rm -rf /tmp/pear # shivammathur's leftovers...
+    # Allow installing to /usr/local/php
+    sudo chown -R "$(id -un):" /usr/local/php/
     pecl install "$ext-$version"
 }
 
