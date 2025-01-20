@@ -17,6 +17,9 @@ jobs:
           - "7.2"
           - "7.3"
           - "7.4"
+        include:
+          - php: "7.0"
+            phpunit: "6"
 
     env:
       PHPUNIT_VERSION: "${{ matrix.phpunit }}"
