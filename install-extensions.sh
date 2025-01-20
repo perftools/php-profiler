@@ -59,6 +59,7 @@ install_tideways_xhprof() {
 }
 
 pecl version
+php -m
 
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
