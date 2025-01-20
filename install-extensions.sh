@@ -17,14 +17,21 @@ has_extension() {
 }
 
 install_xhprof() {
-    local version="${1:-stable}"
+    local ext="xhprof" version="${1:-stable}"
 
-    has_extension "xhprof" && return 0
-    pecl install xhprof-$version
+    has_extension "$ext" && return 0
+    # https://github.com/shivammathur/setup-php/issues/905
+    sudo rm -rf /tmp/pear # shivammathur's leftovers...
+    # Allow installing to /usr/local/php
+    sudo chown -R "$(id -un):" /usr/local/php/
+    pecl install "$ext-$version"
 }
 
 install_mongo() {
-    echo no | pecl install mongo
+    local ext="mongo" version="${1:-stable}"
+
+    has_extension "$ext" && return 0
+    echo no | pecl install "$ext-$version"
 }
 
 install_mongodb() {
@@ -58,13 +65,13 @@ install_tideways_xhprof() {
 	has_extension "$extension"
 }
 
-# Show php config paths
-php --ini
+pecl version
+php -m
 
 case "$(uname -s):$PHP_VERSION" in
 *:5.*)
 	install_xhprof 0.9.4
-	install_mongo
+	install_mongo 1.6.16
 	;;
 Linux:7.*|Linux:8.*)
 	install_xhprof
