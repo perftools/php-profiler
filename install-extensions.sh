@@ -26,6 +26,7 @@ install_xhprof() {
 install_mongo() {
     local ext="mongo" version="${1:-stable}"
 
+    has_extension "$ext" && return 0
     echo no | pecl install "$ext-$version"
 }
 
