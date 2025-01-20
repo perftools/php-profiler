@@ -29,6 +29,16 @@ jobs:
             phpunit: "7.5"
           - php: "7.4"
             phpunit: "7.5"
+          - php: "8.0"
+            phpunit: "7.5"
+          - php: "8.1"
+            phpunit: "7.5"
+          - php: "8.2"
+            phpunit: "7.5"
+          - php: "8.3"
+            phpunit: "7.5"
+          - php: "8.4"
+            phpunit: "7.5"
 
     env:
       PHPUNIT_VERSION: "${{ matrix.phpunit }}"
