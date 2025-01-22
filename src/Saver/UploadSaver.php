@@ -10,8 +10,10 @@ final class UploadSaver implements SaverInterface
     private $url;
     /** @var int */
     private $timeout;
+    /** @var bool */
+    private $verify;
 
-    public function __construct($url, $token, $timeout)
+    public function __construct($url, $token, $timeout, $verify)
     {
         $this->url = $url;
         if ($token) {
@@ -19,6 +21,7 @@ final class UploadSaver implements SaverInterface
         }
 
         $this->timeout = $timeout;
+        $this->verify = $verify;
     }
 
     public function isSupported()
@@ -64,6 +67,7 @@ final class UploadSaver implements SaverInterface
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_TIMEOUT => $this->timeout,
+            CURLOPT_SSL_VERIFYPEER => $this->verify,
         ));
         if (!$res) {
             $error = curl_errno($ch) ? curl_error($ch) : '';
