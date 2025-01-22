@@ -186,7 +186,7 @@ Example config:
         // the token must match 'upload.token' config in XHGui
         'token' => 'token',
         // verify option to disable ssl verification, defaults to true if unspecified.
-        'verify' => false,
+        'verify' => true,
     ),
 ```
 
