@@ -185,6 +185,8 @@ Example config:
         'timeout' => 3,
         // the token must match 'upload.token' config in XHGui
         'token' => 'token',
+        // verify option to disable ssl verification, defaults to true if unspecified.
+        'verify' => true,
     ),
 ```
 
