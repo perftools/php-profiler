@@ -5,6 +5,7 @@ A PHP profiling library to submit profilings to [XHGui][xhgui].
 Supported profilers:
  - [Tideways XHProf v5.x](#tideways-xhprof-5): PHP >= 7.0
  - [XHProf](#xhprof): PHP >= 5.3, PHP >= 7.0
+ - [SPX](#spx) - PHP >= 5.6, PHP >= 7.0
  - [Tideways v4.x](#tideways-4x): PHP >= 7.0
  - [UProfiler](#uprofiler): PHP >= 5.3, < PHP 7.0
 
@@ -479,3 +480,17 @@ To install `uprofiler` extension, see their [installation documentation][uprofil
 
 [UProfiler]: https://github.com/FriendsOfPHP/uprofiler
 [uprofiler-install]: https://github.com/FriendsOfPHP/uprofiler#installing-the-uprofiler-extension
+
+### SPX
+
+To install [SPX profiler], see their [installation documentation][spx-install].
+
+Alternatively on `brew` (macOS) you can use package from [glensc/tap] tap:
+
+```
+brew install glensc/tap/php@7.1-spx
+```
+
+[glensc/tap]: https://github.com/glensc/homebrew-tap
+[spx-install]: https://github.com/NoiseByNorthwest/php-spx#installation
+[SPX profiler]: https://github.com/NoiseByNorthwest/php-spx
