@@ -73,7 +73,7 @@ case "$(uname -s):$PHP_VERSION" in
 	install_xhprof 0.9.4
 	install_mongo 1.6.16
 	;;
-Linux:7.*|Linux:8.*)
+Linux:7.*|Linux:8.0)
 	install_xhprof
 	install_mongodb
 	install_tideways_xhprof
