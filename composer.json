@@ -45,6 +45,7 @@
 		"ext-mongodb": "mongodb extension (PHP>=5.4)",
 		"ext-tideways": "Use tideways to profile",
 		"ext-uprofiler": "Use uprofiler to profile",
+		"ext-xdebug": "Use xdebug to profile",
 		"ext-xhprof": "Use xhprof to profile",
 		"alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-library (PHP>=5.6)",
 		"perftools/xhgui-collector": "For mongodb or pdo savers"
