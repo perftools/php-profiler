@@ -9,8 +9,10 @@ class ProfilingDataTest extends TestCase
 {
     public function testExcludeAllEnv()
     {
+        $_ENV['TEST_EXCLUDE_ENV'] = 'TEST';
+
         $config = new Config([
-            'profiler.is-exclude-all-env' => true
+            'profiler.is-exclude-all-env' => true,
         ]);
         $profilingData = new ProfilingData($config);
 
@@ -19,6 +21,21 @@ class ProfilingDataTest extends TestCase
 
 
         $this->assertEmpty($result['meta']['env']);
+    }
+
+    public function testNotExcludeAllEnv()
+    {
+        $_ENV['TEST_EXCLUDE_ENV'] = 'TEST';
+
+        $config = new Config([
+            'profiler.is-exclude-all-env' => false,
+        ]);
+        $profilingData = new ProfilingData($config);
+
+        $profile = ['example' => 'data'];
+        $result = $profilingData->getProfilingData($profile);
+
+        $this->assertEquals('TEST', $result['meta']['env']['TEST_EXCLUDE_ENV']);
     }
 
 
