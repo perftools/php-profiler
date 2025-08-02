@@ -32,7 +32,7 @@ return array(
     ),
     'profiler.options' => array(),
     'profiler.exclude-env' => array(),
-    'profiler.is-exclude-all-env' => false,
+    'profiler.exclude-all-env' => false,
     'profiler.simple_url' => function ($url) {
         return preg_replace('/=\d+/', '', $url);
     },
