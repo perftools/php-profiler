@@ -13,10 +13,13 @@ final class ProfilingData
     private $simpleUrl;
     /** @var callable|null */
     private $replaceUrl;
+    /** @var bool */
+    private $excludeAllEnv;
 
     public function __construct(Config $config)
     {
         $this->excludeEnv = isset($config['profiler.exclude-env']) ? (array)$config['profiler.exclude-env'] : array();
+        $this->excludeAllEnv = isset($config['profiler.exclude-all-env']) ? $config['profiler.exclude-all-env'] : false;
         $this->simpleUrl = isset($config['profiler.simple_url']) ? $config['profiler.simple_url'] : null;
         $this->replaceUrl = isset($config['profiler.replace_url']) ? $config['profiler.replace_url'] : null;
     }
@@ -79,6 +82,10 @@ final class ProfilingData
      */
     private function getEnvironment(array $env)
     {
+        if ($this->excludeAllEnv) {
+            return array();
+        }
+
         foreach ($this->excludeEnv as $key) {
             unset($env[$key]);
         }

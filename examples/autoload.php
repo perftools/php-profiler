@@ -118,6 +118,11 @@ try {
         'profiler.replace_url' => function ($url) {
             return str_replace('token', '', $url);
         },
+        /**
+         * If true, excludes all environment variables from profiling data.
+         * @return bool
+         */
+        'profiler.exclude-all-env' => false,
     );
 
     /**
