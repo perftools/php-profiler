@@ -40,7 +40,7 @@ final class StackSaver implements SaverInterface
                 continue;
             }
 
-            // if not save all, then break on first successful save
+            // if not save all, then break on the first successful save
             if (!$this->saveAll) {
                 break;
             }
