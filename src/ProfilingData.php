@@ -8,6 +8,26 @@ namespace Xhgui\Profiler;
 final class ProfilingData
 {
     /** @var array */
+    private $allowedServerKeys = array(
+        'DOCUMENT_ROOT',
+        'HTTPS',
+        'HTTP_HOST',
+        'HTTP_USER_AGENT',
+        'PATH_INFO',
+        'PHP_AUTH_USER',
+        'PHP_SELF',
+        'QUERY_STRING',
+        'REMOTE_ADDR',
+        'REMOTE_USER',
+        'REQUEST_METHOD',
+        'REQUEST_TIME',
+        'REQUEST_TIME_FLOAT',
+        'SERVER_ADDR',
+        'SERVER_NAME',
+        'UNIQUE_ID',
+    );
+
+    /** @var array */
     private $excludeEnv;
     /** @var callable|null */
     private $simpleUrl;
@@ -35,32 +55,11 @@ final class ProfilingData
         $sec = $requestTimeFloat[0];
         $usec = isset($requestTimeFloat[1]) ? $requestTimeFloat[1] : 0;
 
-        $allowedServerKeys = array(
-            'DOCUMENT_ROOT',
-            'HTTPS',
-            'HTTP_HOST',
-            'HTTP_USER_AGENT',
-            'PATH_INFO',
-            'PHP_AUTH_USER',
-            'PHP_SELF',
-            'QUERY_STRING',
-            'REMOTE_ADDR',
-            'REMOTE_USER',
-            'REQUEST_METHOD',
-            'REQUEST_TIME',
-            'REQUEST_TIME_FLOAT',
-            'SERVER_ADDR',
-            'SERVER_NAME',
-            'UNIQUE_ID',
-        );
-
-        $serverMeta = array_intersect_key($_SERVER, array_flip($allowedServerKeys));
-
         $meta = array(
             'url' => $url,
             'get' => $_GET,
             'env' => $this->getEnvironment($_ENV),
-            'SERVER' => $serverMeta,
+            'SERVER' => $this->getServer($_SERVER),
             'simple_url' => $this->getSimpleUrl($url),
             'request_ts_micro' => array('sec' => $sec, 'usec' => $usec),
             // these are superfluous and should be dropped in the future
@@ -127,5 +126,14 @@ final class ProfilingData
         }
 
         return $url;
+    }
+
+    /**
+     * @param array $server
+     * @return array
+     */
+    private function getServer(array $server)
+    {
+        return array_intersect_key($server, array_flip($this->allowedServerKeys));
     }
 }
