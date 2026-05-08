@@ -33,6 +33,11 @@ return array(
     'profiler.options' => array(),
     'profiler.exclude-env' => array(),
     'profiler.exclude-all-env' => false,
+    // Set this to an implementation of
+    // Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface
+    // when integrating with long-lived runtimes that must capture
+    // request-scoped data without relying on mutable globals.
+    'profiler.request_context_provider' => null,
     'profiler.simple_url' => function ($url) {
         return preg_replace('/=\d+/', '', $url);
     },

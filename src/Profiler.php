@@ -3,6 +3,8 @@
 namespace Xhgui\Profiler;
 
 use Xhgui\Profiler\Exception\ProfilerException;
+use Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface;
+use Xhgui\Profiler\RequestContext\RequestContextInterface;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 
@@ -35,6 +37,16 @@ final class Profiler
      * @var ProfilerInterface
      */
     private $profiler;
+
+    /**
+     * @var RequestContextProviderInterface|null
+     */
+    private $requestContextProvider;
+
+    /**
+     * @var RequestContextInterface|null
+     */
+    private $requestContext;
 
     /**
      * Simple state variable to hold the value of 'Is the profiler running or not?'
@@ -276,5 +288,40 @@ final class Profiler
         }
 
         return $this->saveHandler ?: null;
+    }
+
+    /**
+     * @return RequestContextProviderInterface
+     */
+    private function getRequestContextProvider()
+    {
+        if ($this->requestContextProvider === null) {
+            $this->requestContextProvider = RequestContextFactory::create($this->config);
+        }
+
+        return $this->requestContextProvider;
+    }
+
+    /**
+     * @return RequestContextInterface
+     */
+    private function captureRequestContext()
+    {
+        $context = $this->getRequestContextProvider()->capture();
+
+        if (!$context instanceof RequestContextInterface) {
+            throw new ProfilerException('Request context provider must return a RequestContextInterface');
+        }
+
+        $server = $context->getServer();
+        if (!is_array($server) || !array_key_exists('REQUEST_TIME_FLOAT', $server)) {
+            throw new ProfilerException('Request context provider must capture REQUEST_TIME_FLOAT in server data');
+        }
+
+        if (!is_numeric($server['REQUEST_TIME_FLOAT'])) {
+            throw new ProfilerException('Request context provider must capture a numeric REQUEST_TIME_FLOAT in server data');
+        }
+
+        return $context;
     }
 }
