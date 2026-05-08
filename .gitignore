@@ -3,4 +3,5 @@
 /.idea/
 /vendor/
 /composer.lock
+/config/config.php
 composer.phar
