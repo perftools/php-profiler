@@ -82,6 +82,11 @@ try {
         // Environment variables to exclude from profiling data
         'profiler.exclude-env' => array(),
         'profiler.options' => array(),
+        // Set this to an implementation of
+        // Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface
+        // when integrating with long-lived runtimes that must capture
+        // request-scoped data without relying on mutable globals.
+        'profiler.request_context_provider' => null,
 
         /**
          * Determine whether the profiler should run.
