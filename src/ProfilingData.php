@@ -51,9 +51,7 @@ final class ProfilingData
     {
         $url = $this->getUrl();
 
-        $requestTimeFloat = explode('.', sprintf('%.6F', $_SERVER['REQUEST_TIME_FLOAT']));
-        $sec = $requestTimeFloat[0];
-        $usec = isset($requestTimeFloat[1]) ? $requestTimeFloat[1] : 0;
+        list($sec, $usec) = $this->getRequestTime($_SERVER['REQUEST_TIME_FLOAT']);
 
         $meta = array(
             'url' => $url,
@@ -126,6 +124,20 @@ final class ProfilingData
         }
 
         return $url;
+    }
+
+    /**
+     * @param float $requestTime
+     * @return array
+     */
+    private function getRequestTime($requestTime)
+    {
+        $parts = explode('.', sprintf('%.6F', $requestTime));
+
+        $sec = $parts[0];
+        $usec = isset($parts[1]) ? $parts[1] : 0;
+
+        return array((int)$sec, (int)$usec);
     }
 
     /**
