@@ -9,6 +9,11 @@ require_once __DIR__ . '/src/Saver/SaverInterface.php';
 
 require_once __DIR__ . '/src/Exception/ProfilerException.php';
 require_once __DIR__ . '/src/Config.php';
+require_once __DIR__ . '/src/RequestContext/RequestContextInterface.php';
+require_once __DIR__ . '/src/RequestContext/RequestContext.php';
+require_once __DIR__ . '/src/RequestContext/Provider/RequestContextProviderInterface.php';
+require_once __DIR__ . '/src/RequestContext/Provider/DefaultProvider.php';
+require_once __DIR__ . '/src/RequestContextFactory.php';
 require_once __DIR__ . '/src/Profiler.php';
 require_once __DIR__ . '/src/ProfilerFactory.php';
 require_once __DIR__ . '/src/Profilers/AbstractProfiler.php';
