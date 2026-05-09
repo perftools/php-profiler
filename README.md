@@ -69,6 +69,9 @@ shutdown handler:
 $profiler->start(false);
 ```
 
+`start()` is the default integration path for short-lived PHP runtimes such as
+FPM or mod_php.
+
 ## Using config file
 
 You can create `config/config.php` and load config from there:
@@ -101,6 +104,54 @@ $profiler_data = $profiler->disable();
 
 // send $profiler_data to saver
 $profiler->save($profiler_data);
+```
+
+For long-lived runtimes, prefer `enable()` + `stop()` around each request so
+request context is captured at request start instead of at process shutdown.
+
+## Request context providers
+
+By default, the profiler captures request context from `$_SERVER`, `$_GET`,
+`$_ENV`, and the CLI `argv` fallback. Long-lived runtimes can provide their own
+request-scoped snapshot through `profiler.request_context_provider`. That
+snapshot is captured when profiling starts via `enable()` / `start()`, not when
+profiling stops.
+
+Custom providers must implement
+`Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface`
+and return a request-context object for the current profiling run. The request
+time and server snapshot should describe the same captured request.
+Custom providers are responsible for passing the request URL or CLI command
+explicitly when constructing those snapshots, and for making sure the server
+snapshot includes `REQUEST_TIME_FLOAT` for the captured request.
+Include `REQUEST_TIME` too if you want it preserved in the saved `meta.SERVER`
+payload.
+
+```php
+use Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface;
+use Xhgui\Profiler\RequestContext\RequestContext;
+
+class AppRequestContextProvider implements RequestContextProviderInterface
+{
+    public function capture()
+    {
+        return RequestContext::fromHttp(
+            '/example',
+            array(),
+            array(),
+            array(
+                'REQUEST_URI' => '/example',
+                'REQUEST_METHOD' => 'GET',
+                'HTTP_HOST' => 'example.test',
+                'PHP_SELF' => '/index.php',
+                'DOCUMENT_ROOT' => '/srv/app',
+                'REQUEST_TIME_FLOAT' => 1234.56789,
+            )
+        );
+    }
+}
+
+$config['profiler.request_context_provider'] = new AppRequestContextProvider();
 ```
 
 ## Autoloader

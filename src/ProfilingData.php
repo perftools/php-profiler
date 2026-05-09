@@ -2,6 +2,8 @@
 
 namespace Xhgui\Profiler;
 
+use Xhgui\Profiler\RequestContext\RequestContextInterface;
+
 /**
  * @internal
  */
@@ -45,19 +47,21 @@ final class ProfilingData
     }
 
     /**
+     * @param array $profile
+     * @param RequestContextInterface $context
      * @return array
      */
-    public function getProfilingData(array $profile)
+    public function getProfilingData(array $profile, RequestContextInterface $context)
     {
-        $url = $this->getUrl();
-
-        list($sec, $usec) = $this->getRequestTime($_SERVER['REQUEST_TIME_FLOAT']);
+        $url = $this->getUrl($context);
+        $server = $context->getServer();
+        list($sec, $usec) = $this->getRequestTime($server['REQUEST_TIME_FLOAT']);
 
         $meta = array(
             'url' => $url,
-            'get' => $_GET,
-            'env' => $this->getEnvironment($_ENV),
-            'SERVER' => $this->getServer($_SERVER),
+            'get' => $context->getQuery(),
+            'env' => $this->getEnvironment($context->getEnv()),
+            'SERVER' => $this->getServer($server),
             'simple_url' => $this->getSimpleUrl($url),
             'request_ts_micro' => array('sec' => $sec, 'usec' => $usec),
             // these are superfluous and should be dropped in the future
@@ -109,15 +113,12 @@ final class ProfilingData
     }
 
     /**
+     * @param RequestContextInterface $context
      * @return string
      */
-    private function getUrl()
+    private function getUrl(RequestContextInterface $context)
     {
-        $url = array_key_exists('REQUEST_URI', $_SERVER) ? $_SERVER['REQUEST_URI'] : null;
-        if (!$url && isset($_SERVER['argv'])) {
-            $cmd = basename($_SERVER['argv'][0]);
-            $url = $cmd . ' ' . implode(' ', array_slice($_SERVER['argv'], 1));
-        }
+        $url = $context->getUrl();
 
         if (is_callable($this->replaceUrl)) {
             $url = call_user_func($this->replaceUrl, $url);

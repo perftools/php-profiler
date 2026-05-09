@@ -3,6 +3,8 @@
 namespace Xhgui\Profiler;
 
 use Xhgui\Profiler\Exception\ProfilerException;
+use Xhgui\Profiler\RequestContext\Provider\RequestContextProviderInterface;
+use Xhgui\Profiler\RequestContext\RequestContextInterface;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 
@@ -35,6 +37,16 @@ final class Profiler
      * @var ProfilerInterface
      */
     private $profiler;
+
+    /**
+     * @var RequestContextProviderInterface|null
+     */
+    private $requestContextProvider;
+
+    /**
+     * @var RequestContextInterface|null
+     */
+    private $requestContext;
 
     /**
      * Simple state variable to hold the value of 'Is the profiler running or not?'
@@ -99,12 +111,6 @@ final class Profiler
     {
         $this->running = false;
 
-        // 'REQUEST_TIME_FLOAT' isn't available before 5.4.0
-        // https://www.php.net/manual/en/reserved.variables.server.php
-        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
-            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
-        }
-
         $profiler = $this->getProfiler();
         if (!$profiler) {
             throw new ProfilerException('Unable to create profiler: No suitable profiler found');
@@ -122,7 +128,9 @@ final class Profiler
             $options = $this->config['profiler.options'];
         }
 
+        $context = $this->captureRequestContext();
         $profiler->enable($flags, $options);
+        $this->requestContext = $context;
         $this->running = true;
     }
 
@@ -144,10 +152,18 @@ final class Profiler
             throw new ProfilerException('Unable to create profiler: No suitable profiler found');
         }
 
-        $profile = new ProfilingData($this->config);
+        $context = $this->requestContext;
+        $this->requestContext = null;
         $this->running = false;
+        $data = $profiler->disable();
 
-        return $profile->getProfilingData($profiler->disable());
+        if (!$context instanceof RequestContextInterface) {
+            throw new ProfilerException('Unable to disable profiler: Request context is missing');
+        }
+
+        $profile = new ProfilingData($this->config);
+
+        return $profile->getProfilingData($data, $context);
     }
 
     /**
@@ -276,5 +292,40 @@ final class Profiler
         }
 
         return $this->saveHandler ?: null;
+    }
+
+    /**
+     * @return RequestContextProviderInterface
+     */
+    private function getRequestContextProvider()
+    {
+        if ($this->requestContextProvider === null) {
+            $this->requestContextProvider = RequestContextFactory::create($this->config);
+        }
+
+        return $this->requestContextProvider;
+    }
+
+    /**
+     * @return RequestContextInterface
+     */
+    private function captureRequestContext()
+    {
+        $context = $this->getRequestContextProvider()->capture();
+
+        if (!$context instanceof RequestContextInterface) {
+            throw new ProfilerException('Request context provider must return a RequestContextInterface');
+        }
+
+        $server = $context->getServer();
+        if (!is_array($server) || !array_key_exists('REQUEST_TIME_FLOAT', $server)) {
+            throw new ProfilerException('Request context provider must capture REQUEST_TIME_FLOAT in server data');
+        }
+
+        if (!is_numeric($server['REQUEST_TIME_FLOAT'])) {
+            throw new ProfilerException('Request context provider must capture a numeric REQUEST_TIME_FLOAT in server data');
+        }
+
+        return $context;
     }
 }
