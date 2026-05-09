@@ -111,12 +111,6 @@ final class Profiler
     {
         $this->running = false;
 
-        // 'REQUEST_TIME_FLOAT' isn't available before 5.4.0
-        // https://www.php.net/manual/en/reserved.variables.server.php
-        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
-            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
-        }
-
         $profiler = $this->getProfiler();
         if (!$profiler) {
             throw new ProfilerException('Unable to create profiler: No suitable profiler found');
@@ -134,7 +128,9 @@ final class Profiler
             $options = $this->config['profiler.options'];
         }
 
+        $context = $this->captureRequestContext();
         $profiler->enable($flags, $options);
+        $this->requestContext = $context;
         $this->running = true;
     }
 
@@ -156,10 +152,18 @@ final class Profiler
             throw new ProfilerException('Unable to create profiler: No suitable profiler found');
         }
 
-        $profile = new ProfilingData($this->config);
+        $context = $this->requestContext;
+        $this->requestContext = null;
         $this->running = false;
+        $data = $profiler->disable();
 
-        return $profile->getProfilingData($profiler->disable());
+        if (!$context instanceof RequestContextInterface) {
+            throw new ProfilerException('Unable to disable profiler: Request context is missing');
+        }
+
+        $profile = new ProfilingData($this->config);
+
+        return $profile->getProfilingData($data, $context);
     }
 
     /**
