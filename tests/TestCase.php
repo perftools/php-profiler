@@ -2,6 +2,7 @@
 
 namespace Xhgui\Profiler\Test;
 
+use ReflectionProperty;
 use Xhgui\Profiler\Config;
 use Xhgui\Profiler\RequestContext\RequestContext;
 use Xhgui\Profiler\RequestContext\RequestContextInterface;
@@ -86,6 +87,31 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         if (!class_exists('\Xhgui_Saver')) {
             $this->markTestSkipped('Optional dependency perftools/xhgui-collector missing');
         }
+    }
+
+    /**
+     * @param object $object
+     * @param string $property
+     * @param mixed $value
+     */
+    protected function setPrivateProperty($object, $property, $value)
+    {
+        $reflectionProperty = new ReflectionProperty($object, $property);
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($object, $value);
+    }
+
+    /**
+     * @param object $object
+     * @param string $property
+     * @return mixed
+     */
+    protected function getPrivateProperty($object, $property)
+    {
+        $reflectionProperty = new ReflectionProperty($object, $property);
+        $reflectionProperty->setAccessible(true);
+
+        return $reflectionProperty->getValue($object);
     }
 
     protected function assertExpectedProfilingData(array $data)
