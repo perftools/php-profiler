@@ -49,6 +49,11 @@ final class Profiler
     private $requestContext;
 
     /**
+     * @var ProfilingData|null
+     */
+    private $profilingData;
+
+    /**
      * Simple state variable to hold the value of 'Is the profiler running or not?'
      *
      * @var bool
@@ -161,7 +166,7 @@ final class Profiler
             throw new ProfilerException('Unable to disable profiler: Request context is missing');
         }
 
-        $profile = new ProfilingData($this->config);
+        $profile = $this->getProfilingData();
 
         return $profile->getProfilingData($data, $context);
     }
@@ -327,5 +332,17 @@ final class Profiler
         }
 
         return $context;
+    }
+
+    /**
+     * @return ProfilingData
+     */
+    private function getProfilingData()
+    {
+        if ($this->profilingData === null) {
+            $this->profilingData = new ProfilingData($this->config);
+        }
+
+        return $this->profilingData;
     }
 }
