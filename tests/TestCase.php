@@ -3,6 +3,8 @@
 namespace Xhgui\Profiler\Test;
 
 use Xhgui\Profiler\Config;
+use Xhgui\Profiler\RequestContext\RequestContext;
+use Xhgui\Profiler\RequestContext\RequestContextInterface;
 use Xhgui\Profiler\Profilers\ProfilerInterface;
 use Xhgui\Profiler\Saver\SaverInterface;
 use Xhgui\Profiler\SaverFactory;
@@ -35,6 +37,37 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($saver);
 
         return $saver;
+    }
+
+    /**
+     * @param array $context
+     * @return RequestContextInterface
+     */
+    protected function createRequestContextObject(array $context = array())
+    {
+        $defaults = array(
+            'url' => '/test?id=42',
+            'get' => array('id' => '42'),
+            'env' => array(),
+            'server' => array(
+                'DOCUMENT_ROOT' => '/var/www',
+                'PHP_SELF' => '/index.php',
+                'REQUEST_METHOD' => 'GET',
+                'REQUEST_TIME' => 1234,
+                'REQUEST_TIME_FLOAT' => 1234.56789,
+            ),
+        );
+        $context = array_replace($defaults, $context);
+        $context['server'] = isset($context['server']) && is_array($context['server'])
+            ? array_replace($defaults['server'], $context['server'])
+            : $defaults['server'];
+
+        return RequestContext::fromHttp(
+            array_key_exists('url', $context) ? $context['url'] : null,
+            isset($context['get']) && is_array($context['get']) ? $context['get'] : array(),
+            isset($context['env']) && is_array($context['env']) ? $context['env'] : array(),
+            isset($context['server']) && is_array($context['server']) ? $context['server'] : array()
+        );
     }
 
     protected function readJsonFile($filename)
