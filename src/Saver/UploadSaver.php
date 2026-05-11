@@ -79,7 +79,10 @@ final class UploadSaver implements SaverInterface
             $error = curl_errno($ch) ? curl_error($ch) : '';
             throw new ProfilerException('Failed to submit data' . ($error ? ': ' . $error : ''));
         }
-        curl_close($ch);
+
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
 
         $response = json_decode($result, true);
         if (!$response) {
