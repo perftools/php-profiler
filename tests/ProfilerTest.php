@@ -2,12 +2,28 @@
 
 namespace Xhgui\Profiler\Test;
 
+use ReflectionMethod;
+use Xhgui\Profiler\Config;
 use Xhgui\Profiler\Exception\ProfilerException;
 use Xhgui\Profiler\Profiler;
 use Xhgui\Profiler\Test\Resources\TestProfilerStub;
 
 class ProfilerTest extends TestCase
 {
+    public function testGetProfilingDataCachesInstance()
+    {
+        $profiler = new Profiler(new Config(array()));
+        $method = new ReflectionMethod($profiler, 'getProfilingData');
+        $method->setAccessible(true);
+
+        $first = $method->invoke($profiler);
+        $second = $method->invoke($profiler);
+
+        $this->assertInstanceOf('Xhgui\\Profiler\\ProfilingData', $first);
+        $this->assertSame($first, $second);
+        $this->assertSame($first, $this->getPrivateProperty($profiler, 'profilingData'));
+    }
+
     public function testDisableClearsStateWhenRequestContextIsMissing()
     {
         $profiler = new Profiler(array());
