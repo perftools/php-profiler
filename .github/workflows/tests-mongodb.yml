@@ -10,13 +10,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        phpunit:
-          - "7.5"
-        php:
-          - "7.1"
-          - "7.2"
-          - "7.3"
-          - "7.4"
         include:
           - php: "5.3"
             phpunit: "4"
@@ -28,7 +21,24 @@ jobs:
             phpunit: "4"
           - php: "7.0"
             phpunit: "6"
-
+          - php: "7.1"
+            phpunit: "7.5"
+          - php: "7.2"
+            phpunit: "7.5"
+          - php: "7.3"
+            phpunit: "7.5"
+          - php: "7.4"
+            phpunit: "7.5"
+          - php: "8.0"
+            phpunit: "9.5"
+          - php: "8.1"
+            phpunit: "9.5"
+          - php: "8.2"
+            phpunit: "9.5"
+          - php: "8.3"
+            phpunit: "9.5"
+          - php: "8.4"
+            phpunit: "9.5"
     env:
       PHPUNIT_VERSION: "${{ matrix.phpunit }}"
       PHP_VERSION: "${{ matrix.php }}"
